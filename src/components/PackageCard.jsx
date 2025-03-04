@@ -6,12 +6,12 @@ export function PackageCard(props) {
       class={`p-3 rounded-lg mb-1 cursor-pointer transition-all hover:transform hover:scale-[1.02] h-full flex flex-col ${
         props.selected
           ? props.pkg.installed
-            ? "bg-red-50 border-2 border-red-500 shadow-md" // Selected installed package to uninstall
-            : "bg-green-50 border-2 border-green-500 shadow-md" // Selected new package to install
+            ? "bg-red-200 border-2 border-red-400 hover:border-red-500 hover:shadow-sm" // Selected installed package to uninstall
+            : "bg-green-200 border-2 border-green-400 hover:border-green-500 hover:shadow-sm" // Selected new package to install
           : props.pkg.installed
             ? props.pkg.outdated
-              ? "bg-blue-200 border-2 border-blue-400 hover:border-blue-500 hover:shadow-sm" // Installed outdated package
-              : "bg-blue-50 border-2 border-blue-200 hover:border-blue-300 hover:shadow-sm" // Installed package
+              ? "bg-blue-300 border-2 border-blue-500 hover:border-blue-600 hover:shadow-sm" // Installed outdated package
+              : "bg-blue-100 border-2 border-blue-300 hover:border-blue-400 hover:shadow-sm" // Installed package
             : "bg-gray-50 border-2 border-gray-200 hover:border-gray-300 hover:shadow-sm" // Not installed package
       }`}
       onClick={() => props.onToggle(props.pkg)}
