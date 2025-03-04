@@ -1,13 +1,45 @@
 #!/usr/bin/env ruby
 
-require 'base64'
 require 'json'
 require 'open-uri'
 require 'open3'
-require 'stringio'
 require 'webrick'
 require 'yaml'
-require 'zlib'
+
+DEV_MODE = true
+
+def main
+  # Initialize application components
+  homebrew = Homebrew.new
+  package_manager = PackageManager.new(homebrew)
+
+  # Configure and start WEBrick server
+  server = WEBrick::HTTPServer.new(
+    Port: 8047,
+    BindAddress: 'localhost',
+    Logger: WEBrick::Log.new($stderr, WEBrick::Log::INFO)
+  )
+
+  # Mount the handler
+  server.mount('/', BrewizHandler, homebrew, package_manager)
+
+  # Handle graceful shutdown on SIGINT (Ctrl+C)
+  trap('INT') { server.shutdown }
+
+  # Open the browser
+  Thread.new do
+     require 'net/http'
+     until Net::HTTP.get_response(URI('http://localhost:8047')).is_a?(Net::HTTPSuccess)
+       sleep(0.1)
+     end
+     puts "Opening browser..."
+     system('open', 'http://localhost:8047')
+  end
+
+  # Start the server
+  puts "Starting Brewiz server on http://localhost:8047"
+  server.start
+end
 
 # The Homebrew class implements the brew command line tool
 class Homebrew
@@ -17,7 +49,7 @@ class Homebrew
 
   def brew_info
     stdout, stderr, status = Open3.capture3(@brew, 'info', '--installed', '--json=v2')
-    raise stderr unless status.success?
+    raise "Failed to get brew info: #{stderr}" unless status.success?
     JSON.parse(stdout)
   end
 
@@ -153,36 +185,14 @@ class BrewizHandler < WEBrick::HTTPServlet::AbstractServlet
   end
 end
 
-def main
-  # Initialize application components
-  homebrew = Homebrew.new
-  package_manager = PackageManager.new(homebrew)
-
-  # Configure and start WEBrick server
-  server = WEBrick::HTTPServer.new(
-    Port: 8047,
-    BindAddress: 'localhost',
-    Logger: WEBrick::Log.new($stderr, WEBrick::Log::INFO)
-  )
-
-  # Mount the handler
-  server.mount('/', BrewizHandler, homebrew, package_manager)
-
-  # Handle graceful shutdown on SIGINT (Ctrl+C)
-  trap('INT') { server.shutdown }
-
-  # Start the server
-  puts "Starting Brewiz server on http://localhost:8047"
-  server.start
-end
 
 # START STATIC FILE CONTENT
-PACKAGES_YAML = YAML.load(URI.open('https://gist.githubusercontent.com/wstein/e0b807d6facb73bf150d916d23493b61/raw/73c3d89de56d6ae83e7f835f42b845e2abcc27ef/packages.yaml')
-                             .read)
+PACKAGES_YAML = YAML.safe_load(URI.open('https://gist.githubusercontent.com/wstein/e0b807d6facb73bf150d916d23493b61/raw/73c3d89de56d6ae83e7f835f42b845e2abcc27ef/packages.yaml')
+                                  .read)
 HOMEBREW_SVG = URI.open('https://upload.wikimedia.org/wikipedia/commons/9/95/Homebrew_logo.svg').read
+INDEX_HTML = URI.open('https://raw.githubusercontent.com/wstein/brewiz/refs/heads/main/dist/index.html').read
+ASSETS_INDEX_CSS = URI.open('https://raw.githubusercontent.com/wstein/brewiz/refs/heads/main/dist/assets/index.css').read
+ASSETS_INDEX_JS = URI.open('https://raw.githubusercontent.com/wstein/brewiz/refs/heads/main/dist/assets/index.js').read
 
-INDEX_HTML = File.read('dist/index.html')
-ASSETS_INDEX_CSS = File.read('dist/assets/index.css')
-ASSETS_INDEX_JS = File.read('dist/assets/index.js')
 
 main if __FILE__ == $PROGRAM_NAME
