@@ -170,8 +170,8 @@ class PackageManager
     # Get fresh brew info data
     brew_info = @homebrew.info.to_h { |pkg| [pkg['id'], pkg] }
 
-    # Create a fresh copy of categories for this reload
-    @packages = PACKAGES_YAML
+    # Load package categories from Gist
+    @packages = YAML.safe_load(URI.open('https://gist.githubusercontent.com/wstein/e0b807d6facb73bf150d916d23493b61/raw/73c3d89de56d6ae83e7f835f42b845e2abcc27ef/packages.yaml').read)
 
     merge_brew_info_with_categories(brew_info)
     add_uncategorized_packages(brew_info)
@@ -278,8 +278,6 @@ class BrewizHandler < WEBrick::HTTPServlet::AbstractServlet
 end
 
 # START STATIC FILE CONTENT
-PACKAGES_YAML = YAML.safe_load(URI.open('https://gist.githubusercontent.com/wstein/e0b807d6facb73bf150d916d23493b61/raw/73c3d89de56d6ae83e7f835f42b845e2abcc27ef/packages.yaml')
-                                  .read)
 HOMEBREW_SVG = URI.open('https://upload.wikimedia.org/wikipedia/commons/9/95/Homebrew_logo.svg').read
 INDEX_HTML = URI.open('https://raw.githubusercontent.com/wstein/brewiz/refs/heads/main/dist/index.html').read
 ASSETS_INDEX_CSS = URI.open('https://raw.githubusercontent.com/wstein/brewiz/refs/heads/main/dist/assets/index.css').read
