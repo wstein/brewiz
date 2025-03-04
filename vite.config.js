@@ -6,6 +6,10 @@ export default defineConfig({
   server: {
     port: 8048,
     strictPort: true,
+    hmr: {
+      port: 8048,
+      protocol: 'ws',
+    },
   },
   build: {
     outDir: "dist",
