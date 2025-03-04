@@ -1,0 +1,188 @@
+#!/usr/bin/env ruby
+
+require 'base64'
+require 'json'
+require 'open-uri'
+require 'open3'
+require 'stringio'
+require 'webrick'
+require 'yaml'
+require 'zlib'
+
+# The Homebrew class implements the brew command line tool
+class Homebrew
+  def initialize
+    @brew = '/opt/homebrew/bin/brew'
+  end
+
+  def brew_info
+    stdout, stderr, status = Open3.capture3(@brew, 'info', '--installed', '--json=v2')
+    raise stderr unless status.success?
+    JSON.parse(stdout)
+  end
+
+  def brew_update
+    stdout, stderr, status = Open3.capture3(@brew, 'update')
+    raise stderr unless status.success?
+    stdout
+  end
+
+  def info
+    bi = brew_info
+    process_info(bi['formulae'], :formula) +
+    process_info(bi['casks'], :cask)
+  end
+
+  private
+
+  def process_info(packages, type)
+    packages.map do |pkg|
+      create_package_info(pkg, type == :cask)
+    end
+  end
+
+  def create_package_info(pkg, cask)
+    name = cask ? pkg['name'][0] : pkg['name']
+    token = cask ? pkg['token'] : name
+    {
+      name: name,
+      id: "#{pkg['tap']}/#{token}",
+      description: pkg['desc'],
+      homepage: pkg['homepage'],
+      pinned: pkg['pinned'] || false,
+      installed: true,
+      installed_on_request: cask || pkg['installed'].any? { |i| i['installed_on_request'] },
+      outdated: pkg['outdated'],
+      deprecated: pkg['deprecated'],
+      cask: cask
+    }.transform_keys(&:to_s)
+  end
+end
+
+# PackageManager class to handle package categorization and management
+class PackageManager
+  attr_reader :packages
+
+  def initialize(homebrew)
+    @homebrew = homebrew
+    load_packages
+  end
+
+  def reload
+    load_packages
+    @packages
+  end
+
+  private
+
+  def load_packages
+    puts @homebrew.brew_update
+
+    # Get fresh brew info data
+    brew_info = @homebrew.info.to_h { |pkg| [pkg['id'], pkg] }
+
+    # Create a fresh copy of categories for this reload
+    @packages = PACKAGES_YAML
+
+    merge_brew_info_with_categories(brew_info)
+    add_uncategorized_packages(brew_info)
+    sort_categories_with_unknown_last
+
+    @packages
+  end
+
+  def merge_brew_info_with_categories(brew_info)
+    @packages.each do |category|
+      category['packages'].map! do |pkg|
+        id = pkg['id']
+        info = brew_info[id]
+        if info
+          pkg.merge!(brew_info.delete(id))
+        end
+        pkg
+      end
+    end
+  end
+
+  def add_uncategorized_packages(brew_info)
+    @packages.map! do |category|
+      if category['id'] == 'unknown'
+      category['packages'] += brew_info.values.select { |pkg| pkg['installed_on_request'] }
+      end
+      category
+    end
+  end
+
+  def sort_categories_with_unknown_last
+    @packages.sort_by! { |category| [category['id'] == 'unknown' ? 1 : 0, category['id']] }
+  end
+end
+
+# API handler for WEBrick
+class BrewizHandler < WEBrick::HTTPServlet::AbstractServlet
+  def initialize(server, homebrew, package_manager)
+    super(server)
+    @homebrew = homebrew
+    @package_manager = package_manager
+  end
+
+  def do_GET(request, response)
+    case request.path
+    when '/api/v1/packages'
+      response['Content-Type'] = 'application/json'
+      response.body = @package_manager.packages.to_json
+    when '/api/v1/reload'
+      response['Content-Type'] = 'application/json'
+      response.body = @package_manager.reload.to_json
+    when '/homebrew.svg'
+      response['Content-Type'] = 'image/svg+xml'
+      response.body = HOMEBREW_SVG
+    when '/assets/index.js'
+      response['Content-Type'] = 'application/javascript'
+      response.body = ASSETS_INDEX_JS
+    when '/assets/index.css'
+      response['Content-Type'] = 'text/css'
+      response.body = ASSETS_INDEX_CSS
+    when '/'
+      response['Content-Type'] = 'text/html'
+      response.body = INDEX_HTML
+    else
+      response.status = 404
+      response.body = { error: 'Not Found' }.to_json
+    end
+  end
+end
+
+def main
+  # Initialize application components
+  homebrew = Homebrew.new
+  package_manager = PackageManager.new(homebrew)
+
+  # Configure and start WEBrick server
+  server = WEBrick::HTTPServer.new(
+    Port: 8047,
+    BindAddress: 'localhost',
+    Logger: WEBrick::Log.new($stderr, WEBrick::Log::INFO)
+  )
+
+  # Mount the handler
+  server.mount('/', BrewizHandler, homebrew, package_manager)
+
+  # Handle graceful shutdown on SIGINT (Ctrl+C)
+  trap('INT') { server.shutdown }
+
+  # Start the server
+  puts "Starting Brewiz server on http://localhost:8047"
+  server.start
+end
+
+# START STATIC FILE CONTENT
+PACKAGES_YAML = YAML.load(URI.open('https://gist.githubusercontent.com/wstein/e0b807d6facb73bf150d916d23493b61/raw/73c3d89de56d6ae83e7f835f42b845e2abcc27ef/packages.yaml')
+                             .read)
+HOMEBREW_SVG = URI.open('https://upload.wikimedia.org/wikipedia/commons/9/95/Homebrew_logo.svg').read
+
+INDEX_HTML = File.read('dist/index.html')
+ASSETS_INDEX_CSS = File.read('dist/assets/index.css')
+ASSETS_INDEX_JS = File.read('dist/assets/index.js')
+
+main if __FILE__ == $PROGRAM_NAME

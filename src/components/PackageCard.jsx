@@ -1,0 +1,125 @@
+export function PackageCard(props) {
+  const isMarkedForUninstall = () => props.pkg.installed && props.selected;
+
+  return (
+    <div
+      class={`p-3 rounded-lg mb-1 cursor-pointer transition-all hover:transform hover:scale-[1.02] h-full flex flex-col ${
+        props.selected
+          ? props.pkg.installed
+            ? "bg-red-50 border-2 border-red-500 shadow-md" // Selected installed package to uninstall
+            : "bg-green-50 border-2 border-green-500 shadow-md" // Selected new package to install
+          : props.pkg.installed
+            ? props.pkg.outdated
+              ? "bg-blue-200 border-2 border-blue-400 hover:border-blue-500 hover:shadow-sm" // Installed outdated package
+              : "bg-blue-50 border-2 border-blue-200 hover:border-blue-300 hover:shadow-sm" // Installed package
+            : "bg-gray-50 border-2 border-gray-200 hover:border-gray-300 hover:shadow-sm" // Not installed package
+      }`}
+      onClick={() => props.onToggle(props.pkg)}
+    >
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <h3 class="text-lg font-semibold">{props.pkg.name}</h3>
+          {props.pkg.recommended && (
+            <span class="text-yellow-500" title="Recommended">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                class="w-5 h-5"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+            </span>
+          )}
+          {props.pkg.homepage && (
+            <a
+              href={props.pkg.homepage}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-blue-500 hover:text-blue-600 transition-colors"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="w-5 h-5"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"
+                />
+              </svg>
+            </a>
+          )}
+        </div>
+        <div class="flex gap-2">
+          {props.pkg.tap && (
+            <span class="px-2 py-1 text-xs bg-blue-100 text-blue-800 rounded-full">
+              {props.pkg.tap}
+            </span>
+          )}
+          {props.pkg.cask && (
+            <span class="px-2 py-1 text-xs bg-purple-100 text-purple-800 rounded-full">
+              Cask
+            </span>
+          )}
+          {props.pkg.outdated && (
+            <span
+              class="px-2 py-1 text-xs bg-amber-100 text-amber-800 rounded-full flex items-center gap-1"
+              title="Update available"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                class="w-3 h-3"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M9.401 3.003c1.155-2 4.043-2 5.197 0l7.355 12.748c1.154 2-.29 4.5-2.599 4.5H4.645c-2.309 0-3.752-2.5-2.598-4.5L9.4 3.003zM12 8.25a.75.75 0 01.75.75v3.75a.75.75 0 01-1.5 0V9a.75.75 0 01.75-.75zm0 8.25a.75.75 0 100-1.5.75.75 0 000 1.5z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+              Outdated
+            </span>
+          )}
+          {props.pkg.info && (
+            <div class="relative group">
+              <div
+                class="text-gray-500 hover:text-gray-700 cursor-help"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="w-5 h-5"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z"
+                  />
+                </svg>
+              </div>
+              <div class="absolute z-50 hidden group-hover:block bg-gray-800 text-white text-sm rounded p-2 shadow-lg w-64 right-0 transform -translate-y-3/4">
+                {props.pkg.info}
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+      <p class="text-gray-600 mt-2 text-sm flex-grow">{props.pkg.desc}</p>
+    </div>
+  );
+}
