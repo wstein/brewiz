@@ -5,46 +5,80 @@ require 'open-uri'
 require 'open3'
 require 'webrick'
 require 'yaml'
-
-DEV_MODE = true
+require 'optparse'
 
 def bun_installed?
   system('which bun > /dev/null 2>&1')
 end
 
-def start_dev_server
-  command = bun_installed? ? 'bun run dev' : 'npm run dev'
+def start_dev_server(options)
+  command = bun_installed? ? "bun dev --port #{options[:dev_port]}" : "npm run dev --port #{options[:dev_port]}"
   puts "Starting dev server with: #{command}"
 
   pid = Process.spawn(command, chdir: File.expand_path('..', __FILE__))
   at_exit { Process.kill('TERM', pid) rescue nil }
 
-  sleep(1) until dev_server_running?
+  sleep(1) until dev_server_running?(options)
 end
 
-def dev_server_running?
-  Net::HTTP.get_response(URI('http://localhost:8048')).is_a?(Net::HTTPSuccess)
+def dev_server_running?(options)
+  puts "Checking if dev server is running on http://#{options[:address]}:#{options[:dev_port]}"
+  Net::HTTP.get_response(URI("http://#{options[:address]}:#{options[:dev_port]}")).is_a?(Net::HTTPSuccess)
 rescue StandardError
+  puts "Dev server not running"
   false
 end
 
+def parse_options
+  options = { dev_mode: false, port: 8047, address: 'localhost', dev_port: 8048 }
+
+  OptionParser.new do |opts|
+    opts.banner = "Usage: brewiz [options]"
+
+    opts.on("-d", "--dev", "Enable development mode") do
+      options[:dev_mode] = true
+    end
+
+    opts.on("-a", "--address ADDRESS", "Address to run server on (default: localhost)") do |address|
+      options[:address] = address
+    end
+
+    opts.on("-p", "--port PORT", Integer, "Port to run server on (default: 8047)") do |port|
+      options[:port] = port
+    end
+
+    opts.on("--dev-port PORT", Integer, "Dev server port (default: 8048)") do |port|
+      options[:dev_port] = port
+    end
+
+    opts.on("-h", "--help", "Show this help message") do
+      puts opts
+      exit
+    end
+  end.parse!
+
+  options
+end
+
 def main
+  options = parse_options
+
   # Initialize application components
   homebrew = Homebrew.new
   package_manager = PackageManager.new(homebrew)
 
   # Start dev server if in dev mode
-  start_dev_server if DEV_MODE
+  start_dev_server(options) if options[:dev_mode]
 
   # Configure and start WEBrick server
   server = WEBrick::HTTPServer.new(
-    Port: 8047,
-    BindAddress: 'localhost',
+    Port: options[:port],
+    BindAddress: options[:address],
     Logger: WEBrick::Log.new($stderr, WEBrick::Log::INFO)
   )
 
   # Mount the handler
-  server.mount('/', BrewizHandler, homebrew, package_manager)
+  server.mount('/', BrewizHandler, homebrew, package_manager, options)
 
   # Handle graceful shutdown on SIGINT (Ctrl+C)
   trap('INT') { server.shutdown }
@@ -52,15 +86,15 @@ def main
   # Open the browser
   Thread.new do
      require 'net/http'
-     until Net::HTTP.get_response(URI('http://localhost:8047')).is_a?(Net::HTTPSuccess)
+     until Net::HTTP.get_response(URI("http://#{options[:address]}:#{options[:port]}")).is_a?(Net::HTTPSuccess)
        sleep(0.1)
      end
      puts "Opening browser..."
-     system('open', 'http://localhost:8047')
+     system('open', "http://#{options[:address]}:#{options[:port]}")
   end
 
   # Start the server
-  puts "Starting Brewiz server on http://localhost:8047"
+  puts "Starting Brewiz server on http://#{options[:address]}:#{options[:port]}"
   server.start
 end
 
@@ -175,10 +209,11 @@ end
 
 # API handler for WEBrick
 class BrewizHandler < WEBrick::HTTPServlet::AbstractServlet
-  def initialize(server, homebrew, package_manager)
+  def initialize(server, homebrew, package_manager, options)
     super(server)
     @homebrew = homebrew
     @package_manager = package_manager
+    @options = options
   end
 
   def do_GET(request, response)
@@ -190,7 +225,7 @@ class BrewizHandler < WEBrick::HTTPServlet::AbstractServlet
       response['Content-Type'] = 'application/json'
       response.body = @package_manager.reload.to_json
     else
-      if DEV_MODE && !request.path.start_with?('/api/')
+      if @options[:dev_mode] && !request.path.start_with?('/api/')
         proxy_request(request, response)
       else
         serve_static_content(request, response)
@@ -206,7 +241,7 @@ class BrewizHandler < WEBrick::HTTPServlet::AbstractServlet
       response['Content-Type'] = 'image/svg+xml'
       response.body = HOMEBREW_SVG
     else
-      uri = URI("http://localhost:8048#{request.path}")
+      uri = URI("http://#{@options[:address]}:#{@options[:dev_port]}#{request.path}")
       begin
         proxy_response = Net::HTTP.get_response(uri)
         response.status = proxy_response.code
