@@ -62,7 +62,7 @@ export function PackageCard(props) {
         </div>
         <div class="flex gap-2">
           {props.pkg.tap && (
-            <span class="px-2 py-1 text-xs bg-blue-100 text-blue-800 rounded-full">
+            <span class="px-2 py-1 text-xs bg-blue-200 text-blue-800 rounded-full">
               {props.pkg.tap}
             </span>
           )}

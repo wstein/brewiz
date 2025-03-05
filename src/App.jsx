@@ -2,13 +2,15 @@ import { createSignal, onMount, For } from "solid-js";
 import { CategorySection } from "./components/CategorySection";
 import { BrewCommands } from "./components/BrewCommands";
 import { Header } from "./components/Header";
+import packageData from "./data/packages.json";
 
 function App() {
   const [selectedPackages, setSelectedPackages] = createSignal(new Set());
-  const [packageData, setPackageData] = createSignal([]);
+  const [packages, setPackages] = createSignal([]);
   const [loading, setLoading] = createSignal(true);
   const [error, setError] = createSignal(null);
   const [refreshing, setRefreshing] = createSignal(false);
+  const [usingLocalData, setUsingLocalData] = createSignal(false);
 
   const API_BASE = "/api/v1";
 
@@ -33,10 +35,13 @@ function App() {
       setLoading(true);
       setError(null);
       const data = await fetchData("/packages");
-      setPackageData(data);
+      setPackages(data);
       setSelectedPackages(new Set());
+      setUsingLocalData(false);
     } catch (error) {
-      setPackageData([]);
+      console.warn("API not available, using local package data");
+      setPackages(packageData);
+      setUsingLocalData(true);
     } finally {
       setLoading(false);
     }
@@ -48,10 +53,13 @@ function App() {
       setRefreshing(true);
       setError(null);
       const data = await fetchData("/reload");
-      setPackageData(data);
+      setPackages(data);
       setSelectedPackages(new Set());
+      setUsingLocalData(false);
     } catch (error) {
-      // Error already set in fetchData
+      console.warn("API not available, using local package data");
+      setPackages(packageData);
+      setUsingLocalData(true);
     } finally {
       setRefreshing(false);
     }
@@ -74,35 +82,6 @@ function App() {
   // Load data on component mount
   onMount(loadPackageData);
 
-  // Render status messages (loading, error, refreshing)
-  const renderStatusMessages = () => (
-    <>
-      {loading() && (
-        <div class="flex items-center justify-center p-12">
-          <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
-        </div>
-      )}
-
-      {error() && !loading() && (
-        <div class="bg-red-50 border border-red-200 text-red-800 rounded-lg p-4 mb-6">
-          <h3 class="font-bold">Error loading package data</h3>
-          <p>{error()}</p>
-          <p class="text-sm mt-2">Please check if the API server is running.</p>
-        </div>
-      )}
-
-      {refreshing() && !loading() && (
-        <div class="bg-blue-50 border border-blue-200 text-blue-800 rounded-lg p-4 mb-6">
-          <h3 class="font-bold flex items-center">
-            <span class="inline-block w-4 h-4 mr-2 border-2 border-blue-600 border-t-transparent rounded-full animate-spin"></span>
-            Refreshing brew data...
-          </h3>
-          <p>Please wait while we refresh package information.</p>
-        </div>
-      )}
-    </>
-  );
-
   return (
     <div class="min-h-screen bg-gray-100">
       <Header
@@ -112,11 +91,12 @@ function App() {
         onRefresh={handleRefresh}
         onReset={handleReset}
         selectedPackagesCount={selectedPackages().size}
+        usingLocalData={usingLocalData()}
       />
 
       <div class="max-w-[1800px] mx-auto px-4 py-8 pb-64 mt-32">
         <div class="space-y-6">
-          <For each={packageData()}>
+          <For each={packages()}>
             {(category) => (
               <CategorySection
                 category={category}
@@ -129,7 +109,7 @@ function App() {
       </div>
 
       <BrewCommands
-        categories={packageData()}
+        categories={packages()}
         selectedPackages={selectedPackages}
       />
     </div>

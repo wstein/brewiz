@@ -50,12 +50,11 @@ export function Header(props) {
             </div>
           )}
 
-          {props.error && !props.loading && (
-            <div class="bg-red-50 border border-red-200 text-red-800 rounded-lg p-4">
-              <h3 class="font-bold">Error loading package data</h3>
-              <p>{props.error}</p>
-              <p class="text-sm mt-2">
-                Please check if the API server is running.
+          {props.usingLocalData && !props.loading && (
+            <div class="bg-yellow-100 border-2 border-yellow-400 text-yellow-800 rounded-lg p-4">
+              <h3 class="font-bold">Using local package data</h3>
+              <p class="text-sm">
+                The API server is not available. Using built-in example data instead.
               </p>
             </div>
           )}
