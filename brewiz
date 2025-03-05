@@ -22,7 +22,7 @@ def start_dev_server(options)
 end
 
 def dev_server_running?(options)
-  puts "Checking if dev server is running on http://#{options[:address]}:#{options[:dev_port]}"
+  puts "Checking if Dev Server is running on http://#{options[:address]}:#{options[:dev_port]}"
   Net::HTTP.get_response(URI("http://#{options[:address]}:#{options[:dev_port]}")).is_a?(Net::HTTPSuccess)
 rescue StandardError
   puts "Dev server not running"
@@ -30,7 +30,14 @@ rescue StandardError
 end
 
 def parse_options
-  options = { dev_mode: false, port: 8047, address: 'localhost', dev_port: 8048 }
+  options = {
+    dev_mode: false,
+    port: 8047,
+    address: 'localhost',
+    dev_port: 8048,
+    packages_url: 'https://gist.githubusercontent.com/wstein/e0b807d6facb73bf150d916d23493b61/raw/73c3d89de56d6ae83e7f835f42b845e2abcc27ef/packages.yaml',
+    packages_file: nil
+  }
 
   OptionParser.new do |opts|
     opts.banner = "Usage: brewiz [options]"
@@ -39,16 +46,26 @@ def parse_options
       options[:dev_mode] = true
     end
 
-    opts.on("-a", "--address ADDRESS", "Address to run server on (default: localhost)") do |address|
+    opts.on("-a", "--address ADDRESS", "Address to run Server on (default: localhost)") do |address|
       options[:address] = address
     end
 
-    opts.on("-p", "--port PORT", Integer, "Port to run server on (default: 8047)") do |port|
+    opts.on("-p", "--port PORT", Integer, "Port to run Server on (default: 8047)") do |port|
       options[:port] = port
     end
 
-    opts.on("--dev-port PORT", Integer, "Dev server port (default: 8048)") do |port|
+    opts.on("--dev-port PORT", Integer, "Frontend Vite Dev Server port (default: 8048)") do |port|
       options[:dev_port] = port
+    end
+
+    opts.on("--packages-url URL", "URL to packages configuration YAML") do |url|
+      options[:packages_url] = url
+      options[:packages_file] = nil  # URL takes precedence over file
+    end
+
+    opts.on("--packages-file PATH", "Path to local packages configuration YAML file") do |path|
+      options[:packages_file] = path
+      options[:packages_url] = nil  # Clear URL if file is specified
     end
 
     opts.on("-h", "--help", "Show this help message") do
@@ -65,7 +82,7 @@ def main
 
   # Initialize application components
   homebrew = Homebrew.new
-  package_manager = PackageManager.new(homebrew)
+  package_manager = PackageManager.new(homebrew, options)  # Pass options to PackageManager
 
   # Start dev server if in dev mode
   start_dev_server(options) if options[:dev_mode]
@@ -152,8 +169,9 @@ end
 class PackageManager
   attr_reader :packages
 
-  def initialize(homebrew)
+  def initialize(homebrew, options)
     @homebrew = homebrew
+    @options = options
     load_packages
   end
 
@@ -165,19 +183,44 @@ class PackageManager
   private
 
   def load_packages
+    puts "Updating Homebrew..."
     puts @homebrew.brew_update
 
-    # Get fresh brew info data
+    puts "Getting local Packages..."
     brew_info = @homebrew.info.to_h { |pkg| [pkg['id'], pkg] }
 
-    # Load package categories from Gist
-    @packages = YAML.safe_load(URI.open('https://gist.githubusercontent.com/wstein/e0b807d6facb73bf150d916d23493b61/raw/73c3d89de56d6ae83e7f835f42b845e2abcc27ef/packages.yaml').read)
+    # Load package categories from URL or file
+    @packages = load_packages_config
 
     merge_brew_info_with_categories(brew_info)
     add_uncategorized_packages(brew_info)
     sort_categories_with_unknown_last
 
     @packages
+  end
+
+  def load_packages_config
+    if @options[:packages_file]
+      begin
+        YAML.load_file(@options[:packages_file])
+      rescue => e
+        puts "Error loading packages file: #{e.message}"
+        puts "Falling back to default URL"
+        load_packages_from_url(@options[:packages_url])
+      end
+    else
+      load_packages_from_url(@options[:packages_url])
+    end
+  end
+
+  def load_packages_from_url(url)
+    begin
+      YAML.safe_load(URI.open(url).read)
+    rescue => e
+      puts "Error loading packages from URL: #{e.message}"
+      puts "Using empty configuration"
+      [{ 'id' => 'unknown', 'name' => 'Unknown', 'packages' => [] }]
+    end
   end
 
   def merge_brew_info_with_categories(brew_info)
@@ -222,6 +265,7 @@ class BrewizHandler < WEBrick::HTTPServlet::AbstractServlet
       response['Content-Type'] = 'application/json'
       response.body = @package_manager.packages.to_json
     when '/api/v1/reload'
+      puts "Reloading packages..."
       response['Content-Type'] = 'application/json'
       response.body = @package_manager.reload.to_json
     else
@@ -282,6 +326,5 @@ HOMEBREW_SVG = URI.open('https://upload.wikimedia.org/wikipedia/commons/9/95/Hom
 INDEX_HTML = URI.open('https://raw.githubusercontent.com/wstein/brewiz/refs/heads/main/dist/index.html').read
 ASSETS_INDEX_CSS = URI.open('https://raw.githubusercontent.com/wstein/brewiz/refs/heads/main/dist/assets/index.css').read
 ASSETS_INDEX_JS = URI.open('https://raw.githubusercontent.com/wstein/brewiz/refs/heads/main/dist/assets/index.js').read
-
 
 main if __FILE__ == $PROGRAM_NAME
