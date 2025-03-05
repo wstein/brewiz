@@ -1,5 +1,4 @@
 import { createSignal } from "solid-js";
-import packageData from "../data/packages.json";
 
 export function usePackageStore() {
   const [selectedPackages, setSelectedPackages] = createSignal(new Set());
@@ -10,6 +9,19 @@ export function usePackageStore() {
   const [usingLocalData, setUsingLocalData] = createSignal(false);
 
   const API_BASE = "/api/v1";
+
+  const fetchPackagesData = async () => {
+    try {
+      const response = await fetch("/fixtures/packages.json");
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return await response.json();
+    } catch (error) {
+      console.error("Error fetching packages data:", error);
+      throw error;
+    }
+  };
 
   const fetchData = async (endpoint) => {
     try {
@@ -34,9 +46,16 @@ export function usePackageStore() {
       setSelectedPackages(new Set());
       setUsingLocalData(false);
     } catch (error) {
-      console.warn("API not available, using local package data");
-      setPackages(packageData);
-      setUsingLocalData(true);
+      console.warn("API not available, fetching from fixtures");
+      try {
+        const data = await fetchPackagesData();
+        setPackages(data);
+        setUsingLocalData(true);
+      } catch (fallbackError) {
+        console.error("Failed to fetch packages data:", fallbackError);
+        setError("Failed to load packages data");
+        setPackages([]);
+      }
     } finally {
       setLoading(false);
     }
@@ -51,9 +70,16 @@ export function usePackageStore() {
       setSelectedPackages(new Set());
       setUsingLocalData(false);
     } catch (error) {
-      console.warn("API not available, using local package data");
-      setPackages(packageData);
-      setUsingLocalData(true);
+      console.warn("API not available, fetching from fixtures");
+      try {
+        const data = await fetchPackagesData();
+        setPackages(data);
+        setUsingLocalData(true);
+      } catch (fallbackError) {
+        console.error("Failed to fetch packages data:", fallbackError);
+        setError("Failed to load packages data");
+        setPackages([]);
+      }
     } finally {
       setRefreshing(false);
     }
