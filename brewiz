@@ -184,7 +184,8 @@ class PackageManager
 
   def load_packages
     puts "Updating Homebrew..."
-    puts @homebrew.brew_update
+    res = @homebrew.brew_update
+    puts res if res
 
     puts "Getting local Packages..."
     brew_info = @homebrew.info.to_h { |pkg| [pkg['id'], pkg] }
