@@ -286,7 +286,7 @@ def parse_options
     port: 8047,
     address: 'localhost',
     dev_port: 8048,
-    packages_url: 'https://gist.githubusercontent.com/wstein/e0b807d6facb73bf150d916d23493b61/raw/73c3d89de56d6ae83e7f835f42b845e2abcc27ef/packages.yaml'
+    packages_url: 'https://raw.githubusercontent.com/wstein/brewiz/refs/heads/main/data/packages.yaml'
   }
 
   OptionParser.new do |opts|
