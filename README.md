@@ -2,6 +2,8 @@
 
 Brewiz is a modern web interface for managing Homebrew packages on macOS. It provides an intuitive way to browse, select, and generate Homebrew commands for package installation and management.
 
+[![brewiz screenshot](docs/images/brewiz-small.png)](docs/images/brewiz-full.png)
+
 ## Features
 
 - 🎯 Visual package selection interface
@@ -10,6 +12,28 @@ Brewiz is a modern web interface for managing Homebrew packages on macOS. It pro
 - 🚀 One-click copy of commands
 - 💫 Responsive design
 - 🎨 Visual status indicators for installed/outdated packages
+
+## Usage
+
+The easiest way to use Brewiz is to add the following alias to your shell configuration file (e.g., `~/.zshrc`) and then run `brewiz` in your terminal:
+
+```bash
+alias brewiz='/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/wstein/brewiz/refs/heads/main/brewiz)" --'
+```
+
+Alternatively, you can download the script from GitHub and run it directly:
+
+```bash
+curl -fsSL -O brewiz https://raw.githubusercontent.com/wstein/brewiz/refs/heads/main/brewiz
+chmod +x brewiz
+./brewiz
+```
+
+The Script will start the Brewiz server and open the application in your default browser. If the browser does not open automatically, you can navigate to `http://localhost:8047` manually. The Brewiz server will run in the background until you stop it.
+
+Now you can browse the available packages, select the ones you want to install, and copy the generated command to your terminal.
+
+![alt text](docs/images/brewiz-cmd.png)
 
 ## Development
 
@@ -86,8 +110,8 @@ Usage: brewiz [options]
     -a, --address ADDRESS            Address to run Server on
     -p, --port PORT                  Port to run Server on
         --dev-port PORT              Frontend Dev Server port
-        --packages-url URL           URL to packages config
-        --packages-file PATH         Path to local packages config
+        --packages-url URL           URL to package list
+        --packages-file PATH         Path to local package list
         --no-open                    Don't open browser automatically
     -h, --help
 ```
