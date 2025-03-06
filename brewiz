@@ -13,13 +13,12 @@ class Server
     @options = options
     @homebrew = Homebrew.new
     @package_manager = PackageManager.new(@homebrew, options)
-    @server = setup_server
   end
 
   def start
-    pp @options
     start_dev_server if @options[:dev_mode]
-    puts "Open http://#{@options[:address]}:#{@options[:port]} in your browser"
+    @package_manager.reload
+    @server = setup_server
     open_browser unless @options[:no_open]
     puts "Press Ctrl-C to stop"
     @server.start
@@ -40,14 +39,32 @@ class Server
   end
 
   def start_dev_server
+    puts "Starting Frontend Dev Server on http://#{@options[:address]}:#{@options[:dev_port]}"
     command = "#{system('which bun >/dev/null') ? 'bun' : 'npm run'} dev --port #{@options[:dev_port]}"
-    Process.spawn(command, chdir: File.expand_path('..', __FILE__))
+    pid = Process.spawn(command, chdir: File.expand_path('..', __FILE__))
+
+    # Check for errors after 200ms
+    sleep(0.2)
+    begin
+      Process.getpgid(pid)
+    rescue Errno::ESRCH
+      puts <<~ERROR
+        Error: Dev server failed to start. Please check your frontend dependencies.
+
+        Please make sure you have checked out the project:
+
+          $ git clone https://github.com/wstein/brewiz.git
+          $ cd brewiz
+          $ bun install   # or: npm install
+      ERROR
+      exit 1
+    end
   end
 
   def open_browser
+    puts "Opening http://#{@options[:address]}:#{@options[:port]} in your browser..."
     Thread.new do
       puts "Waiting for Server to start..."
-      pp @options
       sleep(0.1) until port_open?
       puts "Opening Browser..."
       system('open', "http://#{@options[:address]}:#{@options[:port]}")
@@ -128,7 +145,6 @@ class PackageManager
   def initialize(homebrew, options)
     @homebrew = homebrew
     @options = options
-    reload
   end
 
   def reload
