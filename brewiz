@@ -153,7 +153,7 @@ class Homebrew
     {
       name: name,
       id: "#{pkg['tap']}/#{token}",
-      description: pkg['desc'],
+      desc: pkg['desc'],
       homepage: pkg['homepage'],
       pinned: pkg['pinned'] || false,
       installed: true,
@@ -183,6 +183,7 @@ class PackageManager
   private
 
   def load_packages
+    @packages = load_packages_config
     puts "Updating Homebrew..."
     res = @homebrew.brew_update
     puts res if res
@@ -190,59 +191,52 @@ class PackageManager
     puts "Getting local Packages..."
     brew_info = @homebrew.info.to_h { |pkg| [pkg['id'], pkg] }
 
-    # Load package categories from URL or file
-    @packages = load_packages_config
-
     merge_brew_info_with_categories(brew_info)
-    add_uncategorized_packages(brew_info)
+    handle_uncategorized_packages(brew_info)
+    calculate_missing_infos
     sort_categories_with_unknown_last
 
     @packages
   end
 
-  def load_packages_config
-    if @options[:packages_file]
-      begin
-        YAML.load_file(@options[:packages_file])
-      rescue => e
-        puts "Error loading packages file: #{e.message}"
-        puts "Falling back to default URL"
-        load_packages_from_url(@options[:packages_url])
+  def calculate_missing_infos
+    @packages.each do |category|
+      category['packages'].each do |pkg|
+        tap = pkg['id'].rpartition('/')[0]
+        puts "Tap: #{tap}"
+        pkg['tap'] = tap unless ['homebrew/cask', 'homebrew/core'].include?(tap)
       end
-    else
-      load_packages_from_url(@options[:packages_url])
     end
   end
 
-  def load_packages_from_url(url)
+  def load_packages_config
     begin
-      YAML.safe_load(URI.open(url).read)
+      if @options[:packages_file]
+          YAML.load_file(@options[:packages_file])
+      else
+        YAML.safe_load(URI.open(@options[:packages_url]).read)
+      end
     rescue => e
-      puts "Error loading packages from URL: #{e.message}"
-      puts "Using empty configuration"
-      [{ 'id' => 'unknown', 'name' => 'Unknown', 'packages' => [] }]
+      puts "Error loading packages: #{e.message}"
+      exit 1
     end
   end
 
   def merge_brew_info_with_categories(brew_info)
     @packages.each do |category|
       category['packages'].map! do |pkg|
-        id = pkg['id']
-        info = brew_info[id]
-        if info
-          pkg.merge!(brew_info.delete(id))
+        if info = brew_info.delete(pkg['id'])
+          pkg.merge!(info)
         end
         pkg
       end
     end
   end
 
-  def add_uncategorized_packages(brew_info)
-    @packages.map! do |category|
-      if category['id'] == 'unknown'
-      category['packages'] += brew_info.values.select { |pkg| pkg['installed_on_request'] }
-      end
-      category
+  def handle_uncategorized_packages(brew_info)
+    @packages.find { |category| category['id'] == 'unknown' }.then do |unknown_category|
+      unknown_category['packages'] += brew_info.values.select { |pkg| pkg['installed_on_request'] }
+      @packages.delete(unknown_category) if unknown_category['packages'].empty?
     end
   end
 
@@ -284,7 +278,7 @@ class BrewizHandler < WEBrick::HTTPServlet::AbstractServlet
     case request.path
     when '/homebrew.svg'
       response['Content-Type'] = 'image/svg+xml'
-      response.body = HOMEBREW_SVG
+      response.body = URI.open('https://upload.wikimedia.org/wikipedia/commons/9/95/Homebrew_logo.svg').read
     else
       uri = URI("http://#{@options[:address]}:#{@options[:dev_port]}#{request.path}")
       begin
@@ -305,27 +299,21 @@ class BrewizHandler < WEBrick::HTTPServlet::AbstractServlet
     case request.path
     when '/homebrew.svg'
       response['Content-Type'] = 'image/svg+xml'
-      response.body = HOMEBREW_SVG
+      response.body = URI.open('https://upload.wikimedia.org/wikipedia/commons/9/95/Homebrew_logo.svg').read
     when '/assets/index.js'
       response['Content-Type'] = 'application/javascript'
-      response.body = ASSETS_INDEX_JS
+      response.body = URI.open('https://raw.githubusercontent.com/wstein/brewiz/refs/heads/main/dist/assets/index.js').read
     when '/assets/index.css'
       response['Content-Type'] = 'text/css'
-      response.body = ASSETS_INDEX_CSS
+      response.body = URI.open('https://raw.githubusercontent.com/wstein/brewiz/refs/heads/main/dist/assets/index.css').read
     when '/'
       response['Content-Type'] = 'text/html'
-      response.body = INDEX_HTML
+      response.body = URI.open('https://raw.githubusercontent.com/wstein/brewiz/refs/heads/main/dist/index.html').read
     else
       response.status = 404
       response.body = { error: 'Not Found' }.to_json
     end
   end
 end
-
-# START STATIC FILE CONTENT
-HOMEBREW_SVG = URI.open('https://upload.wikimedia.org/wikipedia/commons/9/95/Homebrew_logo.svg').read
-INDEX_HTML = URI.open('https://raw.githubusercontent.com/wstein/brewiz/refs/heads/main/dist/index.html').read
-ASSETS_INDEX_CSS = URI.open('https://raw.githubusercontent.com/wstein/brewiz/refs/heads/main/dist/assets/index.css').read
-ASSETS_INDEX_JS = URI.open('https://raw.githubusercontent.com/wstein/brewiz/refs/heads/main/dist/assets/index.js').read
 
 main if __FILE__ == $PROGRAM_NAME
