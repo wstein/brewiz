@@ -1,79 +1,118 @@
-# Homebrew Package Wizard
+# Brewiz - Homebrew Package Wizard
 
-A modern web application to help macOS users select and install Homebrew packages with ease. This tool simplifies the process of discovering and installing software packages through Homebrew.
+Brewiz is a modern web interface for managing Homebrew packages on macOS. It provides an intuitive way to browse, select, and generate Homebrew commands for package installation and management.
 
 ## Features
 
-- **Categorized Packages**: Browse packages organized by functional categories
-- **One-Click Selection**: Easily select packages with a simple click
-- **Automatic Command Generation**: Get ready-to-use Homebrew commands
-- **Expandable Categories**: Collapse or expand categories to focus on what you need
-- **Cask Support**: Install GUI applications with Homebrew Cask
-- **Tap Support**: Access packages from third-party repositories
+- 🎯 Visual package selection interface
+- 📦 Browse packages by categories
+- 🔄 Real-time command generation
+- 🚀 One-click copy of commands
+- 💫 Responsive design
+- 🎨 Visual status indicators for installed/outdated packages
 
-## Getting Started
+## Development
 
 ### Prerequisites
 
-- Node.js 18.0.0 or higher
-- npm 8.0.0 or higher
+- Node.js (v18 or higher)
+- bun as package manager (optional)
 
-### Installation
+### Setup
 
 1. Clone the repository:
 
-   ```bash
-   git clone https://github.com/wstein/brewiz.git
-   cd brewiz
-   ```
+```bash
+git clone https://github.com/wstein/brewiz.git
+cd brewiz
+```
 
 2. Install dependencies:
 
-   ```bash
-   npm install
-   ```
+```bash
+# Using Bun
+bun install
+
+# Or using npm
+npm install
+```
 
 3. Start the development server:
 
-   ```bash
-   npm run dev
-   ```
+```bash
+# Using Bun
+bun dev
 
-4. Open your browser and navigate to:
+# Or using npm
+npm dev
+```
 
-   ```
-   http://localhost:8047
-   ```
+The application will be available at `http://localhost:8048`
+
+### Building for Production
+
+To create a production build:
+
+```bash
+# Using Bun
+bun run build
+
+# Or using npm
+npm build
+```
+
+The built files will be in the `dist` directory.
 
 ## Usage
 
-1. **Browse Categories**: Explore different categories of packages
-2. **Select Packages**: Click on packages you want to install
-3. **Copy Commands**: Use the generated Homebrew commands at the bottom of the page
-4. **Install Packages**: Paste the commands in your terminal to install the selected packages
+### Starting the Application
 
-## How It Works
-
-- **Package Selection**: When you click on a package, it's added to your selection list
-- **Command Generation**: The app automatically generates the appropriate Homebrew commands
-- **Cask Detection**: GUI applications are automatically installed with the `--cask` flag
-- **Tap Integration**: Packages from third-party repositories include the tap in the formula name
-
-## Building for Production
-
-To build the application for production:
+Brewiz can be started in different modes:
 
 ```bash
-npm run build
+# Start both backend and frontend in production mode
+brewiz
+
+# Start in development mode (hot reloading enabled)
+brewiz --dev
 ```
 
-The built files will be in the `dist` directory, ready to be deployed to any static hosting service.
+### Command Line Options
 
-## Technologies Used
+```text
+Options:
+Usage: brewiz [options]
+    -d, --dev                        Enable development mode
+    -a, --address ADDRESS            Address to run Server on
+    -p, --port PORT                  Port to run Server on
+        --dev-port PORT              Frontend Dev Server port
+        --packages-url URL           URL to packages config
+        --packages-file PATH         Path to local packages config
+        --no-open                    Don't open browser automatically
+    -h, --help
+```
 
-- **SolidJS**: Fast, reactive UI framework
-- **Tailwind CSS**: Utility-first CSS framework
-- **Vite**: Next-generation frontend tooling
+### Development Mode
+
+When started with `--dev`:
+
+- Frontend hot module replacement (HMR) is enabled
+- Backend file watching for automatic restarts
+- Source maps are enabled
+- Development tools and logging are activated
+
+### Production Mode
+
+In production mode:
+
+- Static files are loaded from the github repository
+- Frontend is optimized for production
+
+## Tech Stack
+
+- [SolidJS](https://www.solidjs.com/) - Frontend framework
+- [Tailwind CSS](https://tailwindcss.com/) - Styling
+- [Vite](https://vitejs.dev/) - Build tool
 
 ## License
 
