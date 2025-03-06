@@ -41,6 +41,7 @@ function CommandHeader(props) {
       <h3 class="text-lg font-semibold">Brew Commands:</h3>
       <button
         onClick={props.copyToClipboard}
+        title="Copy commands to clipboard"
         class="px-3 py-1 bg-blue-500 hover:bg-blue-600 rounded text-sm flex items-center gap-2 transition-colors"
       >
         {props.copySuccess() || "Copy"}

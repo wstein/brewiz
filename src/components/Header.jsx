@@ -17,6 +17,7 @@ export function Header(props) {
             <button
               onClick={props.onRefresh}
               disabled={props.loading || props.refreshing}
+              title="Refresh package list"
               class={`px-4 py-2 rounded-lg transition-colors flex items-center gap-2 ${
                 props.loading || props.refreshing
                   ? "bg-gray-300 cursor-not-allowed text-gray-500"
@@ -31,6 +32,7 @@ export function Header(props) {
             <button
               onClick={props.onReset}
               disabled={props.selectedPackagesCount === 0}
+              title="Clear all selected packages"
               class={`px-4 py-2 rounded-lg transition-colors ${
                 props.selectedPackagesCount === 0
                   ? "bg-gray-300 cursor-not-allowed text-gray-500"
