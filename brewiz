@@ -190,7 +190,7 @@ class PackageManager
 
     uncategorized['packages'] += remaining_packages.values.select { |pkg| pkg['installed_on_request'] }
     @packages.delete(uncategorized) if uncategorized['packages'].empty?
-    @packages.sort_by! { |cat| [cat['id'] == 'zzz-uncategorized' ? 1 : 0, cat['name']] }
+    @packages.sort_by! { |cat| [cat['id'] == 'zzz-uncategorized' ? 1 : 0, cat['name'].downcase] }
   end
 end
 
