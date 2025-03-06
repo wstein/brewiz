@@ -1,4 +1,20 @@
 export function Header(props) {
+  const handleClose = async () => {
+    try {
+      await fetch('/api/v1/terminate', { method: 'POST' });
+      // Try different methods to close the browser tab/window
+      window.close();
+      // Fallback for browsers that block window.close()
+      if (window.opener) {
+        window.opener.close();
+      }
+      // Additional fallback
+      window.location.href = 'about:blank';
+    } catch (error) {
+      console.error('Failed to terminate server:', error);
+    }
+  };
+
   return (
     <div class="fixed top-0 left-0 right-0 bg-white shadow-md z-50">
       <div class="max-w-[1800px] mx-auto px-4 py-4">
@@ -40,6 +56,13 @@ export function Header(props) {
               }`}
             >
               Reset All
+            </button>
+            <button
+              onClick={handleClose}
+              title="Close Brewiz"
+              class="px-4 py-2 rounded-lg transition-colors bg-gray-500 hover:bg-gray-600 text-white"
+            >
+              Close
             </button>
           </div>
         </div>
