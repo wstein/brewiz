@@ -1,0 +1,241 @@
+[
+  {
+    "id": "analyze",
+    "name": "Code Analysis",
+    "desc": "Tools for static code analysis, linting, and code quality assessment.",
+    "packages": [
+      {
+        "name": "ameba",
+        "desc": "Static code analysis tool for Crystal",
+        "homepage": "https://github.com/crystal-ameba/ameba",
+        "recommended": true,
+        "info": "Ameba is a static code analysis tool for Crystal, helping you write cleaner and more maintainable code by enforcing style guidelines and detecting potential issues.",
+        "id": "crystal-ameba/ameba/ameba",
+        "pinned": false,
+        "installed": true,
+        "installed_on_request": true,
+        "outdated": false,
+        "deprecated": false,
+        "cask": false,
+        "tap": "crystal-ameba/ameba"
+      },
+      {
+        "name": "scc",
+        "desc": "Fast and accurate code counter with complexity and COCOMO estimates",
+        "homepage": "https://github.com/boyter/scc/",
+        "recommended": true,
+        "info": "SCC (Sloc, Cloc and Code) is a very fast and accurate code counter with complexity calculations and COCOMO estimates written in Go. It's useful for analyzing codebases and estimating project complexity.",
+        "id": "homebrew/core/scc",
+        "pinned": false,
+        "installed": true,
+        "installed_on_request": true,
+        "outdated": false,
+        "deprecated": false,
+        "cask": false
+      },
+      {
+        "name": "shellcheck",
+        "desc": "Static analysis and lint tool, for (ba)sh scripts",
+        "homepage": "https://www.shellcheck.net/",
+        "recommended": true,
+        "info": "ShellCheck is a shell script static analysis tool that gives warnings and suggestions for bash/sh shell scripts. It helps identify and fix common shell script issues and follows best practices.",
+        "id": "homebrew/core/shellcheck",
+        "pinned": false,
+        "installed": true,
+        "installed_on_request": true,
+        "outdated": false,
+        "deprecated": false,
+        "cask": false
+      }
+    ]
+  },
+  {
+    "id": "archive",
+    "name": "Archiving & Compression",
+    "desc": "Tools for compressing, archiving, and extracting files.",
+    "packages": [
+      {
+        "name": "p7zip",
+        "desc": "7-Zip (high compression file archiver) implementation",
+        "homepage": "https://github.com/p7zip-project/p7zip",
+        "recommended": true,
+        "info": "p7zip is a port of 7-Zip for POSIX systems, providing high compression ratio in 7z format and supporting various other archive formats.",
+        "id": "homebrew/core/p7zip",
+        "pinned": false,
+        "installed": true,
+        "installed_on_request": true,
+        "outdated": false,
+        "deprecated": false,
+        "cask": false
+      },
+      {
+        "name": "RAR Archiver",
+        "desc": "Archive manager for data compression and backups",
+        "homepage": "https://www.rarlab.com/",
+        "cask": true,
+        "token": "rar",
+        "recommended": true,
+        "info": "RAR is a proprietary archive file format that supports data compression, error recovery, and file spanning. This package provides tools to create and extract RAR archives.",
+        "id": "homebrew/cask/rar",
+        "pinned": false,
+        "installed": true,
+        "installed_on_request": true,
+        "outdated": false,
+        "deprecated": true
+      },
+      {
+        "name": "sevenzip",
+        "desc": "7-Zip is a file archiver with a high compression ratio",
+        "homepage": "https://7-zip.org",
+        "recommended": true,
+        "info": "7-Zip is a file archiver with a high compression ratio, supporting multiple archive formats including its own 7z format with LZMA and LZMA2 compression.",
+        "id": "homebrew/core/sevenzip",
+        "pinned": false,
+        "installed": true,
+        "installed_on_request": true,
+        "outdated": false,
+        "deprecated": false,
+        "cask": false
+      }
+    ]
+  },
+  {
+    "id": "build",
+    "name": "Build Tools & Package Managers",
+    "desc": "Tools for managing dependencies, building projects, and package management.",
+    "packages": [
+      {
+        "name": "krew",
+        "desc": "Package manager for kubectl plugins",
+        "homepage": "https://sigs.k8s.io/krew/",
+        "recommended": true,
+        "info": "Krew is a plugin manager for kubectl, allowing you to discover and install kubectl plugins with a simple interface. It helps extend kubectl with custom commands for specific Kubernetes tasks.",
+        "id": "homebrew/core/krew",
+        "pinned": false,
+        "installed": true,
+        "installed_on_request": true,
+        "outdated": false,
+        "deprecated": false,
+        "cask": false
+      },
+      {
+        "name": "leiningen",
+        "desc": "Build tool for Clojure",
+        "homepage": "https://github.com/technomancy/leiningen",
+        "recommended": true,
+        "info": "Leiningen is the easiest way to use Clojure. With a focus on project automation and declarative configuration, it gets out of your way and lets you focus on your code.",
+        "id": "homebrew/core/leiningen"
+      },
+      {
+        "name": "maven",
+        "desc": "Java-based project management",
+        "homepage": "https://maven.apache.org/",
+        "recommended": true,
+        "info": "Apache Maven is a software project management and comprehension tool. Based on the concept of a project object model (POM), Maven can manage a project's build, reporting and documentation from a central piece of information.",
+        "id": "homebrew/core/maven"
+      }
+    ]
+  },
+  {
+    "id": "vm",
+    "name": "Virtual Machines",
+    "desc": "Tools for managing, emulating, and running virtual machines.",
+    "packages": [
+      {
+        "name": "lima",
+        "desc": "Linux virtual machines",
+        "homepage": "https://lima-vm.io/",
+        "recommended": true,
+        "info": "Lima launches Linux virtual machines with automatic file sharing and port forwarding. It's designed to be a lightweight alternative to Docker Desktop for running Linux containers on macOS.",
+        "id": "homebrew/core/lima",
+        "pinned": false,
+        "installed": true,
+        "installed_on_request": true,
+        "outdated": false,
+        "deprecated": false,
+        "cask": false
+      },
+      {
+        "name": "Multipass",
+        "desc": "Orchestrates virtual Ubuntu instances",
+        "homepage": "https://github.com/canonical/multipass/",
+        "cask": true,
+        "token": "multipass",
+        "recommended": true,
+        "info": "Multipass is a lightweight VM manager for Linux, Windows, and macOS. It lets you quickly spin up Ubuntu VMs with a single command, making it easy to create development environments.",
+        "id": "homebrew/cask/multipass",
+        "pinned": false,
+        "installed": true,
+        "installed_on_request": true,
+        "outdated": true,
+        "deprecated": false
+      },
+      {
+        "name": "qemu",
+        "desc": "Generic machine emulator and virtualizer",
+        "homepage": "https://www.qemu.org/",
+        "recommended": true,
+        "info": "QEMU is a generic and open source machine emulator and virtualizer. It can run operating systems and programs made for one machine on a different machine, and is used by many virtualization tools.",
+        "id": "homebrew/core/qemu",
+        "pinned": false,
+        "installed": true,
+        "installed_on_request": true,
+        "outdated": false,
+        "deprecated": false,
+        "cask": false
+      },
+      {
+        "name": "UTM",
+        "desc": "Virtual machines UI using QEMU",
+        "homepage": "https://mac.getutm.app/",
+        "cask": true,
+        "token": "utm",
+        "recommended": true,
+        "info": "UTM is a full-featured virtual machine host for macOS. It's built on QEMU and allows you to run Windows, Linux, and other operating systems on your Mac with a native macOS interface.",
+        "id": "homebrew/cask/utm",
+        "pinned": false,
+        "installed": true,
+        "installed_on_request": true,
+        "outdated": false,
+        "deprecated": false
+      }
+    ]
+  },
+  {
+    "id": "web",
+    "name": "Browsers & Web Tools",
+    "desc": "Web browsers and tools for API development and web-related tasks.",
+    "packages": [
+      {
+        "name": "Hoppscotch",
+        "desc": "Open source API development ecosystem",
+        "homepage": "https://hoppscotch.com/",
+        "cask": true,
+        "token": "hoppscotch",
+        "recommended": true,
+        "info": "Hoppscotch is an open-source API development ecosystem. It provides a lightweight, web-based API client that helps you create and test API requests quickly and efficiently.",
+        "id": "homebrew/cask/hoppscotch",
+        "pinned": false,
+        "installed": true,
+        "installed_on_request": true,
+        "outdated": false,
+        "deprecated": false
+      },
+      {
+        "name": "Orion Browser",
+        "desc": "WebKit based web browser",
+        "homepage": "https://browser.kagi.com/",
+        "cask": true,
+        "token": "orion",
+        "recommended": true,
+        "info": "Orion is a WebKit-based browser designed for macOS. It aims to be a fast, privacy-focused alternative to Safari with support for Chrome and Firefox extensions.",
+        "id": "homebrew/cask/orion",
+        "pinned": false,
+        "installed": true,
+        "installed_on_request": true,
+        "outdated": false,
+        "deprecated": false
+      }
+    ]
+  }
+]
