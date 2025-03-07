@@ -114,6 +114,13 @@ class Server
     open_browser unless @options[:no_open]
     puts "Press Ctrl-C to stop"
     @server.start
+  rescue Interrupt
+    @server.shutdown
+  rescue StandardError => e
+    puts "Error: #{e.message}"
+    Process.kill('TERM', @dev_server_pid) if @dev_server_pid
+    sleep(0.1) # Wait for dev server to terminate
+    exit 1
   end
 
 private
