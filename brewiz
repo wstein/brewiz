@@ -15,6 +15,7 @@ class Server
     @options = options
     @homebrew = Homebrew.new
     @package_manager = PackageManager.new(@homebrew, options)
+    @dev_server_pid = nil
   end
 
   def start
@@ -40,7 +41,7 @@ class Server
       Logger: WEBrick::Log.new($stderr, WEBrick::Log::INFO),
       AccessLog: access_log
     )
-    server.mount('/', RequestHandler, @homebrew, @package_manager, @options)
+    server.mount('/', RequestHandler, @homebrew, @package_manager, @options, @dev_server_pid)
     trap('INT') { server.shutdown }
     server
   end
@@ -66,6 +67,7 @@ class Server
       ERROR
       exit 1
     end
+    @dev_server_pid = pid
   end
 
   def open_browser
@@ -202,11 +204,12 @@ class PackageManager
 end
 
 class RequestHandler < WEBrick::HTTPServlet::AbstractServlet
-  def initialize(server, homebrew, package_manager, options)
+  def initialize(server, homebrew, package_manager, options, dev_server_pid)
     super(server)
     @homebrew = homebrew
     @package_manager = package_manager
     @options = options
+    @dev_server_pid = dev_server_pid
   end
 
   def do_GET(request, response)
@@ -217,6 +220,18 @@ class RequestHandler < WEBrick::HTTPServlet::AbstractServlet
       json_response(response, @package_manager.reload)
     else
       handle_static_or_proxy(request, response)
+    end
+  end
+
+  def do_POST(request, response)
+    case request.path
+    when '/api/v1/terminate'
+      Process.kill('TERM', @dev_server_pid) if @dev_server_pid
+      @server.shutdown
+      json_response(response, { status: 'terminating' })
+    else
+      response.status = 404
+      json_response(response, { error: 'Not Found' })
     end
   end
 
