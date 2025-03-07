@@ -51,7 +51,7 @@ git clone https://github.com/wstein/brewiz.git
 cd brewiz
 ```
 
-2. Install dependencies:
+1. Install dependencies:
 
 ```bash
 # Using Bun
@@ -98,18 +98,26 @@ Brewiz can be started in different modes:
 brewiz
 
 # Start in development mode (hot reloading enabled)
-brewiz --dev
+brewiz dev
 ```
 
 ### Command Line Options
 
 ```text
-Options:
-Usage: brewiz [options]
-    -d, --dev                        Enable development mode
+Usage: brewiz [command] [options]
+
+Commands:
+  start       Start server in production mode
+  dev         Start server in development mode
+  build       Build the frontend
+  -h, --help  Show this help message
+  -v, --version Show version
+
+Options for start/dev commands:
+Usage: brewiz [start|dev] [options]
     -a, --address ADDRESS            Address to run Server on
     -p, --port PORT                  Port to run Server on
-        --dev-port PORT              Frontend Dev Server port
+        --dev-node-port PORT         Port to use for frontend development server
         --packages-url URL           URL to package list
         --packages-file PATH         Path to local package list
         --no-open                    Don't open browser automatically
@@ -118,7 +126,7 @@ Usage: brewiz [options]
 
 ### Development Mode
 
-When started with `--dev`:
+When started with `dev`:
 
 - Frontend hot module replacement (HMR) is enabled
 - Backend file watching for automatic restarts
