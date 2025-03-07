@@ -28,10 +28,15 @@ class Server
 
   def setup_server
     puts "Starting Server on http://#{@options[:address]}:#{@options[:port]}"
+
+    # Configure access log based on dev mode
+    access_log = @options[:dev_mode] ? [[$stderr, WEBrick::AccessLog::COMBINED_LOG_FORMAT]] : []
+
     server = WEBrick::HTTPServer.new(
       Port: @options[:port],
       BindAddress: @options[:address],
-      Logger: WEBrick::Log.new($stderr, WEBrick::Log::INFO)
+      Logger: WEBrick::Log.new($stderr, WEBrick::Log::INFO),
+      AccessLog: access_log
     )
     server.mount('/', RequestHandler, @homebrew, @package_manager, @options)
     trap('INT') { server.shutdown }
@@ -62,11 +67,11 @@ class Server
   end
 
   def open_browser
-    puts "Opening http://#{@options[:address]}:#{@options[:port]} in your browser..."
     Thread.new do
       puts "Waiting for Server to start..."
       sleep(0.1) until port_open?
-      puts "Opening Browser..."
+
+      puts "Opening http://#{@options[:address]}:#{@options[:port]} in your browser..."
       system('open', "http://#{@options[:address]}:#{@options[:port]}")
     end
   end
