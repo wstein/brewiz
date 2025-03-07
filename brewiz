@@ -102,7 +102,8 @@ class Homebrew
 
   def update
     puts "Updating Homebrew..."
-    brew_cmd('update')
+    res = brew_cmd('update')
+    puts res if res.length > 0
   end
 
   private
