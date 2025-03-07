@@ -25,6 +25,7 @@ class Command
     when 'start', 'dev'
       options = parse_options(args)
       options[:dev_mode] = true if cmd == 'dev'
+      options[:packages_file] = File.expand_path('../data/packages.yaml', __FILE__)
       Server.new(options).start
     when 'build'
       build_frontend
@@ -372,7 +373,7 @@ class RequestHandler < WEBrick::HTTPServlet::AbstractServlet
 
   def serve_github_file(path, response)
     path = "/index.html" if path == '/'
-    url = "https://raw.githubusercontent.com/wstein/brewiz/refs/heads/main/dist#{path}"
+    url = "https://raw.githubusercontent.com/wstein/brewiz/refs/tags/v#{VERSION}/dist#{path}"
     URI.open(url) do |f|
       response['Content-Type'] = determine_content_type(path)
       response.body = f.read
