@@ -1303,10 +1303,6 @@
         markup format to another. It supports dozens of formats including Markdown,
         HTML, LaTeX, PDF, EPUB, and Microsoft Word.
       id: homebrew/core/pandoc
-- id: zzz-uncategorized
-  name: Uncategorized Packages
-  desc: Packages that are installed on your System but not categorized, yet.
-  packages: []
 - id: vm
   name: Virtual Machines
   desc: Tools for managing, emulating, and running virtual machines.
@@ -1409,4 +1405,8 @@
         Orion is a WebKit-based browser designed for macOS. It aims to be a fast,
         privacy-focused alternative to Safari with support for Chrome and Firefox extensions.
       id: homebrew/cask/orion
+- id: uncategorized
+  name: Uncategorized Packages
+  desc: Packages that are installed on your System but not categorized, yet.
+  packages: []
       

@@ -194,12 +194,12 @@ class PackageManager
   end
 
   def add_uncategorized_packages(remaining_packages)
-    uncategorized = @packages.find { |cat| cat['id'] == 'zzz-uncategorized' }
+    uncategorized = @packages.find { |cat| cat['id'] == 'uncategorized' }
     return unless uncategorized
 
     uncategorized['packages'] += remaining_packages.values.select { |pkg| pkg['installed_on_request'] }
     @packages.delete(uncategorized) if uncategorized['packages'].empty?
-    @packages.sort_by! { |cat| [cat['id'] == 'zzz-uncategorized' ? 1 : 0, cat['name'].downcase] }
+    @packages.sort_by! { |cat| [cat['id'] == 'uncategorized' ? 1 : 0, cat['name'].downcase] }
   end
 end
 
