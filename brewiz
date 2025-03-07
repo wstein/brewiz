@@ -239,7 +239,9 @@ class Homebrew
         'installed' => true,
         'installed_on_request' => is_cask || pkg['installed'].any? { |i| i['installed_on_request'] },
         'outdated' => pkg['outdated'],
-        'cask' => is_cask
+        'cask' => is_cask,
+        'versions' => is_cask ? [ pkg['version'] ] : pkg['installed'].map { |i| i['version'] },
+        'latest_version' => is_cask ? pkg['version'] : pkg['versions']['stable']
       }
     end
   end
