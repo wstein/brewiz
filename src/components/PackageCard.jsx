@@ -61,11 +61,6 @@ export function PackageCard(props) {
           )}
         </div>
         <div class="flex gap-2">
-          {props.pkg.tap && (
-            <span class="px-2 py-1 text-xs bg-blue-200 text-blue-800 rounded-full">
-              {props.pkg.tap}
-            </span>
-          )}
           {props.pkg.cask && (
             <span class="px-2 py-1 text-xs bg-purple-100 text-purple-800 rounded-full">
               Cask
@@ -95,11 +90,21 @@ export function PackageCard(props) {
               <div class="absolute z-50 hidden group-hover:block bg-gray-800 text-white text-sm rounded p-2 shadow-lg w-64 right-0 transform -translate-y-3/4">
                 <div>
                   {props.pkg.info}
-                  {props.pkg.versions && (
-                  <div class="mt-1 pt-1 border-t border-gray-600">
-                    Version: {props.pkg.versions}
-                    {props.pkg.outdated && <b><i> → {props.pkg.latest_version}</i></b>}
-                  </div>)}
+                  {(props.pkg.versions || props.pkg.tap) && (
+                    <div class="mt-1 pt-1 border-t border-gray-600">
+                      {props.pkg.versions && (
+                        <div>
+                          Version: {props.pkg.versions}
+                          {props.pkg.outdated && <b><i> → {props.pkg.latest_version}</i></b>}
+                        </div>
+                      )}
+                      {props.pkg.tap && (
+                        <div class={props.pkg.versions ? "mt-1" : ""}>
+                          Tap: {props.pkg.tap}
+                        </div>
+                      )}
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
