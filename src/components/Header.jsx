@@ -21,59 +21,55 @@ export function Header(props) {
     <div class="fixed top-0 left-0 right-0 bg-white shadow-md z-50">
       <div class="max-w-[1800px] mx-auto px-3 py-2">
         {/* Main Header Content */}
-        <div class="flex items-start gap-3">
-          <img src="/homebrew.svg" alt="Homebrew logo" class="w-16 h-16" />
+        <div class="flex items-start gap-3"><a href="https://github.com/wstein/brewiz" target="_blank" rel="noopener noreferrer" >
+          <img src="/homebrew.svg" alt="Homebrew logo" class="w-16 h-16" /></a>
           <div class="flex-grow">
             <div class="flex justify-between items-center">
-              <h1 class="text-2xl font-bold">Homebrew Package Wizard</h1>
+              <h1 class="text-2xl font-bold">
+              <a href="https://github.com/wstein/brewiz" target="_blank" rel="noopener noreferrer" 
+                   class="hover:text-gray-700 hover:underline">Homebrew Package Wizard</a></h1>
               <div class="flex gap-1">
                 <button
                   onClick={props.onRefresh}
                   disabled={props.loading || props.refreshing}
                   title="Refresh package list"
-                  class={`px-4 py-2 rounded-lg transition-colors flex items-center gap-2 ${
-                    props.loading || props.refreshing
-                      ? "bg-gray-300 cursor-not-allowed text-gray-500"
-                      : "bg-blue-500 hover:bg-blue-600 text-white"
-                  }`}
+                  class={`px-4 py-2 rounded-lg ${props.loading || props.refreshing
+                    ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                    : "bg-blue-500 hover:bg-blue-600 text-white"}`}
                 >
                   {(props.loading || props.refreshing) && (
-                    <span class="inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+                    <span class="inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-1"></span>
                   )}
                   Refresh
                 </button>
                 <button
                   onClick={props.onReset}
-                  disabled={props.selectedPackagesCount === 0}
-                  title="Clear all selected packages"
-                  class={`px-4 py-2 rounded-lg transition-colors ${
-                    props.selectedPackagesCount === 0
-                      ? "bg-gray-300 cursor-not-allowed text-gray-500"
-                      : "bg-red-500 hover:bg-red-600 text-white"
-                  }`}
+                  disabled={!props.selectedPackagesCount}
+                  title="Clear selected packages"
+                  class={`px-4 py-2 rounded-lg ${!props.selectedPackagesCount
+                    ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                    : "bg-red-500 hover:bg-red-600 text-white"}`}
                 >
                   Reset All
                 </button>
                 <button
                   onClick={handleClose}
                   title="Close Brewiz"
-                  class="px-4 py-2 rounded-lg transition-colors bg-gray-500 hover:bg-gray-600 text-white"
+                  class="px-4 py-2 rounded-lg bg-gray-500 hover:bg-gray-600 text-white"
                 >
                   Close
                 </button>
               </div>
             </div>
             <div class="flex justify-between items-center mt-1">
-              <p class="text-gray-600 text-sm">
-                Select packages to install on your macOS system
-              </p>
-              {props.version && (
-                <div class="text-xs text-gray-500">
-                  {FRONTEND_VERSION === props.version.brewiz
+              <p class="text-gray-600 text-sm">Select packages to install on your macOS system</p>
+              <div class="text-xs text-gray-500 flex items-center gap-2">
+                <span>
+                  {FRONTEND_VERSION === (props?.version?.brewiz || FRONTEND_VERSION)
                     ? `v${FRONTEND_VERSION}`
-                    : `brewiz v${props.version.brewiz} /  v${FRONTEND_VERSION}`}
-                </div>
-              )}
+                    : `brewiz v${props.version.brewiz} / v${FRONTEND_VERSION}`}
+                </span>
+              </div>
             </div>
           </div>
         </div>
