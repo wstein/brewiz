@@ -1,5 +1,7 @@
 #!/usr/bin/env ruby
 
+VERSION = '0.9.1'
+
 require 'json'
 require 'net/http'
 require 'open-uri'
@@ -296,6 +298,7 @@ def parse_options
 
   OptionParser.new do |opts|
     opts.banner = "Usage: brewiz [options]"
+    opts.on("-v", "--version", "Show version") { puts "brewiz #{VERSION}"; exit }
     opts.on("-d", "--dev", "Enable development mode") { options[:dev_mode] = true }
     opts.on("-a", "--address ADDRESS", "Address to run Server on") { |v| options[:address] = v }
     opts.on("-p", "--port PORT", Integer, "Port to run Server on") { |v| options[:port] = v }
