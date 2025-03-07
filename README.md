@@ -82,7 +82,7 @@ To create a production build:
 bun run build
 
 # Or using npm
-npm build
+npm run build
 ```
 
 The built files will be in the `dist` directory.
