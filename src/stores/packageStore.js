@@ -7,6 +7,7 @@ export function usePackageStore() {
   const [error, setError] = createSignal(null);
   const [refreshing, setRefreshing] = createSignal(false);
   const [usingLocalData, setUsingLocalData] = createSignal(false);
+  const [version, setVersion] = createSignal(null);
 
   const API_BASE = "/api/v1";
 
@@ -85,6 +86,16 @@ export function usePackageStore() {
     }
   };
 
+  const loadVersion = async () => {
+    try {
+      const data = await fetchData("/version");
+      setVersion(data);
+    } catch (error) {
+      console.warn("Failed to fetch version info:", error);
+      setError("Failed to load version info");
+    }
+  };
+
   const togglePackage = (pkg) => {
     const newSelected = new Set(selectedPackages());
     if (newSelected.has(pkg.name)) {
@@ -107,6 +118,8 @@ export function usePackageStore() {
     loadPackages,
     refreshPackages,
     resetSelection,
-    togglePackage
+    togglePackage,
+    version,
+    loadVersion,
   };
 }
