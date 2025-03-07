@@ -12,13 +12,18 @@ function App() {
     refreshing,
     usingLocalData,
     selectedPackages,
+    version,
     loadPackages,
     refreshPackages,
     resetSelection,
-    togglePackage
+    togglePackage,
+    loadVersion
   } = usePackageStore();
 
-  onMount(loadPackages);
+  onMount(() => {
+    loadPackages();
+    loadVersion();
+  });
 
   return (
     <div class="min-h-screen bg-gray-100">
@@ -26,6 +31,7 @@ function App() {
         loading={loading()}
         refreshing={refreshing()}
         error={error()}
+        version={version()}
         onRefresh={refreshPackages}
         onReset={resetSelection}
         selectedPackagesCount={selectedPackages().size}

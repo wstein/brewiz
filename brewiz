@@ -305,6 +305,10 @@ class RequestHandler < WEBrick::HTTPServlet::AbstractServlet
       json_response(response, @package_manager.packages)
     when '/api/v1/reload'
       json_response(response, @package_manager.reload)
+    when '/api/v1/version'
+      json_response(response, {
+        brewiz: VERSION,
+      })
     else
       handle_static_or_proxy(request, response)
     end
