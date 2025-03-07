@@ -10,6 +10,92 @@ require 'optparse'
 require 'webrick'
 require 'yaml'
 
+class Command
+  def self.commands
+    {
+      'start' => 'Start server in production mode',
+      'dev'   => 'Start server in development mode',
+      'build' => 'Build the frontend'
+    }
+  end
+
+  def self.run(args)
+    cmd = args.shift || 'start'
+    case cmd
+    when 'start', 'dev'
+      options = parse_options(args)
+      options[:dev_mode] = true if cmd == 'dev'
+      Server.new(options).start
+    when 'build'
+      build_frontend
+    when '-h', '--help'
+      show_help
+    when '-v', '--version'
+      puts "brewiz #{VERSION}"
+    else
+      puts "Unknown command: #{cmd}"
+      show_help
+      exit 1
+    end
+  end
+
+  private
+
+  def self.build_frontend
+    update_package_version
+    command = system('which bun >/dev/null') ? 'bun run build' : 'npm run build'
+    system(command, chdir: File.expand_path('..', __FILE__)) or exit(1)
+  end
+
+  def self.update_package_version
+    package_json_path = File.expand_path('../package.json', __FILE__)
+    package_json = JSON.parse(File.read(package_json_path))
+    package_json['version'] = VERSION
+    File.write(package_json_path, JSON.pretty_generate(package_json) + "\n")
+  end
+
+  def self.show_help
+    puts <<~HELP
+    brewiz #{VERSION} - Homebrew Package Manager UI
+
+    Usage: brewiz [command] [options]
+
+    Commands:
+      start       Start server in production mode
+      dev         Start server in development mode
+      build       Build the frontend
+      -h, --help  Show this help message
+      -v, --version Show version
+
+    Options for start/dev commands:
+    HELP
+    puts parse_options(['-h'])
+  end
+
+  def self.parse_options(args)
+    options = {
+      dev_mode: false,
+      port: 8047,
+      address: 'localhost',
+      dev_node_port: 8048,
+      packages_url: 'https://raw.githubusercontent.com/wstein/brewiz/refs/heads/main/data/packages.yaml'
+    }
+
+    OptionParser.new do |opts|
+      opts.banner = "Usage: brewiz [start|dev] [options]"
+      opts.on("-a", "--address ADDRESS", "Address to run Server on") { |v| options[:address] = v }
+      opts.on("-p", "--port PORT", Integer, "Port to run Server on") { |v| options[:port] = v }
+      opts.on("--dev-node-port PORT", Integer, "Port to use for frontend development server") { |v| options[:dev_node_port] = v }
+      opts.on("--packages-url URL", "URL to package list") { |v| options[:packages_url] = v }
+      opts.on("--packages-file PATH", "Path to local package list") { |v| options[:packages_file] = v }
+      opts.on("--no-open", "Don't open browser automatically") { options[:no_open] = true }
+      opts.on("-h", "--help") { puts opts; exit }
+    end.parse!(args)
+
+    options
+  end
+end
+
 class Server
   def initialize(options)
     @options = options
@@ -27,7 +113,7 @@ class Server
     @server.start
   end
 
-  private
+private
 
   def setup_server
     puts "Starting Server on http://#{@options[:address]}:#{@options[:port]}"
@@ -47,8 +133,8 @@ class Server
   end
 
   def start_dev_server
-    puts "Starting Frontend Dev Server on http://#{@options[:address]}:#{@options[:dev_port]}"
-    command = "#{system('which bun >/dev/null') ? 'bun' : 'npm run'} dev --port #{@options[:dev_port]}"
+    puts "Starting Frontend Dev Server on http://#{@options[:address]}:#{@options[:dev_node_port]}"
+    command = "#{system('which bun >/dev/null') ? 'bun' : 'npm run'} dev --port #{@options[:dev_node_port]}"
     pid = Process.spawn(command, chdir: File.expand_path('..', __FILE__))
 
     # Check for errors after 200ms
@@ -254,7 +340,7 @@ class RequestHandler < WEBrick::HTTPServlet::AbstractServlet
   def proxy_to_dev_server(request, response)
     return serve_homebrew_svg(response) if request.path == '/homebrew.svg'
 
-    uri = URI("http://#{@options[:address]}:#{@options[:dev_port]}#{request.path}")
+    uri = URI("http://#{@options[:address]}:#{@options[:dev_node_port]}#{request.path}")
     proxy_response = Net::HTTP.get_response(uri)
     copy_response(proxy_response, response)
   rescue StandardError => e
@@ -303,29 +389,4 @@ class RequestHandler < WEBrick::HTTPServlet::AbstractServlet
   end
 end
 
-def parse_options
-  options = {
-    dev_mode: false,
-    port: 8047,
-    address: 'localhost',
-    dev_port: 8048,
-    packages_url: 'https://raw.githubusercontent.com/wstein/brewiz/refs/heads/main/data/packages.yaml'
-  }
-
-  OptionParser.new do |opts|
-    opts.banner = "Usage: brewiz [options]"
-    opts.on("-v", "--version", "Show version") { puts "brewiz #{VERSION}"; exit }
-    opts.on("-d", "--dev", "Enable development mode") { options[:dev_mode] = true }
-    opts.on("-a", "--address ADDRESS", "Address to run Server on") { |v| options[:address] = v }
-    opts.on("-p", "--port PORT", Integer, "Port to run Server on") { |v| options[:port] = v }
-    opts.on("--dev-port PORT", Integer, "Frontend Dev Server port") { |v| options[:dev_port] = v }
-    opts.on("--packages-url URL", "URL to package list") { |v| options[:packages_url] = v }
-    opts.on("--packages-file PATH", "Path to local package list") { |v| options[:packages_file] = v }
-    opts.on("--no-open", "Don't open browser automatically") { options[:no_open] = true }
-    opts.on("-h", "--help") { puts opts; exit }
-  end.parse!
-
-  options
-end
-
-Server.new(parse_options).start if __FILE__ == $PROGRAM_NAME
+Command.run(ARGV) if __FILE__ == $PROGRAM_NAME
