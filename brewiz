@@ -11,30 +11,20 @@ require 'webrick'
 require 'yaml'
 
 class Command
-  def self.commands
-    {
-      'start' => 'Start server in production mode',
-      'dev'   => 'Start server in development mode',
-      'build' => 'Build the frontend'
-    }
-  end
+  COMMANDS = {
+    'start' => -> (args) { run_server(args) },
+    'dev'   => -> (args) { run_server(args, true) },
+    'build' => -> (_) { build_frontend },
+    '-h'    => -> (_) { show_help },
+    '--help'=> -> (_) { show_help },
+    '-v'    => -> (_) { puts "brewiz #{VERSION}" },
+    '--version' => -> (_) { puts "brewiz #{VERSION}" }
+  }
 
   def self.run(args)
     cmd = args.shift || 'start'
-    case cmd
-    when 'start', 'dev'
-      options = parse_options(args)
-      if cmd == 'dev'
-        options[:dev_mode] = true
-        options[:packages_file] = File.expand_path('../data/packages.yaml', __FILE__)
-      end
-      Server.new(options).start
-    when 'build'
-      build_frontend
-    when '-h', '--help'
-      show_help
-    when '-v', '--version'
-      puts "brewiz #{VERSION}"
+    if command = COMMANDS[cmd]
+      command.call(args)
     else
       puts "Unknown command: #{cmd}"
       show_help
@@ -43,6 +33,15 @@ class Command
   end
 
   private
+
+  def self.run_server(args, dev_mode = false)
+    options = parse_options(args)
+    if dev_mode
+      options[:dev_mode] = true
+      options[:packages_file] = File.expand_path('../data/packages.yaml', __FILE__)
+    end
+    Server.new(options).start
+  end
 
   def self.build_frontend
     update_package_version
