@@ -21,7 +21,7 @@ export function Header(props) {
     <div class="fixed top-0 left-0 right-0 bg-white shadow-md z-50">
       <div class="max-w-[1800px] mx-auto px-3 py-2">
         {/* Main Header Content */}
-        <div class="flex items-start gap-3"><a href="https://github.com/wstein/brewiz" target="_blank" rel="noopener noreferrer" >
+        <div class="flex items-start gap-3"><a href="https://brew.sh" target="_blank" rel="noopener noreferrer" >
           <img src="/homebrew.svg" alt="Homebrew logo" class="w-16 h-16" /></a>
           <div class="flex-grow">
             <div class="flex justify-between items-center">
