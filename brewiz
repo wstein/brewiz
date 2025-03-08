@@ -11,49 +11,45 @@ require 'webrick'
 require 'yaml'
 
 class Command
+  class CommandError < StandardError; end
+
   COMMANDS = {
-    'start' => -> (args) { run_server(args) },
-    'dev'   => -> (args) { run_server(args, true) },
+    'start' => -> (opts) { run_server(opts) },
+    'dev'   => -> (opts) { run_server(opts.merge(dev_mode: true)) },
     'build' => -> (_) { build_frontend },
     '-h'    => -> (_) { show_help },
     '--help'=> -> (_) { show_help },
-    '-v'    => -> (_) { puts "brewiz #{VERSION}" },
-    '--version' => -> (_) { puts "brewiz #{VERSION}" }
-  }
+    '-v'    => -> (_) { show_version },
+    '--version' => -> (_) { show_version }
+  }.freeze
 
   def self.run(args)
     cmd = args.shift || 'start'
     if command = COMMANDS[cmd]
-      command.call(args)
+      command.call(parse_options(args))
     else
-      puts "Unknown command: #{cmd}"
-      show_help
-      exit 1
+      raise CommandError, "Unknown command: #{cmd}"
     end
+  rescue CommandError => e
+    puts "Error: #{e.message}"
+    show_help
+    exit 1
   end
 
   private
 
-  def self.run_server(args, dev_mode = false)
-    options = parse_options(args)
-    if dev_mode
-      options[:dev_mode] = true
-      options[:packages_file] = File.expand_path('../data/packages.yaml', __FILE__)
-    end
+  def self.run_server(options)
     Server.new(options).start
   end
 
   def self.build_frontend
     update_package_version
-    command = system('which bun >/dev/null') ? 'bun run build' : 'npm run build'
-    system(command, chdir: File.expand_path('..', __FILE__)) or exit(1)
+    build_cmd = system('which bun >/dev/null') ? 'bun run build' : 'npm run build'
+    system(build_cmd, chdir: File.expand_path('..', __FILE__)) or raise CommandError, 'Build failed'
   end
 
-  def self.update_package_version
-    package_json_path = File.expand_path('../package.json', __FILE__)
-    package_json = JSON.parse(File.read(package_json_path))
-    package_json['version'] = VERSION
-    File.write(package_json_path, JSON.pretty_generate(package_json) + "\n")
+  def self.show_version
+    puts "brewiz #{VERSION}"
   end
 
   def self.show_help
@@ -72,6 +68,13 @@ class Command
     Options for start/dev commands:
     HELP
     puts parse_options(['-h'])
+  end
+
+  def self.update_package_version
+    package_json_path = File.expand_path('../package.json', __FILE__)
+    package_json = JSON.parse(File.read(package_json_path))
+    package_json['version'] = VERSION
+    File.write(package_json_path, JSON.pretty_generate(package_json) + "\n")
   end
 
   def self.parse_options(args)
@@ -122,19 +125,15 @@ class Server
     exit 1
   end
 
-private
+  private
 
   def setup_server
     puts "Starting Server on http://#{@options[:address]}:#{@options[:port]}"
-
-    # Configure access log based on dev mode
-    access_log = @options[:dev_mode] ? [[$stderr, WEBrick::AccessLog::COMBINED_LOG_FORMAT]] : []
-
     server = WEBrick::HTTPServer.new(
       Port: @options[:port],
       BindAddress: @options[:address],
       Logger: WEBrick::Log.new($stderr, WEBrick::Log::INFO),
-      AccessLog: access_log
+      AccessLog: @options[:dev_mode] ? [[$stderr, WEBrick::AccessLog::COMBINED_LOG_FORMAT]] : []
     )
     server.mount('/', RequestHandler, @homebrew, @package_manager, @options, @dev_server_pid)
     trap('INT') { server.shutdown }
