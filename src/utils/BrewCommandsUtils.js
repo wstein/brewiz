@@ -29,14 +29,15 @@ function addInstallCommands(commands, selectedPkgs) {
 
   const installCasks = toInstall
     .filter((p) => p.cask)
-    .map((p) => p.token || p.name)
+    .map((p) => {
+      return p.tap ? `${p.tap}/${p.token}` : p.token;
+    })
     .sort();
 
   const installFormulas = toInstall
     .filter((p) => !p.cask)
     .map((p) => {
-      const identifier = p.token || p.name;
-      return p.tap ? `${p.tap}/${identifier}` : identifier;
+      return p.tap ? `${p.tap}/${p.name}` : p.name;
     })
     .sort();
 
@@ -53,14 +54,18 @@ function addUninstallCommands(commands, selectedPkgs) {
   const toUninstall = selectedPkgs.filter((p) => p.installed);
 
   const uninstallCasks = toUninstall
-    .filter((p) => p.cask)
-    .map((p) => p.token || p.name)
-    .sort();
+  .filter((p) => p.cask)
+  .map((p) => {
+    return p.tap ? `${p.tap}/${p.token}` : p.token;
+  })
+  .sort();
 
   const uninstallFormulas = toUninstall
-    .filter((p) => !p.cask)
-    .map((p) => p.token || p.name)
-    .sort();
+  .filter((p) => !p.cask)
+  .map((p) => {
+    return p.tap ? `${p.tap}/${p.name}` : p.name;
+  })
+  .sort();
 
   if (uninstallFormulas.length) {
     commands.push(`brew uninstall ${uninstallFormulas.join(" ")}`);

@@ -63,13 +63,21 @@ export function PackageCard(props) {
         <div class="flex gap-2">
           {props.pkg.cask && (
             <span class="px-2 py-1 text-xs bg-purple-100 text-purple-800 rounded-full">
-              Cask
+              cask
+            </span>
+          )}
+          {props.pkg.tap && !['homebrew/core', 'homebrew/cask'].includes(props.pkg.tap) && (
+            <span class="px-2 py-1 text-xs bg-orange-100 text-orange-800 rounded-full group relative cursor-help">
+              tap
+              <div class="absolute hidden group-hover:block bg-gray-800 text-white text-xs rounded p-2 shadow-lg -top-8 left-1/2 transform -translate-x-1/2 whitespace-nowrap">
+                {props.pkg.tap}
+              </div>
             </span>
           )}
           {props.pkg.info && (
-            <div class="relative group">
+            <div class="relative group cursor-help">
               <div
-                class="text-gray-500 hover:text-gray-700 cursor-help"
+                class="text-gray-500 hover:text-gray-700"
                 onClick={(e) => e.stopPropagation()}
               >
                 <svg
@@ -96,11 +104,6 @@ export function PackageCard(props) {
                         <div>
                           Version: {props.pkg.versions}
                           {props.pkg.outdated && <b><i> → {props.pkg.latest_version}</i></b>}
-                        </div>
-                      )}
-                      {props.pkg.tap && (
-                        <div class={props.pkg.versions ? "mt-1" : ""}>
-                          Tap: {props.pkg.tap}
                         </div>
                       )}
                     </div>
