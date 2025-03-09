@@ -4,6 +4,8 @@ Brewiz is a modern web interface for managing Homebrew packages on macOS. It pro
 
 [![brewiz screenshot](docs/images/brewiz-small.png)](docs/images/brewiz-full.png)
 
+For an interactive demo you can visit: https://wstein.github.io/brewiz/app/dist/
+
 ## Features
 
 - 🎯 Visual package selection interface
@@ -24,7 +26,7 @@ alias brewiz='/usr/bin/ruby -e "$(curl -fsSL https://wstein.github.io/brewiz/bin
 Alternatively, you can download the script from GitHub and run it directly:
 
 ```bash
-curl -fsSL -O brewiz https://wstein.github.io/brewiz/bin/brewiz
+curl -fsSL -O brewiz [https://wstein.github.io/brewiz/bin/brewiz](https://wstein.github.io/brewiz/bin/brewiz)
 chmod +x brewiz
 ./brewiz
 ```
