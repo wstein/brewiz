@@ -347,7 +347,6 @@ class Server
   def port_open?
     Net::HTTP.get_response(URI("http://#{@options[:address]}:#{@options[:port]}")).is_a?(Net::HTTPSuccess)
   rescue StandardError
-    puts "Waiting for Server to start..."
     false
   end
 end
