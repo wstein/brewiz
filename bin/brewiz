@@ -207,9 +207,9 @@ class PackageManager
 
     @packages.each do |category|
       category['packages'].map! do |pkg|
-        pkg.merge(brew_info.delete(pkg['id']) || {})
-           .select { |k, v| v }
+        pkg.merge(brew_info.delete(pkg['id']) || {}).select { |_, v| v }
       end
+      category['packages'].sort_by! { |pkg| pkg['name'].downcase }
     end
 
     add_uncategorized_packages(brew_info)
