@@ -354,7 +354,6 @@
         tre is an improved version of the tree command, showing directory structures
         in a tree-like format. It's useful for visualizing file hierarchies and navigating
         directories more efficiently.
-      cask: false
     - name: fd
       desc: Simple, fast and user-friendly alternative to find
       homepage: https://github.com/sharkdp/fd
@@ -668,7 +667,6 @@
         trash is a command-line tool that moves files or folders to the trash instead
         of permanently deleting them. It provides a safer way to delete files and recover
         them if needed.
-      cask: false
     - name: EurKEY keyboard layout
       desc: Keyboard Layout for Europeans, Coders and Translators
       homepage: https://eurkey.steffen.bruentjen.eu/
@@ -695,6 +693,15 @@
   name: Media & Design
   desc: Tools for graphic design, illustration, diagramming, and 3D modeling.
   packages:
+    - name: graphviz
+      desc: Graph visualization software from AT&T and Bell Labs
+      homepage: https://www.graphviz.org/
+      recommended: true
+      info:
+        Graphviz is open-source graph visualization software. It's used to represent
+        structural information as diagrams of abstract graphs and networks, making it
+        useful for visualizing data structures and relationships.
+      id: homebrew/core/graphviz
     - name: ffmpeg
       id: homebrew/core/ffmpeg
       desc: Play, record, convert, and stream audio and video
@@ -704,7 +711,6 @@
         FFmpeg is a complete, cross-platform solution to record, convert, and stream
         audio and video. It includes libavcodec, an audio/video codec library, and libavformat,
         a multiplexer/demultiplexer library.
-      cask: false
     - name: draw.io Desktop
       desc: Online diagram software
       homepage: https://www.diagrams.net/
