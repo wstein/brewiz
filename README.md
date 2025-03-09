@@ -37,11 +37,25 @@ Now you can browse the available packages, select the ones you want to install, 
 
 ![alt text](https://brewiz.github.io/docs/images/brewiz-cmd.png)
 
+## Command Line Options
+
+```text
+Usage: brewiz [options]
+    -a, --address ADDRESS            Address to run Server on
+    -p, --port PORT                  Port to run Server on
+        --packages-url URL           URL to package list
+        --packages-file PATH         Path to local package list
+        --no-open                    Don't open browser automatically
+    -v, --version                    Show version
+    -h, --help                       Show this help message
+```
+
 ## Development
 
 ### Prerequisites
 
 - Node.js (v18 or higher)
+- Ruby (v2.6, v3 or higher)
 
 ### Setup
 
@@ -55,13 +69,13 @@ cd brewiz
 1. Install dependencies:
 
 ```bash
-npm install
+rake install
 ```
 
-3. Start the development server:
+1. Start the development server:
 
 ```bash
-npm dev
+rake dev
 ```
 
 The application will be available at `http://localhost:8048`
@@ -71,51 +85,14 @@ The application will be available at `http://localhost:8048`
 To create a production build:
 
 ```bash
-npm run build
+rake build
 ```
 
-The built files will be in the `dist` directory.
-
-## Usage
-
-### Starting the Application
-
-Brewiz can be started in different modes:
-
-```bash
-# Start both backend and frontend in production mode
-brewiz
-
-# Start in development mode (hot reloading enabled)
-brewiz dev
-```
-
-### Command Line Options
-
-```text
-Usage: brewiz [command] [options]
-
-Commands:
-  start       Start server in production mode
-  dev         Start server in development mode
-  build       Build the frontend
-  -h, --help  Show this help message
-  -v, --version Show version
-
-Options for start/dev commands:
-Usage: brewiz [start|dev] [options]
-    -a, --address ADDRESS            Address to run Server on
-    -p, --port PORT                  Port to run Server on
-        --dev-node-port PORT         Port to use for frontend development server
-        --packages-url URL           URL to package list
-        --packages-file PATH         Path to local package list
-        --no-open                    Don't open browser automatically
-    -h, --help
-```
+The built files will be in the `app/dist` and `bin` directory.
 
 ### Development Mode
 
-When started with `dev`:
+When started in dev mode:
 
 - Frontend hot module replacement (HMR) is enabled
 - Backend file watching for automatic restarts
