@@ -4,7 +4,7 @@ Brewiz is a modern web interface for managing Homebrew packages on macOS. It pro
 
 [![brewiz screenshot](docs/images/brewiz-small.png)](docs/images/brewiz-full.png)
 
-For an interactive demo you can visit: [brewiz.github.io/app/dist](https://brewiz.github.io/app/dist)
+For an interactive demo you can visit: [https://brewiz.github.io/app/dist](https://brewiz.github.io/app/dist)
 
 ## Features
 
