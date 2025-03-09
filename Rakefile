@@ -7,7 +7,7 @@ raise 'Invalid version format should be x.y.z' unless VERSION =~ /\d+\.\d+\.\d+$
 task default: :build
 
 desc 'Build all'
-task build: [:production, :update_version, :build_frontend]
+task build: [:update_version, :production, :build_frontend]
 
 desc 'Build production executable'
 task :production do
