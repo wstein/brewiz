@@ -45,10 +45,11 @@ end
 desc 'Update version'
 task :update_version do
   puts "Updating version to v#{VERSION}..."
-  puts 'Updating package.json...'
-  package = JSON.parse(File.read('package.json'))
-  package['version'] = VERSION
-  File.write('package.json', JSON.pretty_generate(package) + "\n")
+
+  puts 'Updating app/package.json files...'
+  app_package = JSON.parse(File.read('app/package.json'))
+  app_package['version'] = VERSION
+  File.write('app/package.json', JSON.pretty_generate(app_package) + "\n")
 
   puts 'Updating brewiz file...'
   brewiz_content = File.read('brewiz')
@@ -59,7 +60,7 @@ end
 desc 'Build frontend'
 task :build_frontend do
   puts 'Building frontend...'
-  system('npm run build') or raise 'Frontend build failed'
+  system('cd app && npm run build') or raise 'Frontend build failed'
   puts 'Frontend build complete'
 end
 
