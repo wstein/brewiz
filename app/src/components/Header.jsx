@@ -22,7 +22,7 @@ export function Header(props) {
       <div class="max-w-[1800px] mx-auto px-3 py-2">
         {/* Main Header Content */}
         <div class="flex items-start gap-3"><a href="https://brew.sh" target="_blank" rel="noopener noreferrer" >
-          <img src="/homebrew.svg" alt="Homebrew logo" class="w-16 h-16" /></a>
+          <img src="https://upload.wikimedia.org/wikipedia/commons/9/95/Homebrew_logo.svg" alt="Homebrew logo" class="w-16 h-16" /></a>
           <div class="flex-grow">
             <div class="flex justify-between items-center">
               <h1 class="text-2xl font-bold">
