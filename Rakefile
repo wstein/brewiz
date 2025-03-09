@@ -81,3 +81,16 @@ task :publish do
 
   puts "Successfully published v#{VERSION}"
 end
+
+desc 'Unpublish release'
+task :unpublish do
+  puts "Unpublishing version #{VERSION}..."
+
+  # Delete local tag
+  system("git tag -d v#{VERSION}") or raise 'Failed to delete local tag'
+
+  # Delete remote tag
+  system("git push origin :refs/tags/v#{VERSION}") or raise 'Failed to delete remote tag'
+
+  puts "Successfully unpublished v#{VERSION}"
+end
