@@ -64,7 +64,7 @@ class Command
     {
       port: 8047,
       address: 'localhost',
-      packages_url: 'https://raw.githubusercontent.com/wstein/brewiz/refs/heads/main/data/packages.yaml'
+      packages_url: 'https://brewiz.github.io/data/packages.yaml',
     }
   end
 
