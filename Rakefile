@@ -76,8 +76,16 @@ task :publish do
   raise 'Working directory is not clean' unless system('git diff-index --quiet HEAD --')
 
   # Create and push tag
-  system("git tag v#{VERSION}") or raise "Failed to create tag v#{VERSION}"
-  system('git push origin v#{VERSION}') or raise "Failed to push tag v#{VERSION}"
+  # Skip if tag already exists at HEAD
+  head_commit = `git rev-parse HEAD`.strip
+  tag_exists = system("git rev-parse -q --verify refs/tags/v#{VERSION} > /dev/null 2>&1")
+
+  if tag_exists && `git rev-parse v#{VERSION}`.strip == head_commit
+    puts "Tag v#{VERSION} already exists at HEAD, skipping tag creation"
+  else
+    system("git tag v#{VERSION}") or raise "Failed to create tag v#{VERSION}"
+  end
+  system("git push origin v#{VERSION}") or raise "Failed to push tag v#{VERSION}"
 
   puts "Successfully published v#{VERSION}"
 end
