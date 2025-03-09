@@ -39,19 +39,22 @@ task :production do
   puts "Build complete: #{output_path}"
 end
 
-desc 'Update package.json version from brewiz'
+desc 'Update version'
 task :update_version do
-  puts 'Updating package.json version...'
+  version = File.read('VERSION').strip.sub(/^v/, '')
+  raise 'Invalid version format should be x.y.z' unless version =~ /\d+\.\d+\.\d+$/
 
-  # Read VERSION from brewiz
-  version = File.read('brewiz').match(/VERSION = '(.+)'/)[1]
+  puts "Updating version to #{version}..."
+  puts 'Updating package.json...'
+  package = JSON.parse(File.read('package.json'))
+  package['version'] = version
+  File.write('package.json', JSON.pretty_generate(package) + "\n")
 
-  # Update package.json
-  package_json = JSON.parse(File.read('package.json'))
-  package_json['version'] = version
-  File.write('package.json', JSON.pretty_generate(package_json) + "\n")
+  puts 'Updating brewiz file...'
+  brewiz_content = File.read('brewiz')
+  brewiz_content.gsub!(/^VERSION = ['"].*?['"]$/, "VERSION = '#{version}'")
+  File.write('brewiz', brewiz_content)
 
-  puts "Updated version to #{version}"
 end
 
 desc 'Build frontend'
