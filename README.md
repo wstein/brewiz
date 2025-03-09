@@ -18,13 +18,13 @@ Brewiz is a modern web interface for managing Homebrew packages on macOS. It pro
 The easiest way to use Brewiz is to add the following alias to your shell configuration file (e.g., `~/.zshrc`) and then run `brewiz` in your terminal:
 
 ```bash
-alias brewiz='/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/wstein/brewiz/refs/heads/main/brewiz)" --'
+alias brewiz='/usr/bin/ruby -e "$(curl -fsSL https://wstein.github.io/brewiz/bin/brewiz)" --'
 ```
 
 Alternatively, you can download the script from GitHub and run it directly:
 
 ```bash
-curl -fsSL -O brewiz https://raw.githubusercontent.com/wstein/brewiz/refs/heads/main/brewiz
+curl -fsSL -O brewiz https://wstein.github.io/brewiz/bin/brewiz
 chmod +x brewiz
 ./brewiz
 ```
