@@ -3,22 +3,12 @@ class DevServer < Server
     @options = options
     @homebrew = Homebrew.new
     @package_manager = PackageManager.new(@homebrew, options)
-    @dev_server_pid = nil
-  end
-
-  def start
-    start_dev_server
-    super
-  rescue StandardError
-    Process.kill('TERM', @dev_server_pid) if @dev_server_pid
-    sleep(0.1) # Wait for dev server to terminate
-    raise
   end
 
   private
 
   def setup_server
-    puts "Starting Server on http://#{@options[:address]}:#{@options[:port]}"
+    node_server_port_open?
     server = WEBrick::HTTPServer.new(
       Port: @options[:port],
       BindAddress: @options[:address],
@@ -30,27 +20,10 @@ class DevServer < Server
     server
   end
 
-  def start_dev_server
-    puts "Starting Frontend Dev Server on http://#{@options[:address]}:#{@options[:dev_node_port]}"
-    command = "npm run dev -- --strictPort --port #{@options[:dev_node_port]}"
-    pid = Process.spawn(command, chdir: File.expand_path('../../app', __FILE__))
-
-    # Check for errors after 200ms
-    sleep(0.2)
-    begin
-      Process.getpgid(pid)
-    rescue Errno::ESRCH
-      puts <<~ERROR
-        Error: Dev server failed to start. Please check your frontend dependencies.
-
-        Please make sure you have checked out the project:
-
-          $ git clone https://github.com/wstein/brewiz.git
-          $ cd brewiz
-          $ npm install
-      ERROR
-      exit 1
-    end
-    @dev_server_pid = pid
+  def node_server_port_open?
+    Net::HTTP.get_response(URI("http://#{@options[:address]}:#{@options[:dev_node_port]}"))
+  rescue StandardError
+    puts "Error: Node server not running on http://#{@options[:address]}:#{@options[:dev_node_port]}"
+    exit 1
   end
 end

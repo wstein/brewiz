@@ -111,3 +111,18 @@ task :install do
   system('cd app && npm install') or raise 'Failed to install app dependencies'
   puts 'Dependencies installed'
 end
+
+desc 'Start development mode'
+task :dev do
+  puts 'Starting development environment...'
+
+  # Run frontend development server
+  pid = Process.spawn('npm run dev', chdir: File.expand_path('../app', __FILE__))
+
+  at_exit do
+    puts 'Shutting down development environment pid: ' + pid.to_s
+    Process.kill('TERM', pid) rescue nil
+  end
+
+  system('ruby brewiz --dev') or raise 'Brewiz execution failed'
+end

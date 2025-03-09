@@ -15,29 +15,14 @@ class Command
   class CommandError < StandardError; end
 
   def run(args)
-    cmd = args.shift || 'start'
-    if (command = commands[cmd])
-      command.call(parse_options(args))
-    else
-      raise CommandError, "Unknown command: #{cmd}"
-    end
-  rescue CommandError => e
+    run_server(parse_options(args))
+  rescue OptionParser::InvalidOption => e
     puts "Error: #{e.message}"
-    show_help
+    puts parse_options(["-h"])
     exit 1
   end
 
   private
-
-  def commands
-    {
-      'start' => -> (opts) { run_server(opts) },
-      '-h'    => -> (_) { show_help },
-      '--help'=> -> (_) { show_help },
-      '-v'    => -> (_) { show_version },
-      '--version' => -> (_) { show_version }
-    }.freeze
-  end
 
   def run_server(options)
     Server.new(options).start
@@ -45,32 +30,6 @@ class Command
 
   def show_version
     puts "brewiz #{VERSION}"
-  end
-
-  def show_help
-    puts <<~HELP
-      brewiz #{VERSION} - Homebrew Package Manager UI
-
-      Usage: brewiz [command] [options]
-
-      Commands:
-          #{command_help.join("\n    ")}
-
-      Options for #{command_options_help}:
-    HELP
-    puts parse_options(['-h'])
-  end
-
-  def command_help
-    [
-      "start         Start server in production mode",
-      "-h, --help    Show this help message",
-      "-v, --version Show version"
-    ]
-  end
-
-  def command_options_help
-    "start command"
   end
 
   def default_options
@@ -85,15 +44,12 @@ class Command
     options = default_options
 
     OptionParser.new do |opts|
-      opts.banner = "Usage: brewiz [#{command_usage}] [options]"
+      opts.banner = "Usage: brewiz [options]"
+
       add_options(opts, options)
     end.parse!(args)
 
     options
-  end
-
-  def command_usage
-    "start"
   end
 
   def add_options(opts, options)
@@ -102,7 +58,8 @@ class Command
     opts.on("--packages-url URL", "URL to package list") { |v| options[:packages_url] = v }
     opts.on("--packages-file PATH", "Path to local package list") { |v| options[:packages_file] = v }
     opts.on("--no-open", "Don't open browser automatically") { options[:no_open] = 1 }
-    opts.on("-h", "--help") { puts opts; exit }
+    opts.on("-v", "--version", "Show version") { show_version; exit }
+    opts.on("-h", "--help", "Show this help message") { puts opts; exit }
   end
 end
 
@@ -337,8 +294,7 @@ class Server
 
   def open_browser
     Thread.new do
-      puts "Waiting for Server to start..."
-      sleep(0.1) until port_open?
+      sleep(0.2) until port_open?
 
       puts "Opening http://#{@options[:address]}:#{@options[:port]} in your browser..."
       system('open', "http://#{@options[:address]}:#{@options[:port]}")

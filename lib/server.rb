@@ -35,8 +35,7 @@ class Server
 
   def open_browser
     Thread.new do
-      puts "Waiting for Server to start..."
-      sleep(0.1) until port_open?
+      sleep(0.2) until port_open?
 
       puts "Opening http://#{@options[:address]}:#{@options[:port]} in your browser..."
       system('open', "http://#{@options[:address]}:#{@options[:port]}")
