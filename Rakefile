@@ -75,16 +75,18 @@ task :publish do
   # Check if working directory is clean
   raise 'Working directory is not clean' unless system('git diff-index --quiet HEAD --')
 
-  # Create and push tag
-  # Skip if tag already exists at HEAD
-  head_commit = `git rev-parse HEAD`.strip
-  tag_exists = system("git rev-parse -q --verify refs/tags/v#{VERSION} > /dev/null 2>&1")
-
-  if tag_exists && `git rev-parse v#{VERSION}`.strip == head_commit
+  if tag_exists = system("git rev-parse -q --verify refs/tags/v#{VERSION} > /dev/null 2>&1")
+    head_commit = `git rev-parse HEAD`.strip
+    tag_commit = `git rev-parse v#{VERSION}`.strip
+    if head_commit != tag_commit
+      raise "Tag v#{VERSION} already exists at a different commit, you need to unpublish it first to publish again!"
+    end
     puts "Tag v#{VERSION} already exists at HEAD, skipping tag creation"
   else
     system("git tag v#{VERSION}") or raise "Failed to create tag v#{VERSION}"
   end
+
+  system('git push origin') or raise 'Failed to push to origin'
   system("git push origin v#{VERSION}") or raise "Failed to push tag v#{VERSION}"
 
   puts "Successfully published v#{VERSION}"
