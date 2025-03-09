@@ -40,7 +40,6 @@ Now you can browse the available packages, select the ones you want to install, 
 ### Prerequisites
 
 - Node.js (v18 or higher)
-- bun as package manager (optional)
 
 ### Setup
 
@@ -54,20 +53,12 @@ cd brewiz
 1. Install dependencies:
 
 ```bash
-# Using Bun
-bun install
-
-# Or using npm
 npm install
 ```
 
 3. Start the development server:
 
 ```bash
-# Using Bun
-bun dev
-
-# Or using npm
 npm dev
 ```
 
@@ -78,10 +69,6 @@ The application will be available at `http://localhost:8048`
 To create a production build:
 
 ```bash
-# Using Bun
-bun run build
-
-# Or using npm
 npm run build
 ```
 
