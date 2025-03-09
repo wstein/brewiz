@@ -1,0 +1,356 @@
+#!/usr/bin/env ruby
+
+VERSION = '0.9.3'
+
+require 'json'
+require 'logger'
+require 'net/http'
+require 'open-uri'
+require 'open3'
+require 'optparse'
+require 'webrick'
+require 'yaml'
+
+class Command
+  class CommandError < StandardError; end
+
+  def run(args)
+    cmd = args.shift || 'start'
+    if (command = commands[cmd])
+      command.call(parse_options(args))
+    else
+      raise CommandError, "Unknown command: #{cmd}"
+    end
+  rescue CommandError => e
+    puts "Error: #{e.message}"
+    show_help
+    exit 1
+  end
+
+  private
+
+  def commands
+    {
+      'start' => -> (opts) { run_server(opts) },
+      '-h'    => -> (_) { show_help },
+      '--help'=> -> (_) { show_help },
+      '-v'    => -> (_) { show_version },
+      '--version' => -> (_) { show_version }
+    }.freeze
+  end
+
+  def run_server(options)
+    Server.new(options).start
+  end
+
+  def show_version
+    puts "brewiz #{VERSION}"
+  end
+
+  def show_help
+    puts <<~HELP
+      brewiz #{VERSION} - Homebrew Package Manager UI
+
+      Usage: brewiz [command] [options]
+
+      Commands:
+          #{command_help.join("\n    ")}
+
+      Options for #{command_options_help}:
+    HELP
+    puts parse_options(['-h'])
+  end
+
+  def command_help
+    [
+      "start         Start server in production mode",
+      "-h, --help    Show this help message",
+      "-v, --version Show version"
+    ]
+  end
+
+  def command_options_help
+    "start command"
+  end
+
+  def default_options
+    {
+      port: 8047,
+      address: 'localhost',
+      packages_url: 'https://raw.githubusercontent.com/wstein/brewiz/refs/heads/main/data/packages.yaml'
+    }
+  end
+
+  def parse_options(args)
+    options = default_options
+
+    OptionParser.new do |opts|
+      opts.banner = "Usage: brewiz [#{command_usage}] [options]"
+      add_options(opts, options)
+    end.parse!(args)
+
+    options
+  end
+
+  def command_usage
+    "start"
+  end
+
+  def add_options(opts, options)
+    opts.on("-a", "--address ADDRESS", "Address to run Server on") { |v| options[:address] = v }
+    opts.on("-p", "--port PORT", Integer, "Port to run Server on") { |v| options[:port] = v }
+    opts.on("--packages-url URL", "URL to package list") { |v| options[:packages_url] = v }
+    opts.on("--packages-file PATH", "Path to local package list") { |v| options[:packages_file] = v }
+    opts.on("--no-open", "Don't open browser automatically") { options[:no_open] = 1 }
+    opts.on("-h", "--help") { puts opts; exit }
+  end
+end
+
+class Homebrew
+  def initialize
+    check_brew_installed
+  end
+
+  def info
+    puts "Getting local Packages..."
+    output = brew_cmd('info', '--installed', '--json=v2')
+    data = JSON.parse(output)
+    process_info(data['formulae'], false) + process_info(data['casks'], true)
+  end
+
+  def update
+    puts "Updating Homebrew..."
+    res = brew_cmd('update')
+    puts res if res.length > 0
+  end
+
+  private
+
+  def find_brew
+    ['/opt/homebrew/bin/brew', '/usr/local/bin/brew'].find { |path| File.exist?(path) }
+  end
+
+  def check_brew_installed
+    return if @brew = find_brew
+
+    puts <<~ERROR
+    Error: Homebrew is not installed!"
+
+    Check out https://docs.brew.sh/Installation to see how to install Homebrew and
+    follow the instructions. That'll finally get you to run this command:
+
+      $ curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh | bash -s
+    ERROR
+
+    exit 1
+  end
+
+  def brew_cmd(*args)
+    stdout, stderr, status = Open3.capture3(@brew, *args)
+    raise stderr unless status.success?
+    stdout
+  end
+
+  def process_info(packages, is_cask)
+    packages.map do |pkg|
+      {
+        'name' => is_cask ? pkg['name'][0] : pkg['name'],
+        'id' => "#{pkg['tap']}/#{is_cask ? pkg['token'] : pkg['name']}",
+        'desc' => pkg['desc'],
+        'homepage' => pkg['homepage'],
+        'installed' => true,
+        'installed_on_request' => is_cask || pkg['installed'].any? { |i| i['installed_on_request'] },
+        'outdated' => pkg['outdated'],
+        'cask' => is_cask,
+        'versions' => is_cask ? [ pkg['version'] ] : pkg['installed'].map { |i| i['version'] },
+        'latest_version' => is_cask ? pkg['version'] : pkg['versions']['stable']
+      }
+    end
+  end
+end
+
+class PackageManager
+  attr_reader :packages
+
+  def initialize(homebrew, options)
+    @homebrew = homebrew
+    @options = options
+  end
+
+  def reload
+    @packages = load_config
+    @homebrew.update
+    update_packages_with_brew_info
+    add_missing_infos
+    @packages
+  end
+
+  private
+
+  def add_missing_infos
+    @packages.each do |category|
+      category['packages'].each do |pkg|
+        tap = pkg['id'].rpartition('/')[0]
+        pkg['tap'] = tap unless ['homebrew/cask', 'homebrew/core'].include?(tap)
+      end
+    end
+  end
+
+  def load_config
+    source = @options[:packages_file] ? File.read(@options[:packages_file]) : URI.open(@options[:packages_url]).read
+    YAML.safe_load(source)
+  end
+
+  def update_packages_with_brew_info
+    brew_info = @homebrew.info.to_h { |pkg| [pkg['id'], pkg] }
+
+    @packages.each do |category|
+      category['packages'].map! do |pkg|
+        pkg.merge(brew_info.delete(pkg['id']) || {})
+           .reject { |k, v| !v }
+      end
+    end
+
+    add_uncategorized_packages(brew_info)
+  end
+
+  def add_uncategorized_packages(remaining_packages)
+    uncategorized = @packages.find { |cat| cat['id'] == 'uncategorized' }
+    return unless uncategorized
+
+    uncategorized['packages'] += remaining_packages.values.select { |pkg| pkg['installed_on_request'] }
+    @packages.delete(uncategorized) if uncategorized['packages'].empty?
+    @packages.sort_by! { |cat| [cat['id'] == 'uncategorized' ? 1 : 0, cat['name'].downcase] }
+  end
+end
+
+class RequestHandler < WEBrick::HTTPServlet::AbstractServlet
+  def initialize(server, homebrew, package_manager, options)
+    super(server)
+    @homebrew = homebrew
+    @package_manager = package_manager
+    @options = options
+  end
+
+  def do_GET(request, response)
+    case request.path
+    when '/api/v1/packages'
+      json_response(response, @package_manager.packages)
+    when '/api/v1/reload'
+      json_response(response, @package_manager.reload)
+    when '/api/v1/version'
+      json_response(response, {
+        brewiz: VERSION,
+      })
+    else
+      serve_static_file(request, response)
+    end
+  end
+
+  def do_POST(request, response)
+    case request.path
+    when '/api/v1/terminate'
+      @server.shutdown
+      json_response(response, { status: 'terminating' })
+    else
+      super
+    end
+  end
+
+  private
+
+  def json_response(response, data)
+    response['Content-Type'] = 'application/json'
+    response.body = data.to_json
+  end
+
+  def serve_static_file(request, response)
+    case request.path
+    when '/homebrew.svg'
+      serve_homebrew_svg(response)
+    when '/assets/index.js', '/assets/index.css', '/'
+      serve_github_file(request.path, response)
+    else
+      response.status = 404
+      json_response(response, {error: 'Not Found'})
+    end
+  end
+
+  def serve_homebrew_svg(response)
+    response['Content-Type'] = 'image/svg+xml'
+    response.body = URI.open('https://upload.wikimedia.org/wikipedia/commons/9/95/Homebrew_logo.svg').read
+  end
+
+  def serve_github_file(path, response)
+    path = "/index.html" if path == '/'
+    url = "https://raw.githubusercontent.com/wstein/brewiz/refs/tags/v#{VERSION}/dist#{path}"
+    URI.open(url) do |f|
+      response['Content-Type'] = determine_content_type(path)
+      response.body = f.read
+    end
+  end
+
+  def determine_content_type(path)
+    case File.extname(path)
+    when '.js' then 'application/javascript'
+    when '.css' then 'text/css'
+    else 'text/html'
+    end
+  end
+end
+
+class Server
+  def initialize(options)
+    @options = options
+    @homebrew = Homebrew.new
+    @package_manager = PackageManager.new(@homebrew, options)
+  end
+
+  def start
+    @package_manager.reload
+    @server = setup_server
+    open_browser unless @options[:no_open]
+    puts "Press Ctrl-C to stop"
+    @server.start
+  rescue Interrupt
+    @server.shutdown
+  rescue StandardError => e
+    puts "Error: #{e.message}"
+    exit 1
+  end
+
+  private
+
+  def setup_server
+    puts "Starting Server on http://#{@options[:address]}:#{@options[:port]}"
+    server = WEBrick::HTTPServer.new(
+      Port: @options[:port],
+      BindAddress: @options[:address],
+      Logger: WEBrick::Log.new($stderr, WEBrick::Log::INFO),
+      AccessLog: []
+    )
+    server.mount('/', RequestHandler, @homebrew, @package_manager, @options)
+    trap('INT') { server.shutdown }
+    server
+  end
+
+  def open_browser
+    Thread.new do
+      puts "Waiting for Server to start..."
+      sleep(0.1) until port_open?
+
+      puts "Opening http://#{@options[:address]}:#{@options[:port]} in your browser..."
+      system('open', "http://#{@options[:address]}:#{@options[:port]}")
+    end
+  end
+
+  def port_open?
+    Net::HTTP.get_response(URI("http://#{@options[:address]}:#{@options[:port]}")).is_a?(Net::HTTPSuccess)
+  rescue StandardError
+    puts "Waiting for Server to start..."
+    false
+  end
+end
+
+
+Command.new.run(ARGV)
