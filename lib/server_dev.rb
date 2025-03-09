@@ -33,7 +33,7 @@ class DevServer < Server
   def start_dev_server
     puts "Starting Frontend Dev Server on http://#{@options[:address]}:#{@options[:dev_node_port]}"
     command = "npm run dev -- --strictPort --port #{@options[:dev_node_port]}"
-    pid = Process.spawn(command, chdir: File.expand_path('..', __FILE__))
+    pid = Process.spawn(command, chdir: File.expand_path('../../app', __FILE__))
 
     # Check for errors after 200ms
     sleep(0.2)
