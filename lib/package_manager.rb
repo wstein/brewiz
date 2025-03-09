@@ -36,7 +36,7 @@ class PackageManager
     @packages.each do |category|
       category['packages'].map! do |pkg|
         pkg.merge(brew_info.delete(pkg['id']) || {})
-           .reject { |k, v| !v }
+           .select { |k, v| v }
       end
     end
 
