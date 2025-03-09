@@ -2,7 +2,7 @@
 
 Brewiz is a modern web interface for managing Homebrew packages on macOS. It provides an intuitive way to browse, select, and generate Homebrew commands for package installation and management.
 
-[![brewiz screenshot](docs/images/brewiz-small.png)](docs/images/brewiz-full.png)
+[![brewiz screenshot](https://brewiz.github.io/docs/images/brewiz-small.png)](https://brewiz.github.io/docs/images/brewiz-full.png)
 
 For an interactive demo you can visit: [https://brewiz.github.io/app/dist](https://brewiz.github.io/app/dist)
 
@@ -20,13 +20,13 @@ For an interactive demo you can visit: [https://brewiz.github.io/app/dist](https
 The easiest way to use Brewiz is to add the following alias to your shell configuration file (e.g., `~/.zshrc`) and then run `brewiz` in your terminal:
 
 ```bash
-alias brewiz='/usr/bin/ruby -e "$(curl -fsSL https://wstein.github.io/brewiz/bin/brewiz)" --'
+alias brewiz='/usr/bin/ruby -e "$(curl -fsSL https://brewiz.github.io/bin/brewiz)" --'
 ```
 
 Alternatively, you can download the script from GitHub and run it directly:
 
 ```bash
-curl -fsSL -O brewiz [https://wstein.github.io/brewiz/bin/brewiz](https://wstein.github.io/brewiz/bin/brewiz)
+curl -fsSL -O brewiz https://brewiz.github.io/bin/brewiz
 chmod +x brewiz
 ./brewiz
 ```
@@ -35,7 +35,7 @@ The Script will start the Brewiz server and open the application in your default
 
 Now you can browse the available packages, select the ones you want to install, and copy the generated command to your terminal.
 
-![alt text](docs/images/brewiz-cmd.png)
+![alt text](https://brewiz.github.io/docs/images/brewiz-cmd.png)
 
 ## Development
 
@@ -137,4 +137,4 @@ In production mode:
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE](https://raw.githubusercontent.com/wstein/brewiz/refs/heads/main/LICENSE) file for details.
