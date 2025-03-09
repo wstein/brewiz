@@ -13,9 +13,6 @@ desc 'Build production executable'
 task :production do
   puts 'Building production executable...'
 
-  # Create dist directory
-  FileUtils.mkdir_p('dist')
-
   # Read main file
   content = File.read('brewiz')
 
@@ -104,4 +101,13 @@ task :unpublish do
   system("git push origin :refs/tags/v#{VERSION}") or raise 'Failed to delete remote tag'
 
   puts "Successfully unpublished v#{VERSION}"
+end
+
+desc 'Install dependencies'
+task :install do
+  puts 'Installing Gem dependencies...'
+  system('bundle install') or raise 'Failed to install Gem dependencies'
+  puts 'Installing Node.JS dependencies...'
+  system('cd app && npm install') or raise 'Failed to install app dependencies'
+  puts 'Dependencies installed'
 end
