@@ -1,6 +1,9 @@
 require 'fileutils'
 require 'json'
 
+VERSION = File.read('VERSION').strip.sub(/^v/, '')
+raise 'Invalid version format should be x.y.z' unless VERSION =~ /\d+\.\d+\.\d+$/
+
 task default: :build
 
 desc 'Build all'
@@ -41,20 +44,16 @@ end
 
 desc 'Update version'
 task :update_version do
-  version = File.read('VERSION').strip.sub(/^v/, '')
-  raise 'Invalid version format should be x.y.z' unless version =~ /\d+\.\d+\.\d+$/
-
-  puts "Updating version to #{version}..."
+  puts "Updating version to v#{VERSION}..."
   puts 'Updating package.json...'
   package = JSON.parse(File.read('package.json'))
-  package['version'] = version
+  package['version'] = VERSION
   File.write('package.json', JSON.pretty_generate(package) + "\n")
 
   puts 'Updating brewiz file...'
   brewiz_content = File.read('brewiz')
-  brewiz_content.gsub!(/^VERSION = ['"].*?['"]$/, "VERSION = '#{version}'")
+  brewiz_content.gsub!(/^VERSION = ['"].*?['"]$/, "VERSION = '#{VERSION}'")
   File.write('brewiz', brewiz_content)
-
 end
 
 desc 'Build frontend'
@@ -67,4 +66,18 @@ end
 desc 'Clean build artifacts'
 task :clean do
   FileUtils.rm_rf('dist')
+end
+
+desc 'Publish release'
+task :publish do
+  puts "Publishing version #{VERSION}..."
+
+  # Check if working directory is clean
+  raise 'Working directory is not clean' unless system('git diff-index --quiet HEAD --')
+
+  # Create and push tag
+  system("git tag v#{VERSION}") or raise "Failed to create tag v#{VERSION}"
+  system('git push origin v#{VERSION}') or raise "Failed to push tag v#{VERSION}"
+
+  puts "Successfully published v#{VERSION}"
 end
