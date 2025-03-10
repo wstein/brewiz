@@ -200,6 +200,15 @@
         based on devcontainer.json. It allows you to develop consistently across different
         machines and environments.
       id: homebrew/cask/devpod
+    - name: lazydocker
+      desc: Lazier way to manage everything docker
+      homepage: https://github.com/jesseduffield/lazydocker
+      recommended: true
+      info:
+        Lazydocker is a terminal UI for managing Docker containers and services.
+        It provides an easy-to-use interface for viewing logs, managing containers,
+        and monitoring resource usage.
+      id: homebrew/core/lazydocker
     - name: dive
       desc: Tool for exploring each layer in a docker image
       homepage: https://github.com/wagoodman/dive
@@ -1425,4 +1434,3 @@
   name: Uncategorized Packages
   desc: Packages that are installed on your System but not categorized, yet.
   packages: []
-      
