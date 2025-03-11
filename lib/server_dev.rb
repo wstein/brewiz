@@ -21,9 +21,9 @@ class DevServer < Server
   end
 
   def node_server_port_open?
-    Net::HTTP.get_response(URI("http://#{@options[:address]}:#{@options[:dev_node_port]}"))
+    Net::HTTP.get_response(URI(@options[:app_url]))
   rescue StandardError
-    puts "Error: Node server not running on http://#{@options[:address]}:#{@options[:dev_node_port]}"
+    puts "Error: Node server not running on #{@options[:app_url]}"
     exit 1
   end
 end

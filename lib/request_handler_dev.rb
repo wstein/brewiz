@@ -25,7 +25,7 @@ class DevRequestHandler < RequestHandler
   def proxy_to_dev_server(request, response)
     return serve_homebrew_svg(response) if request.path == '/homebrew.svg'
 
-    uri = URI("http://#{@options[:address]}:#{@options[:dev_node_port]}#{request.path}")
+    uri = URI(options[:app_url] + request.path)
     proxy_response = Net::HTTP.get_response(uri)
     copy_response(proxy_response, response)
   rescue StandardError => e

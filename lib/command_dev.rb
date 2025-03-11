@@ -11,13 +11,20 @@ class DevCommand < Command
 
   def default_options
     super.merge(
-      dev_node_port: 8048,
+      dev_mode: false,
+      app_url_override: "http://localhost:8048"
     )
   end
 
+  def parse_options(args)
+    options = super(args)
+    options[:app_url] = options[:app_url_override] if options[:dev_mode]
+    options
+  end
+
   def add_options(opts, options)
+    opts.on("--app-url URL", "URL for frontend assets") { |v| options[:app_url_override] = v }
     opts.on("-d", "--dev", "Run in development mode") { |v| options[:dev_mode] = v }
-    opts.on("--dev-node-port PORT", Integer, "Port to use for frontend development server") { |v| options[:dev_node_port] = v }
-    super
+    super(opts, options)
   end
 end

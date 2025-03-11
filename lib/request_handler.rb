@@ -57,7 +57,7 @@ class RequestHandler < WEBrick::HTTPServlet::AbstractServlet
 
   def serve_github_file(path, response)
     path = "/index.html" if path == '/'
-    url = "https://raw.githubusercontent.com/brewiz/brewiz.github.io/refs/tags/v#{VERSION}/app/dist#{path}"
+    url = "#{@options[:app_url]}#{path}"
     URI.open(url) do |f|
       response['Content-Type'] = determine_content_type(path)
       response.body = f.read

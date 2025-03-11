@@ -24,6 +24,7 @@ class Command
       port: 8047,
       address: 'localhost',
       packages_yaml: 'https://brewiz.github.io/data/packages.yaml',
+      app_url: "https://raw.githubusercontent.com/brewiz/brewiz.github.io/refs/tags/v#{VERSION}/app/dist",
     }
   end
 
