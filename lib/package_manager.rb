@@ -26,8 +26,13 @@ class PackageManager
   end
 
   def load_config
-    source = @options[:packages_file] ? File.read(@options[:packages_file]) : URI.open(@options[:packages_url]).read
-    YAML.safe_load(source)
+    YAML.safe_load(
+      if @options[:packages_yaml].start_with?('http')
+        URI.open(@options[:packages_yaml]).read
+      else
+        File.read(@options[:packages_yaml])
+      end
+    )
   end
 
   def update_packages_with_brew_info

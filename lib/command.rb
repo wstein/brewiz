@@ -23,7 +23,7 @@ class Command
     {
       port: 8047,
       address: 'localhost',
-      packages_url: 'https://brewiz.github.io/data/packages.yaml',
+      packages_yaml: 'https://brewiz.github.io/data/packages.yaml',
     }
   end
 
@@ -42,8 +42,7 @@ class Command
   def add_options(opts, options)
     opts.on("-a", "--address ADDRESS", "Address to run Server on") { |v| options[:address] = v }
     opts.on("-p", "--port PORT", Integer, "Port to run Server on") { |v| options[:port] = v }
-    opts.on("--packages-url URL", "URL to package list") { |v| options[:packages_url] = v }
-    opts.on("--packages-file PATH", "Path to local package list") { |v| options[:packages_file] = v }
+    opts.on("--packages LOCATION", "URL or file path to packages.yaml package list") { |v| options[:packages_yaml] = v }
     opts.on("--no-open", "Don't open browser automatically") { options[:no_open] = 1 }
     opts.on("-v", "--version", "Show version") { show_version; exit }
     opts.on("-h", "--help", "Show this help message") { puts opts; exit }
