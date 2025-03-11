@@ -39,7 +39,7 @@ task :production do
   puts "Build complete: #{output_path}"
 end
 
-desc 'Update version'
+desc 'Update version in files'
 task :update_version do
   puts "Updating version to v#{VERSION}..."
 
@@ -54,7 +54,7 @@ task :update_version do
   File.write('brewiz', brewiz_content)
 end
 
-desc 'Build frontend'
+desc 'Build Solid.js frontend'
 task :build_frontend do
   puts 'Building frontend...'
   system('cd app && npm run build') or raise 'Frontend build failed'
@@ -66,7 +66,7 @@ task :clean do
   FileUtils.rm_rf('dist')
 end
 
-desc 'Publish release'
+desc 'Publish new release'
 task :publish do
   puts "Publishing version #{VERSION}..."
 
@@ -90,7 +90,7 @@ task :publish do
   puts "Successfully published v#{VERSION}"
 end
 
-desc 'Unpublish release'
+desc 'Unpublish current release'
 task :unpublish do
   puts "Unpublishing version #{VERSION}..."
 
