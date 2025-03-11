@@ -21,12 +21,13 @@ class Server
   private
 
   def setup_server
+    frontend_server_port_open?
     puts "Starting Server on http://#{@options[:address]}:#{@options[:port]}"
     server = WEBrick::HTTPServer.new(
       Port: @options[:port],
       BindAddress: @options[:address],
       Logger: WEBrick::Log.new($stderr, WEBrick::Log::INFO),
-      AccessLog: []
+      AccessLog: @options[:access_log] ? [[$stderr, WEBrick::AccessLog::COMBINED_LOG_FORMAT]] : []
     )
     server.mount('/', RequestHandler, @homebrew, @package_manager, @options)
     trap('INT') { server.shutdown }
@@ -46,5 +47,12 @@ class Server
     Net::HTTP.get_response(URI("http://#{@options[:address]}:#{@options[:port]}")).is_a?(Net::HTTPSuccess)
   rescue StandardError
     false
+  end
+
+  def frontend_server_port_open?
+    Net::HTTP.get_response(URI(@options[:app_url]))
+  rescue StandardError
+    puts "Error: Node server not running on #{@options[:app_url]}"
+    exit 1
   end
 end

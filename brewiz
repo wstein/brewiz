@@ -16,8 +16,6 @@ require_relative 'lib/command_dev' # DEVELOPMENT ONLY
 require_relative 'lib/homebrew'
 require_relative 'lib/package_manager'
 require_relative 'lib/request_handler'
-require_relative 'lib/request_handler_dev' # DEVELOPMENT ONLY
 require_relative 'lib/server'
-require_relative 'lib/server_dev' # DEVELOPMENT ONLY
 
 DevCommand.new.run(ARGV) # FOR PRODUCTION REPLACED WITH Command.new.run(ARGV)

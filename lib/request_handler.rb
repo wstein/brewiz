@@ -42,11 +42,10 @@ class RequestHandler < WEBrick::HTTPServlet::AbstractServlet
     case request.path
     when '/homebrew.svg'
       serve_homebrew_svg(response)
-    when '/assets/index.js', '/assets/index.css', '/'
-      serve_github_file(request.path, response)
+    when '/'
+      serve_frontend_assets('/index.html', response)
     else
-      response.status = 404
-      json_response(response, {error: 'Not Found'})
+      serve_frontend_assets(request.path, response)
     end
   end
 
@@ -55,20 +54,22 @@ class RequestHandler < WEBrick::HTTPServlet::AbstractServlet
     response.body = URI.open('https://upload.wikimedia.org/wikipedia/commons/9/95/Homebrew_logo.svg').read
   end
 
-  def serve_github_file(path, response)
-    path = "/index.html" if path == '/'
-    url = "#{@options[:app_url]}#{path}"
-    URI.open(url) do |f|
-      response['Content-Type'] = determine_content_type(path)
-      response.body = f.read
+  def serve_frontend_assets(path, response)
+    URI.open(@options[:app_url] + path) do |proxy|
+      response['Content-Type'] = determine_content_type(path, proxy.content_type)
+      response.body = proxy.read
     end
   end
 
-  def determine_content_type(path)
-    case File.extname(path)
-    when '.js' then 'application/javascript'
-    when '.css' then 'text/css'
-    else 'text/html'
+  def determine_content_type(path, type)
+    if type == 'text/plain'
+      case File.extname(path)
+      when '.js' then 'application/javascript'
+      when '.css' then 'text/css'
+      else 'text/html'
+      end
+    else
+      type
     end
   end
 end
