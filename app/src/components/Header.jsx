@@ -66,8 +66,8 @@ export function Header(props) {
               <div class="text-xs text-gray-500 flex items-center gap-2">
                 <span>
                   {FRONTEND_VERSION === (props?.version?.brewiz || FRONTEND_VERSION)
-                    ? `v${FRONTEND_VERSION}`
-                    : `brewiz v${props.version.brewiz} / v${FRONTEND_VERSION}`}
+                    ? <a href={`https://github.com/wstein/brewiz/tree/v${FRONTEND_VERSION}`} target="_blank" rel="noopener noreferrer" class="hover:text-gray-700 hover:underline">brewiz v{FRONTEND_VERSION}</a>
+                    : `brewiz v${props.version.brewiz} / app v${FRONTEND_VERSION}`}
                 </span>
               </div>
             </div>
