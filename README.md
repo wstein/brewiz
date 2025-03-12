@@ -1,5 +1,12 @@
 # Brewiz - Homebrew Package Wizard
 
+[![Version](https://img.shields.io/badge/version-0.9.7-blue.svg)](https://github.com/wstein/brewiz/releases)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![macOS](https://img.shields.io/badge/platform-macOS-lightgrey.svg)](https://www.apple.com/macos)
+[![Ruby](https://img.shields.io/badge/ruby-%3E%3D%202.6-red.svg)](https://www.ruby-lang.org/)
+[![Node.js](https://img.shields.io/badge/node-%3E%3D%2018.0.0-green.svg)](https://nodejs.org/)
+[![Homebrew](https://img.shields.io/badge/homebrew-required-orange.svg)](https://brew.sh/)
+
 Brewiz is a modern web interface for managing Homebrew packages on macOS. It provides an intuitive way to browse, select, and generate Homebrew commands for package installation and management.
 
 [![brewiz screenshot](https://brewiz.github.io/docs/images/brewiz-small.png)](https://brewiz.github.io/docs/images/brewiz-full.png)
@@ -17,25 +24,52 @@ For an interactive demo you can visit: [https://brewiz.github.io/app/dist](https
 
 ## Usage
 
-The easiest way to use Brewiz is to add the following alias to your shell configuration file (e.g., `~/.zshrc`) and then run `brewiz` in your terminal:
+> **Note:** Brewiz requires Homebrew to be installed on your system. If you don't have Homebrew yet, visit [brew.sh](https://brew.sh) to install it first.
+
+### Quick Setup
+
+The easiest way to use Brewiz is to add this alias to your shell configuration file (e.g., `~/.zshrc`):
 
 ```bash
 alias brewiz='/usr/bin/ruby -e "$(curl -fsSL https://brewiz.github.io/bin/brewiz)" --'
 ```
 
-Alternatively, you can download the script from GitHub and run it directly:
+Then simply run `brewiz` in your terminal.
+
+### One-Time Use
+
+If you prefer not to install anything, you can run it directly:
 
 ```bash
-curl -fsSL -O brewiz https://brewiz.github.io/bin/brewiz
+/usr/bin/ruby -e "$(curl -fsSL https://brewiz.github.io/bin/brewiz)"
+```
+
+### Local Installation
+
+For offline use or customization:
+
+```bash
+# Download the script
+curl -fsSL -o brewiz https://brewiz.github.io/bin/brewiz
 chmod +x brewiz
+
+# Run it
 ./brewiz
 ```
 
-The Script will start the Brewiz server and open the application in your default browser. If the browser does not open automatically, you can navigate to `http://localhost:8047` manually. The Brewiz server will run in the background until you stop it.
+### How It Works
 
-Now you can browse the available packages, select the ones you want to install, and copy the generated command to your terminal.
+1. When you run Brewiz, it starts a local web server and opens your browser
+2. You'll see all available Homebrew packages organized by category
+3. **Color coding:**
+   - Blue packages are already installed
+   - White packages are available to install
+   - Click to toggle selection (green = will install, red = will uninstall)
+4. The command panel at the bottom shows what will be executed
+5. Click "Copy" to copy the commands to your clipboard
+6. Paste into your terminal to execute
 
-![alt text](https://brewiz.github.io/docs/images/brewiz-cmd.png)
+![Brewiz Command Panel](https://brewiz.github.io/docs/images/brewiz-cmd.png)
 
 ## Command Line Options
 
@@ -43,8 +77,7 @@ Now you can browse the available packages, select the ones you want to install, 
 Usage: brewiz [options]
     -a, --address ADDRESS            Address to run Server on
     -p, --port PORT                  Port to run Server on
-        --packages-url URL           URL to package list
-        --packages-file PATH         Path to local package list
+        --packages LOCATION          URL or file path to packages list
         --no-open                    Don't open browser automatically
     -v, --version                    Show version
     -h, --help                       Show this help message
@@ -66,19 +99,23 @@ git clone https://github.com/wstein/brewiz.git
 cd brewiz
 ```
 
-1. Install dependencies:
+2. Install dependencies:
 
 ```bash
 rake install
 ```
 
-1. Start the development server:
+3. Start the development server:
 
 ```bash
 rake dev
 ```
 
 The application will be available at `http://localhost:8048`
+
+### Version Management
+
+Brewiz uses a central `VERSION` file at the root of the project to manage version information across all components:
 
 ### Building for Production
 
@@ -90,14 +127,50 @@ rake build
 
 The built files will be in the `app/dist` and `bin` directory.
 
+### Rake Tasks
+
+| Task | Description |
+|------|-------------|
+| `rake build` | Build production executable and frontend |
+| `rake update_version` | Update version in all files |
+| `rake build_frontend` | Build only the frontend |
+| `rake clean` | Remove build artifacts |
+| `rake install` | Install dependencies |
+| `rake dev` | Start development environment |
+| `rake publish` | Create and push a new version tag |
+| `rake unpublish` | Remove the current version tag |
+
 ### Development Mode
 
-When started in dev mode:
+When started in dev mode (`rake dev`), Brewiz runs two separate processes that work together:
 
-- Frontend hot module replacement (HMR) is enabled
-- Backend file watching for automatic restarts
-- Source maps are enabled
-- Development tools and logging are activated
+#### Backend Ruby Server
+
+- Acts as the entry point for the application
+- Runs on port 8047 (<http://localhost:8047>)
+- Started with the `--dev` flag: `ruby brewiz --dev`
+- Provides real Homebrew data via API endpoints (`/api/v1/*`)
+- Handles package management operations through the Homebrew CLI
+- In development mode, proxies frontend asset requests to the Vite dev server
+- Changes to backend code require manual restart of the server
+
+#### Frontend Development Server
+
+- Runs on port 8048 (<http://localhost:8048>)
+- Started automatically by the `rake dev` task
+- Powered by Vite with hot module replacement (HMR)
+- Serves the SolidJS application with live reloading
+- Source maps are enabled for easier debugging
+- Changes to components and styles are reflected instantly without page reloads
+
+#### Development Workflow
+
+1. The `rake dev` task starts both servers in the correct order
+2. The backend server (`brewiz --dev`) connects to the frontend dev server
+3. Make changes to backend Ruby code and restart when needed
+4. Make changes to frontend code and see them immediately
+5. API requests from the frontend are handled by the backend server
+6. The Rake task handles proper startup/shutdown of both servers
 
 ### Production Mode
 
@@ -111,6 +184,7 @@ In production mode:
 - [SolidJS](https://www.solidjs.com/) - Frontend framework
 - [Tailwind CSS](https://tailwindcss.com/) - Styling
 - [Vite](https://vitejs.dev/) - Build tool
+- [Ruby](https://www.ruby-lang.org/) - Backend server
 
 ## License
 
