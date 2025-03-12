@@ -77,7 +77,8 @@ chmod +x brewiz
 Usage: brewiz [options]
     -a, --address ADDRESS            Address to run Server on
     -p, --port PORT                  Port to run Server on
-        --packages LOCATION          URL or file path to packages list
+    -c, --cache                      Enable caching of brew info results
+        --packages LOCATION          URL or file path to packages.yaml package list
         --no-open                    Don't open browser automatically
     -v, --version                    Show version
     -h, --help                       Show this help message
@@ -111,7 +112,7 @@ rake install
 rake dev
 ```
 
-The application will be available at `http://localhost:8048`
+The application will be available at `http://localhost:8047`
 
 ### Version Management
 
