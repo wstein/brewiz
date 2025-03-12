@@ -28,37 +28,75 @@ export function Header(props) {
               <h1 class="text-2xl font-bold">
               <a href="https://github.com/wstein/brewiz" target="_blank" rel="noopener noreferrer" 
                    class="hover:text-gray-700 hover:underline">Homebrew Package Wizard</a></h1>
-              <div class="flex gap-1">
-                <button
-                  onClick={props.onRefresh}
-                  disabled={props.loading || props.refreshing}
-                  title="Refresh package list"
-                  class={`px-4 py-2 rounded-lg ${props.loading || props.refreshing
-                    ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                    : "bg-blue-500 hover:bg-blue-600 text-white"}`}
-                >
-                  {(props.loading || props.refreshing) && (
-                    <span class="inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-1"></span>
-                  )}
-                  Refresh
-                </button>
-                <button
-                  onClick={props.onReset}
-                  disabled={!props.selectedPackagesCount}
-                  title="Clear selected packages"
-                  class={`px-4 py-2 rounded-lg ${!props.selectedPackagesCount
-                    ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                    : "bg-red-500 hover:bg-red-600 text-white"}`}
-                >
-                  Reset All
-                </button>
-                <button
-                  onClick={handleClose}
-                  title="Close Brewiz"
-                  class="px-4 py-2 rounded-lg bg-gray-500 hover:bg-gray-600 text-white"
-                >
-                  Close
-                </button>
+              <div class="flex items-center gap-3">
+                <div class="relative">
+                  <input
+                    type="text"
+                    placeholder="Search packages..."
+                    value={props.searchTerm()}
+                    onInput={(e) => props.onSearch(e.target.value)}
+                    class="w-64 px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+                <div class="flex gap-2">
+                  <FilterButton
+                    active={props.filters().installed}
+                    onClick={() => props.onFilterChange('installed')}
+                    label="Installed"
+                  />
+                  <FilterButton
+                    active={props.filters().notInstalled}
+                    onClick={() => props.onFilterChange('notInstalled')}
+                    label="Not Installed"
+                  />
+                  <FilterButton
+                    active={props.filters().outdated}
+                    onClick={() => props.onFilterChange('outdated')}
+                    label="Outdated"
+                  />
+                  <FilterButton
+                    active={props.filters().casks}
+                    onClick={() => props.onFilterChange('casks')}
+                    label="Casks"
+                  />
+                  <FilterButton
+                    active={props.filters().formulas}
+                    onClick={() => props.onFilterChange('formulas')}
+                    label="Formulas"
+                  />
+                </div>
+                <div class="flex gap-1">
+                  <button
+                    onClick={props.onRefresh}
+                    disabled={props.loading || props.refreshing}
+                    title="Refresh package list"
+                    class={`px-4 py-2 rounded-lg ${props.loading || props.refreshing
+                      ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                      : "bg-blue-500 hover:bg-blue-600 text-white"}`}
+                  >
+                    {(props.loading || props.refreshing) && (
+                      <span class="inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-1"></span>
+                    )}
+                    Refresh
+                  </button>
+                  <button
+                    onClick={props.onReset}
+                    disabled={!props.selectedPackagesCount}
+                    title="Clear selected packages"
+                    class={`px-4 py-2 rounded-lg ${!props.selectedPackagesCount
+                      ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                      : "bg-red-500 hover:bg-red-600 text-white"}`}
+                  >
+                    Reset All
+                  </button>
+                  <button
+                    onClick={handleClose}
+                    title="Close Brewiz"
+                    class="px-4 py-2 rounded-lg bg-gray-500 hover:bg-gray-600 text-white"
+                  >
+                    Close
+                  </button>
+                </div>
               </div>
             </div>
             <div class="flex justify-between items-center mt-1">
@@ -105,5 +143,20 @@ export function Header(props) {
         </div>
       </div>
     </div>
+  );
+}
+
+function FilterButton(props) {
+  return (
+    <button
+      onClick={props.onClick}
+      class={`px-3 py-1 text-sm rounded-full transition-colors ${
+        props.active
+          ? "bg-blue-500 text-white"
+          : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+      }`}
+    >
+      {props.label}
+    </button>
   );
 }

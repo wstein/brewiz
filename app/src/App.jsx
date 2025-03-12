@@ -1,5 +1,6 @@
 import { createSignal, onMount } from "solid-js";
 import { usePackageStore } from "./stores/packageStore";
+import { useSearchStore } from "./stores/searchStore";
 import { Header } from "./components/Header";
 import { PackageList } from "./components/PackageList";
 import { BrewCommands } from "./components/BrewCommands";
@@ -20,6 +21,49 @@ function App() {
     loadVersion
   } = usePackageStore();
 
+  const {
+    searchTerm,
+    setSearchTerm,
+    filters,
+    updateFilter,
+    resetFilters
+  } = useSearchStore();
+
+  const filteredPackages = () => {
+    let filtered = packages();
+    
+    // Apply search
+    if (searchTerm()) {
+      const search = searchTerm().toLowerCase();
+      filtered = filtered.map(category => ({
+        ...category,
+        packages: category.packages.filter(pkg =>
+          pkg.name.toLowerCase().includes(search) ||
+          (pkg.desc && pkg.desc.toLowerCase().includes(search))
+        )
+      }));
+    }
+
+    // Apply filters
+    if (!filters().installed || !filters().notInstalled || 
+        !filters().outdated || !filters().casks || !filters().formulas) {
+      filtered = filtered.map(category => ({
+        ...category,
+        packages: category.packages.filter(pkg => {
+          if (!filters().installed && pkg.installed) return false;
+          if (!filters().notInstalled && !pkg.installed) return false;
+          if (!filters().outdated && pkg.outdated) return false;
+          if (!filters().casks && pkg.cask) return false;
+          if (!filters().formulas && !pkg.cask) return false;
+          return true;
+        })
+      }));
+    }
+
+    // Remove empty categories
+    return filtered.filter(category => category.packages.length > 0);
+  };
+
   onMount(() => {
     loadPackages();
     loadVersion();
@@ -36,16 +80,20 @@ function App() {
         onReset={resetSelection}
         selectedPackagesCount={selectedPackages().size}
         usingLocalData={usingLocalData()}
+        searchTerm={searchTerm}
+        onSearch={setSearchTerm}
+        filters={filters}
+        onFilterChange={(key) => updateFilter(key, !filters()[key])}
       />
 
       <PackageList 
-        packages={packages()}
+        packages={filteredPackages()}
         selectedPackages={selectedPackages()}
         onPackageToggle={togglePackage}
       />
 
       <BrewCommands
-        categories={packages()}
+        categories={filteredPackages()}
         selectedPackages={selectedPackages}
       />
     </div>

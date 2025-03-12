@@ -17,6 +17,7 @@ For an interactive demo you can visit: [https://brewiz.github.io/app/dist](https
 
 - 🎯 Visual package selection interface
 - 📦 Browse packages by categories
+- 🔎 Quick search and filtering
 - 🔄 Real-time command generation
 - 🚀 One-click copy of commands
 - 💫 Responsive design
@@ -25,6 +26,14 @@ For an interactive demo you can visit: [https://brewiz.github.io/app/dist](https
 ## Usage
 
 > **Note:** Brewiz requires Homebrew to be installed on your system. If you don't have Homebrew yet, visit [brew.sh](https://brew.sh) to install it first.
+
+### Header Navigation
+
+The header contains a centralized search bar that allows you to:
+
+- Filter packages by name
+- Search package descriptions
+- Quickly find specific tools and utilities
 
 ### Quick Setup
 
