@@ -5,7 +5,7 @@ class PackageManager
     @homebrew = homebrew
     @options = options
     @cache_time = 60 * 60
-    @cache_file = File.join(Dir.home, '.cache', 'brewiz', 'packages.json')
+    @cache_file = File.join(Dir.home, '.cache', 'brewiz', 'packages.yaml')
   end
 
   def reload
@@ -68,7 +68,7 @@ class PackageManager
     FileUtils.mkdir_p(File.dirname(@cache_file))
     return false unless File.exist?(@cache_file) && File.mtime(@cache_file) > Time.now - @cache_time
 
-    @packages = JSON.parse(File.read(@cache_file))
+    @packages = YAML.safe_load(File.read(@cache_file))
     true
   end
 
@@ -76,6 +76,6 @@ class PackageManager
     return unless @options[:cache_enabled] && @packages
 
     FileUtils.mkdir_p(File.dirname(@cache_file))
-    File.write(@cache_file, JSON.pretty_generate(@packages))
+    File.write(@cache_file, YAML.dump(@packages))
   end
 end
