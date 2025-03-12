@@ -124,5 +124,5 @@ task :dev do
     Process.kill('TERM', pid) rescue nil
   end
 
-  system('ruby brewiz --dev') or raise 'Brewiz execution failed'
+  system('ruby brewiz --dev --access') or raise 'Brewiz execution failed'
 end
