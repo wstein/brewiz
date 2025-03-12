@@ -123,6 +123,6 @@ task :dev do
     puts 'Shutting down development environment pid: ' + pid.to_s
     Process.kill('TERM', pid) rescue nil
   end
-
-  system('ruby brewiz --dev --access') or raise 'Brewiz execution failed'
+  sleep 1
+  system('ruby brewiz --dev --access --cache') or raise 'Brewiz execution failed'
 end

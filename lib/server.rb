@@ -6,7 +6,7 @@ class Server
   end
 
   def start
-    @package_manager.reload
+    @package_manager.read_from_cache_or_reload_packages
     @server = setup_server
     open_browser unless @options[:no_open]
     puts "Press Ctrl-C to stop"

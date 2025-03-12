@@ -43,6 +43,7 @@ class Command
   def add_options(opts, options)
     opts.on("-a", "--address ADDRESS", "Address to run Server on") { |v| options[:address] = v }
     opts.on("-p", "--port PORT", Integer, "Port to run Server on") { |v| options[:port] = v }
+    opts.on('-c', '--cache', 'Enable caching of brew info results') { |v| options[:cache_enabled] = v }
     opts.on("--packages LOCATION", "URL or file path to packages.yaml package list") { |v| options[:packages_yaml] = v }
     opts.on("--no-open", "Don't open browser automatically") { options[:no_open] = 1 }
     opts.on("-v", "--version", "Show version") { show_version; exit }
