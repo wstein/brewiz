@@ -52,6 +52,12 @@ task :update_version do
   brewiz_content = File.read('brewiz')
   brewiz_content.gsub!(/^VERSION = ['"].*?['"]$/, "VERSION = '#{VERSION}'")
   File.write('brewiz', brewiz_content)
+
+  puts 'Updating README.md...'
+  readme_content = File.read('README.md')
+  # replace version-0.9.3
+  readme_content.gsub!(/version-\d+\.\d+\.\d+/, "version-#{VERSION}")
+  File.write('README.md', readme_content)
 end
 
 desc 'Build Solid.js frontend'
