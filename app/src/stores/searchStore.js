@@ -24,12 +24,21 @@ export function useSearchStore() {
         setFilters(prev => ({ ...prev, [key]: value, notInstalled: true }));
         return;
       }
-      if (key === 'outdated' && !filters().notInstalled && !filters().installed) {
-        setFilters(prev => ({ ...prev, [key]: value, notInstalled: true }));
+      if (key === 'notInstalled' && !filters().installed && !filters().outdated) {
+        setFilters(prev => ({ ...prev, [key]: value, installed: true, outdated: true }));
         return;
       }
-      if (key === 'notInstalled' && !filters().installed && !filters().outdated) {
+      if (key === 'outdated' && !filters().installed && !filters().notInstalled) {
         setFilters(prev => ({ ...prev, [key]: value, installed: true }));
+        return;
+      }
+    }else {
+      if(key === 'installed') {
+        setFilters(prev => ({ ...prev, [key]: value, outdated: true }));
+        return;
+      }
+      if (key === 'outdated') {
+        setFilters(prev => ({ ...prev, [key]: value, notInstalled: false, installed: false }));
         return;
       }
     }

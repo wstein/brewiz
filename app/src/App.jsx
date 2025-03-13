@@ -45,17 +45,21 @@ function App() {
     }
 
     // Apply filters
-    if (!filters().installed || !filters().notInstalled || 
-        !filters().outdated || !filters().casks || !filters().formulas) {
+    if (!filters().casks || !filters().formulas ||
+        filters().installed || filters().notInstalled || filters().outdated) {
       filtered = filtered.map(category => ({
         ...category,
         packages: category.packages.filter(pkg => {
-          if (!filters().installed && pkg.installed) return false;
-          if (!filters().notInstalled && !pkg.installed) return false;
-          if (!filters().outdated && pkg.outdated) return false;
+          // Handle type filters
           if (!filters().casks && pkg.cask) return false;
           if (!filters().formulas && !pkg.cask) return false;
-          return true;
+
+          // Handle installation state filters
+          if (filters().installed && pkg.installed) return true;
+          if (filters().notInstalled && !pkg.installed) return true;
+          if (filters().outdated && pkg.outdated) return true;
+          
+          return false; 
         })
       }));
     }
