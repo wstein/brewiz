@@ -11,39 +11,28 @@ export function useSearchStore() {
   });
 
   const updateFilter = (key, value) => {
-    if (!value) {
-      if (key === 'casks') {
-        setFilters(prev => ({ ...prev, casks: value, formulas: !value }));
-        return;
+    setFilters(prev => {
+      const next = { ...prev, [key]: value };
+      
+      // Handle special filter relationships
+      if (key === 'installed' && value) {
+        next.outdated = true;
+      } else if (key === 'outdated' && !value) {
+        next.installed = false;
+        next.notInstalled = true;
+      } else if ((key === 'casks' || key === 'formulas') && !value) {
+        next[key === 'casks' ? 'formulas' : 'casks'] = true;
       }
-      if (key === 'formulas') {
-        setFilters(prev => ({ ...prev, formulas: value, casks: !value }));
-        return;
+      
+      // Ensure at least one installation filter is active
+      if (!next.installed && !next.notInstalled && !next.outdated) {
+        next.installed = true;
+        next.outdated = true;
       }
-      if (key === 'installed' && !filters().notInstalled && !filters().outdated) {
-        setFilters(prev => ({ ...prev, [key]: value, notInstalled: true }));
-        return;
-      }
-      if (key === 'notInstalled' && !filters().installed && !filters().outdated) {
-        setFilters(prev => ({ ...prev, [key]: value, installed: true, outdated: true }));
-        return;
-      }
-      if (key === 'outdated' && !filters().installed && !filters().notInstalled) {
-        setFilters(prev => ({ ...prev, [key]: value, installed: true }));
-        return;
-      }
-    }else {
-      if(key === 'installed') {
-        setFilters(prev => ({ ...prev, [key]: value, outdated: true }));
-        return;
-      }
-      if (key === 'outdated') {
-        setFilters(prev => ({ ...prev, [key]: value, notInstalled: false, installed: false }));
-        return;
-      }
-    }
-    setFilters(prev => ({ ...prev, [key]: value }));
-  }
+      
+      return next;
+    });
+  };
 
   const resetFilters = () => {
     setFilters({
