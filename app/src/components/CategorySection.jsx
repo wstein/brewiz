@@ -18,7 +18,7 @@ export function CategorySection(props) {
       </div>
       {isExpanded() && (
         <div class="p-4 overflow-visible">
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 overflow-visible">
+          <div class="grid grid-cols-3 2xl:grid-cols-4 gap-3 overflow-visible">
             <For each={props.category.packages}>
               {(pkg) => (
                 <PackageCard

@@ -24,7 +24,7 @@ export function BrewCommands(props) {
 
   return (
     <div class="fixed bottom-0 left-0 right-0 bg-[#282a36] text-[#f8f8f2] shadow-lg z-50">
-      <div class="max-w-[1800px] mx-auto px-4 py-4">
+      <div class="max-w-[1800px] min-w-[1200px] mx-auto px-4 py-4">
         <CommandHeader
           copyToClipboard={copyToClipboard}
           copySuccess={copySuccess}

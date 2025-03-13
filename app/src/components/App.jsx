@@ -1,9 +1,9 @@
 import { createSignal, onMount } from "solid-js";
-import { usePackageStore } from "./stores/packageStore";
-import { useSearchStore } from "./stores/searchStore";
-import { Header } from "./components/Header";
-import { PackageList } from "./components/PackageList";
-import { BrewCommands } from "./components/BrewCommands";
+import { usePackageStore } from "../stores/packageStore";
+import { useSearchStore } from "../stores/searchStore";
+import { Header } from "./Header";
+import { PackageList } from "./PackageList";
+import { BrewCommands } from "./BrewCommands";
 
 function App() {
   const { 
@@ -74,7 +74,7 @@ function App() {
   });
 
   return (
-    <div class="min-h-screen bg-gray-100">
+    <div class="min-h-screen min-w-[1200px] bg-gray-100">
       <Header
         loading={loading()}
         refreshing={refreshing()}

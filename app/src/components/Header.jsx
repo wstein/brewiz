@@ -19,7 +19,7 @@ export function Header(props) {
 
   return (
       <div class="fixed top-0 left-0 right-0 bg-white shadow-md z-50">
-        <div class="max-w-[1800px] mx-auto px-3 py-2">
+        <div class="max-w-[1800px] min-w-[1200px] mx-auto px-3 py-2">
           {/* Main Header Content */}
           <div class="grid grid-cols-[2fr_3fr_1fr] gap-4 items-center">
             {/* Column 1: Icon, Title, description */}
