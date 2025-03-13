@@ -69,7 +69,7 @@ end
 
 desc 'Clean build artifacts'
 task :clean do
-  FileUtils.rm_rf('dist')
+  FileUtils.rm_rf(Dir.glob(['bin/*', 'app/dist/*']))
 end
 
 desc 'Publish new release'
@@ -79,16 +79,14 @@ task :publish do
   # Check if working directory is clean
   raise 'Working directory is not clean' unless system('git diff-index --quiet HEAD --')
 
-  if tag_exists = system("git rev-parse -q --verify refs/tags/v#{VERSION} > /dev/null 2>&1")
-    head_commit = `git rev-parse HEAD`.strip
-    tag_commit = `git rev-parse v#{VERSION}`.strip
-    if head_commit != tag_commit
-      raise "Tag v#{VERSION} already exists at a different commit, you need to unpublish it first to publish again!"
-    end
-    puts "Tag v#{VERSION} already exists at HEAD, skipping tag creation"
-  else
-    system("git tag v#{VERSION}") or raise "Failed to create tag v#{VERSION}"
+if system("git rev-parse -q --verify refs/tags/v#{VERSION} > /dev/null 2>&1")
+  if `git rev-parse HEAD`.strip != `git rev-parse v#{VERSION}`.strip
+    raise "Tag v#{VERSION} already exists at a different commit, you need to unpublish first to publish again!"
   end
+  puts "Tag v#{VERSION} already exists at HEAD, skipping tag creation"
+else
+  raise "Failed to create tag v#{VERSION}" unless system("git tag v#{VERSION}")
+end
 
   system('git push origin') or raise 'Failed to push to origin'
   system("git push origin v#{VERSION}") or raise "Failed to push tag v#{VERSION}"
