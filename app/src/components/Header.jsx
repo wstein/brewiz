@@ -47,32 +47,36 @@ export function Header(props) {
                     class="w-full px-3 py-1 h-8 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
-              <div class="flex gap-2 flex-wrap">
-                <FilterButton
-                    active={props.filters().installed}
-                    onClick={() => props.onFilterChange('installed')}
-                    label="Installed"
-                />
-                <FilterButton
-                    active={props.filters().notInstalled}
-                    onClick={() => props.onFilterChange('notInstalled')}
-                    label="Not Installed"
-                />
-                <FilterButton
-                    active={props.filters().outdated}
-                    onClick={() => props.onFilterChange('outdated')}
-                    label="Outdated"
-                />
-                <FilterButton
-                    active={props.filters().casks}
-                    onClick={() => props.onFilterChange('casks')}
-                    label="Casks"
-                />
-                <FilterButton
-                    active={props.filters().formulas}
-                    onClick={() => props.onFilterChange('formulas')}
-                    label="Formulas"
-                />
+              <div class="flex gap-4 flex-wrap">
+                <div class="flex gap-2 bg-slate-100 border border-slate-300 p-1 rounded-lg">
+                  <FilterButton
+                      active={props.filters().installed}
+                      onClick={() => props.onFilterChange('installed')}
+                      label="Installed"
+                  />
+                  <FilterButton
+                      active={props.filters().notInstalled}
+                      onClick={() => props.onFilterChange('notInstalled')}
+                      label="Not Installed"
+                  />
+                  <FilterButton
+                      active={props.filters().outdated}
+                      onClick={() => props.onFilterChange('outdated')}
+                      label="Outdated"
+                  />
+                </div>
+                <div class="flex gap-2 bg-slate-100 border border-slate-300 p-1 rounded-lg">
+                  <FilterButton
+                      active={props.filters().casks}
+                      onClick={() => props.onFilterChange('casks')}
+                      label="Casks"
+                  />
+                  <FilterButton
+                      active={props.filters().formulas}
+                      onClick={() => props.onFilterChange('formulas')}
+                      label="Formulas"
+                  />
+                </div>
               </div>
             </div>
 
