@@ -51,6 +51,5 @@ def main(options)
   end
 end
 
-#$stderr.puts "brew #{ARGV.join(' ')}"
 options = parse_options
 main(options) if __FILE__ == $PROGRAM_NAME
