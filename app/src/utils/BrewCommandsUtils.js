@@ -7,11 +7,13 @@ export function generateBrewCommands(categories, selectedPackages) {
   addOutdatedPackagesCommand(commands, allPackages);
 
   if (selectedPkgs.length === 0 && commands.length === 0) {
-    return ["# Select packages to generate commands"];
+    commands.push("# Select packages to generate install and uninstall commands")
+  } else {
+    addInstallCommands(commands, selectedPkgs);
+    addUninstallCommands(commands, selectedPkgs);
   }
+  commands.push("brew cleanup # Consider to remove old versions and free disk space");  
 
-  addInstallCommands(commands, selectedPkgs);
-  addUninstallCommands(commands, selectedPkgs);
   return commands;
 }
 
