@@ -8,6 +8,7 @@ require 'net/http'
 require 'open-uri'
 require 'open3'
 require 'optparse'
+require 'ostruct'
 require 'webrick'
 require 'yaml'
 

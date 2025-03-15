@@ -8,6 +8,7 @@ require 'net/http'
 require 'open-uri'
 require 'open3'
 require 'optparse'
+require 'ostruct'
 require 'webrick'
 require 'yaml'
 
@@ -53,12 +54,41 @@ class Command
     options
   end
 
+  def print_zsh_completion
+    puts <<~EOF
+      #compdef brewiz
+
+      function _brewiz_packages() {
+          local ret=1
+          # Complete local files with .yaml extension
+          _files -g "*.yaml" && ret=0
+          return ret
+      }
+
+      local arguments
+
+      arguments=(
+        {-a,--address}'[Address to run Server on]:address'
+        {-c,--cache}'[Enable caching of brew info results]'
+        '--zsh-completion[Generate zsh completion script]'
+        {-h,--help}'[Show this help message]'
+        '--no-open[Don not open browser automatically]'
+        '--packages[URL or file path to packages.yaml package list]:location:_brewiz_packages'
+        {-p,--port}'[Port to run Server on]:port'
+        {-v,--version}'[Show version]'
+      )
+
+      _arguments -s $arguments
+    EOF
+  end
+
   def add_options(opts, options)
     opts.on("-a", "--address ADDRESS", "Address to run Server on") { |v| options[:address] = v }
     opts.on("-p", "--port PORT", Integer, "Port to run Server on") { |v| options[:port] = v }
     opts.on('-c', '--cache', 'Enable caching of brew info results') { |v| options[:cache_enabled] = v }
     opts.on("--packages LOCATION", "URL or file path to packages.yaml package list") { |v| options[:packages_yaml] = v }
     opts.on("--no-open", "Don't open browser automatically") { options[:no_open] = 1 }
+    opts.on("--zsh-completion", "Generate zsh completion script") { print_zsh_completion; exit }
     opts.on("-v", "--version", "Show version") { show_version; exit }
     opts.on("-h", "--help", "Show this help message") { puts opts; exit }
   end
@@ -85,7 +115,11 @@ class Homebrew
   private
 
   def find_brew
-    ['/opt/homebrew/bin/brew', '/usr/local/bin/brew'].find { |path| File.exist?(path) }
+    brew = ['/opt/homebrew/bin/brew', '/usr/local/bin/brew', './mock/bin/brew'].find { |path| File.exist?(path) }
+    if brew == './mock-brew/bin/brew'
+      puts "Homebrew seems not to be installed. Using mock brew."
+    end
+    brew
   end
 
   def check_brew_installed
