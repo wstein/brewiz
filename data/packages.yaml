@@ -1393,6 +1393,7 @@
       desc: Simple menu bar app to download YouTube movies
       homepage: https://github.com/DenBeke/YouTube-Downloader-for-macOS
       cask: true
+      token: youtube-downloader
       recommended: true
       info:
         YouTube Downloader is a simple menu bar app for macOS that allows you to
