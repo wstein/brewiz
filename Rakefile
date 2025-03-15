@@ -128,5 +128,5 @@ task :dev do
     Process.kill('TERM', pid) rescue nil
   end
   sleep 1
-  system('ruby brewiz --dev --access --cache') or raise 'Brewiz execution failed'
+  system('ruby brewiz --dev --packages=data/packages.yaml --access --cache') or raise 'Brewiz execution failed'
 end
