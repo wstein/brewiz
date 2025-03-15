@@ -19,7 +19,11 @@ class Homebrew
   private
 
   def find_brew
-    ['/opt/homebrew/bin/brew', '/usr/local/bin/brew'].find { |path| File.exist?(path) }
+    brew = ['/opt/homebrew/bin/brew', '/usr/local/bin/brew', './mock/bin/brew'].find { |path| File.exist?(path) }
+    if brew == './mock-brew/bin/brew'
+      puts "Homebrew seems not to be installed. Using mock brew."
+    end
+    brew
   end
 
   def check_brew_installed
