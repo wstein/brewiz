@@ -1261,6 +1261,18 @@
         ligatures, graphics, and has a framework for extensions. It's designed to be
         lightweight yet powerful.
       id: homebrew/cask/kitty
+    - name: Warp
+      desc: Rust-based terminal
+      homepage: https://www.warp.dev/
+      cask: true
+      token: warp
+      recommended: true
+      info:
+        Warp is a modern, Rust-based terminal application designed to improve
+        the terminal experience for developers. It features AI-powered auto-completion,
+        block-based navigation, and collaborative sessions, making it powerful and
+        lightweight yet powerful.
+      id: homebrew/cask/warp
     - name: rlwrap
       desc: "Readline wrapper: adds readline support to tools that lack it"
       homepage: https://github.com/hanslub42/rlwrap
