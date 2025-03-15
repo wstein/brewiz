@@ -183,12 +183,14 @@ class PackageManager
   def read_from_cache_or_reload_packages
     reload unless read_packages_from_cache
   end
-
   def add_missing_infos
+    standard_taps = ['homebrew/cask', 'homebrew/core'].freeze
+
     @packages.each do |category|
       category['packages'].each do |pkg|
-        tap = pkg['id'].rpartition('/')[0]
-        pkg['tap'] = tap unless ['homebrew/cask', 'homebrew/core'].include?(tap)
+        tap, _, token = pkg['id'].rpartition('/')
+        pkg['tap'] = tap unless standard_taps.include?(tap)
+        pkg['token'] = token if pkg['cask'] && !pkg.key?('token')
       end
     end
   end
