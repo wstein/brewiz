@@ -72,7 +72,7 @@ class Command
         {-c,--cache}'[Enable caching of brew info results]'
         '--zsh-completion[Generate zsh completion script]'
         {-h,--help}'[Show this help message]'
-        '--no-open[Don not open browser automatically]'
+        '--no-open[Do not open browser automatically]'
         '--packages[URL or file path to packages.yaml package list]:location:_brewiz_packages'
         {-p,--port}'[Port to run Server on]:port'
         {-v,--version}'[Show version]'
@@ -87,7 +87,7 @@ class Command
     opts.on("-p", "--port PORT", Integer, "Port to run Server on") { |v| options[:port] = v }
     opts.on('-c', '--cache', 'Enable caching of brew info results') { |v| options[:cache_enabled] = v }
     opts.on("--packages LOCATION", "URL or file path to packages.yaml package list") { |v| options[:packages_yaml] = v }
-    opts.on("--no-open", "Don't open browser automatically") { options[:no_open] = 1 }
+    opts.on("--no-open", "Do not open browser automatically") { options[:no_open] = 1 }
     opts.on("--zsh-completion", "Generate zsh completion script") { print_zsh_completion; exit }
     opts.on("-v", "--version", "Show version") { show_version; exit }
     opts.on("-h", "--help", "Show this help message") { puts opts; exit }
