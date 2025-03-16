@@ -72,9 +72,9 @@ export function Header(props) {
                       label="Casks"
                   />
                   <FilterButton
-                      active={props.filters().formulas}
-                      onClick={() => props.onFilterChange('formulas')}
-                      label="Formulas"
+                      active={props.filters().formulae}
+                      onClick={() => props.onFilterChange('formulae')}
+                      label="Formulae"
                   />
                 </div>
               </div>

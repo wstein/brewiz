@@ -45,14 +45,14 @@ function App() {
     }
 
     // Apply filters
-    if (!filters().casks || !filters().formulas ||
+    if (!filters().casks || !filters().formulae ||
         filters().installed || filters().notInstalled || filters().outdated) {
       filtered = filtered.map(category => ({
         ...category,
         packages: category.packages.filter(pkg => {
           // Handle type filters
           if (!filters().casks && pkg.cask) return false;
-          if (!filters().formulas && !pkg.cask) return false;
+          if (!filters().formulae && !pkg.cask) return false;
 
           // Handle installation state filters
           if (filters().installed && pkg.installed) return true;

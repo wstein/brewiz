@@ -7,7 +7,7 @@ export function useSearchStore() {
     notInstalled: true,
     outdated: true,
     casks: true,
-    formulas: true
+    formulae: true
   });
 
   const updateFilter = (key, value) => {
@@ -20,8 +20,8 @@ export function useSearchStore() {
       } else if (key === 'outdated' && !value) {
         next.installed = false;
         next.notInstalled = true;
-      } else if ((key === 'casks' || key === 'formulas') && !value) {
-        next[key === 'casks' ? 'formulas' : 'casks'] = true;
+      } else if ((key === 'casks' || key === 'formulae') && !value) {
+        next[key === 'casks' ? 'formulae' : 'casks'] = true;
       }
       
       // Ensure at least one installation filter is active
@@ -40,7 +40,7 @@ export function useSearchStore() {
       notInstalled: true,
       outdated: true,
       casks: true,
-      formulas: true
+      formulae: true
     });
     setSearchTerm("");
   };

@@ -62,15 +62,15 @@ function addUninstallCommands(commands, selectedPkgs) {
   })
   .sort();
 
-  const uninstallFormulas = toUninstall
+  const uninstallFormulae = toUninstall
   .filter((p) => !p.cask)
   .map((p) => {
     return p.tap ? `${p.tap}/${p.name}` : p.name;
   })
   .sort();
 
-  if (uninstallFormulas.length) {
-    commands.push(`brew uninstall ${uninstallFormulas.join(" ")}`);
+  if (uninstallFormulae.length) {
+    commands.push(`brew uninstall ${uninstallFormulae.join(" ")}`);
   }
 
   if (uninstallCasks.length) {
