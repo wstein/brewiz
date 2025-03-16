@@ -76,14 +76,14 @@ task :publish do
   # Check if working directory is clean
   raise 'Working directory is not clean' unless system('git diff-index --quiet HEAD --')
 
-if system("git rev-parse -q --verify refs/tags/v#{VERSION} > /dev/null 2>&1")
-  if `git rev-parse HEAD`.strip != `git rev-parse v#{VERSION}`.strip
-    raise "Tag v#{VERSION} already exists at a different commit, you need to unpublish first to publish again!"
+  if system("git rev-parse -q --verify refs/tags/v#{VERSION} > /dev/null 2>&1")
+    if `git rev-parse HEAD`.strip != `git rev-parse v#{VERSION}`.strip
+      raise "Tag v#{VERSION} already exists at a different commit, you need to unpublish first to publish again!"
+    end
+    puts "Tag v#{VERSION} already exists at HEAD, skipping tag creation"
+  else
+    raise "Failed to create tag v#{VERSION}" unless system("git tag v#{VERSION}")
   end
-  puts "Tag v#{VERSION} already exists at HEAD, skipping tag creation"
-else
-  raise "Failed to create tag v#{VERSION}" unless system("git tag v#{VERSION}")
-end
 
   system('git push origin') or raise 'Failed to push to origin'
   system("git push origin v#{VERSION}") or raise "Failed to push tag v#{VERSION}"
