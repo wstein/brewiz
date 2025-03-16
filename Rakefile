@@ -48,16 +48,13 @@ task :update_version do
   app_package['version'] = VERSION
   File.write('app/package.json', JSON.pretty_generate(app_package) + "\n")
 
-  puts 'Updating brewiz file...'
-  brewiz_content = File.read('brewiz')
-  brewiz_content.gsub!(/^VERSION = ['"].*?['"]$/, "VERSION = '#{VERSION}'")
-  File.write('brewiz', brewiz_content)
+  puts 'Updating version...'
+  File.write('brewiz', File.read('brewiz').gsub(/VERSION = ['"].*?['"]/, "VERSION = '#{VERSION}'"))
 
-  puts 'Updating README.md...'
-  readme_content = File.read('README.md')
-  # replace version-0.9.3
-  readme_content.gsub!(/version-\d+\.\d+\.\d+/, "version-#{VERSION}")
-  File.write('README.md', readme_content)
+  readme_lines = File.read('README.md').lines.map do |line|
+    line.include?('[![Version]') ? line.gsub(/\d+\.\d+\.\d+/, VERSION) : line
+  end
+  File.write('README.md', readme_lines.join)
 end
 
 desc 'Build Solid.js frontend'
