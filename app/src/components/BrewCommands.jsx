@@ -5,7 +5,11 @@ export function BrewCommands(props) {
   const [copySuccess, setCopySuccess] = createSignal("");
 
   const commands = () =>
-    generateBrewCommands(props.categories, props.selectedPackages());
+    generateBrewCommands(
+      props.categories,
+      props.selectedPackages(),
+      props.outdatedPackages()
+    );
 
   const copyToClipboard = async () => {
     const commandText = commands().join("\n");

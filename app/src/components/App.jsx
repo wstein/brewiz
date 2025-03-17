@@ -13,6 +13,7 @@ function App() {
     refreshing,
     usingLocalData,
     selectedPackages,
+    outdatedPackages,
     version,
     loadPackages,
     refreshPackages,
@@ -99,6 +100,7 @@ function App() {
       <BrewCommands
         categories={filteredPackages()}
         selectedPackages={selectedPackages}
+        outdatedPackages={outdatedPackages}
       />
     </div>
   );

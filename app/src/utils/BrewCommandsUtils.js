@@ -1,10 +1,10 @@
-export function generateBrewCommands(categories, selectedPackages) {
+export function generateBrewCommands(categories, selectedPackages, outdatedPackages) {
   const allPackages = categories.flatMap((c) => c.packages);
   const selectedPkgs = Array.from(selectedPackages)
     .map((name) => allPackages.find((p) => p.name === name))
     .filter(Boolean);
   const commands = [];
-  addOutdatedPackagesCommand(commands, allPackages);
+  addOutdatedPackagesCommand(commands, outdatedPackages);
 
   if (selectedPkgs.length === 0 && commands.length === 0) {
     commands.push("# Select packages to generate install and uninstall commands")
@@ -17,11 +17,10 @@ export function generateBrewCommands(categories, selectedPackages) {
   return commands;
 }
 
-function addOutdatedPackagesCommand(commands, allPackages) {
-  const outdatedCount = allPackages.filter((p) => p.outdated).length;
-  if (outdatedCount > 0) {
+function addOutdatedPackagesCommand(commands, outdatedPackages) {
+  if (outdatedPackages.length > 0) {
     commands.push(
-      `brew upgrade # You have ${outdatedCount} outdated package${outdatedCount > 1 ? "s" : ""}`,
+      `brew upgrade # You have ${outdatedPackages.length} outdated package${outdatedPackages.length > 1 ? "s" : ""}`,
     );
   }
 }

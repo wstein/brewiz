@@ -108,6 +108,10 @@ export function usePackageStore() {
 
   const resetSelection = () => setSelectedPackages(new Set());
 
+  const outdatedPackages = () => {    
+    return packages().flatMap(c => c.packages).filter(pkg => pkg.outdated);
+  };
+
   return {
     packages,
     loading,
@@ -121,5 +125,6 @@ export function usePackageStore() {
     togglePackage,
     version,
     loadVersion,
+    outdatedPackages,
   };
 }
