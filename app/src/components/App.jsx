@@ -30,6 +30,11 @@ function App() {
     resetFilters
   } = useSearchStore();
 
+  const handleReset = () => {
+    resetSelection();
+    resetFilters();
+  };
+
   const filteredPackages = () => {
     let filtered = packages();
     
@@ -82,7 +87,7 @@ function App() {
         error={error()}
         version={version()}
         onRefresh={refreshPackages}
-        onReset={resetSelection}
+        onReset={handleReset}
         selectedPackagesCount={selectedPackages().size}
         usingLocalData={usingLocalData()}
         searchTerm={searchTerm}

@@ -98,11 +98,8 @@ export function Header(props) {
                 </button>
                 <button
                     onClick={props.onReset}
-                    disabled={!props.selectedPackagesCount}
                     title="Clear selected packages"
-                    class={`px-2 py-1.5 text-sm rounded-lg ${!props.selectedPackagesCount
-                        ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                        : "bg-red-500 hover:bg-red-600 text-white"}`}
+                    class="px-2 py-1.5 text-sm rounded-lg bg-red-500 hover:bg-red-600 text-white"
                 >
                   Reset
                 </button>
