@@ -21,24 +21,24 @@ export function Header(props) {
       <div class="fixed top-0 left-0 right-0 bg-white shadow-md z-50">
         <div class="max-w-[1800px] min-w-[1200px] mx-auto px-3 py-2">
           {/* Main Header Content */}
-          <div class="grid grid-cols-[2fr_3fr_1fr] gap-4 items-center">
+          <div class="flex justify-between items-center">
             {/* Column 1: Icon, Title, description */}
-            <div class="flex items-start gap-3">
-              <a href="https://brew.sh" target="_blank" rel="noopener noreferrer">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/9/95/Homebrew_logo.svg" alt="Homebrew logo" class="w-16 h-16" />
-              </a>
-              <div>
-                <h1 class="text-2xl font-bold">
-                  <a href="https://github.com/wstein/brewiz" target="_blank" rel="noopener noreferrer"
-                     class="hover:text-gray-700 hover:underline">Homebrew Package Wizard</a>
-                </h1>
-                <p class="text-gray-600 text-sm">Select packages to install on your macOS system</p>
-              </div>
-            </div>
+                  <div class="flex items-start gap-3">
+                    <a href="https://brew.sh" target="_blank" rel="noopener noreferrer">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/9/95/Homebrew_logo.svg" alt="Homebrew logo" class="w-16 h-16" />
+                    </a>
+                    <div>
+                    <h1 class="text-2xl font-bold text-center">
+                      <a href="https://github.com/wstein/brewiz" target="_blank" rel="noopener noreferrer"
+                       class="hover:text-gray-700 hover:underline">Homebrew Package Wizard</a>
+                    </h1>
+                    <p class="text-gray-600 text-sm">Select packages to install on your macOS system</p>
+                    </div>
+                  </div>
 
-            {/* Column 2: Search and filter */}
+                  {/* Column 2: Search and filter */}
             <div class="flex flex-col gap-2">
-              <div class="relative">
+              <div class="relative max-w-[475px]">
                 <input
                     type="text"
                     placeholder="Search packages..."
@@ -82,31 +82,34 @@ export function Header(props) {
 
             {/* Column 3: Action buttons and version */}
             <div class="flex flex-col items-end gap-1">
-              <div class="flex gap-0.5">
+              <div class="flex gap-2">
                 <button
-                    onClick={props.onRefresh}
-                    disabled={props.loading || props.refreshing}
-                    title="Refresh package list"
-                    class={`px-2 py-1.5 text-sm rounded-lg ${props.loading || props.refreshing
-                        ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                        : "bg-blue-500 hover:bg-blue-600 text-white"}`}
-                >
+                 onClick={props.onRefresh}
+                 disabled={props.loading || props.refreshing}
+                 title="Refresh package list"
+                 class={`px-4 py-1.5 text-base rounded-lg flex items-center gap-2 ${props.loading || props.refreshing
+                   ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                   : "bg-blue-500 hover:bg-blue-600 text-white"}`}
+               >
                   {(props.loading || props.refreshing) && (
-                      <span class="inline-block w-3 h-3 border-2 border-white border-t-transparent rounded-full animate-spin mr-1"></span>
-                  )}
-                  Refresh
-                </button>
+                        <span class={`inline-block w-3 h-3 border-2 border-t-transparent rounded-full ${
+                          props.loading || props.refreshing ? "animate-spin border-white" : "border-white/50"
+                          }`}></span>            )}
+                
+
+                 Refresh
+               </button>
                 <button
                     onClick={props.onReset}
                     title="Clear selected packages"
-                    class="px-2 py-1.5 text-sm rounded-lg bg-red-500 hover:bg-red-600 text-white"
+                    class="px-4 py-1.5 text-base rounded-lg bg-red-500 hover:bg-red-600 text-white"
                 >
                   Reset
                 </button>
                 <button
                     onClick={handleClose}
                     title="Close Brewiz"
-                    class="px-2 py-1.5 text-sm rounded-lg bg-gray-500 hover:bg-gray-600 text-white"
+                    class="px-4 py-1.5 text-base rounded-lg bg-gray-500 hover:bg-gray-600 text-white"
                 >
                   Close
                 </button>
@@ -142,7 +145,6 @@ export function Header(props) {
               {props.refreshing && !props.loading && (
                   <div class="bg-blue-50 border border-blue-200 text-blue-800 rounded-lg p-4">
                     <h3 class="font-bold flex items-center">
-                      <span class="inline-block w-4 h-4 mr-2 border-2 border-blue-600 border-t-transparent rounded-full animate-spin"></span>
                       Refreshing brew data...
                     </h3>
                     <p>Please wait while we refresh package information.</p>
