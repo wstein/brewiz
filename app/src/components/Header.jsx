@@ -37,7 +37,7 @@ export function Header(props) {
                   </div>
 
                   {/* Column 2: Search and filter */}
-            <div class="flex flex-col gap-2">
+            <div class="flex flex-col gap-1">
               <div class="relative max-w-[475px]">
                 <input
                     type="text"
@@ -47,7 +47,7 @@ export function Header(props) {
                     class="w-full px-3 py-1 h-8 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
-              <div class="flex gap-4 flex-wrap">
+              <div class="flex gap-3 flex-wrap">
                 <div class="flex gap-2 bg-slate-100 border border-slate-300 p-1 rounded-lg">
                   <FilterButton
                       active={props.filters().installed}
@@ -81,7 +81,7 @@ export function Header(props) {
             </div>
 
             {/* Column 3: Action buttons and version */}
-            <div class="flex flex-col items-end gap-1">
+            <div class="flex flex-col items-end gap-3">
               <div class="flex gap-2">
                 <button
                  onClick={props.onRefresh}
