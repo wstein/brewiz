@@ -1,4 +1,17 @@
 ---
+- id: ai
+  name: AI & Machine Learning
+  desc: Tools for artificial intelligence, machine learning, and large language models.
+  packages:
+    - name: ollama
+      desc: Create, run, and share large language models (LLMs)
+      homepage: https://ollama.com/
+      recommended: true
+      info:
+        Ollama is a tool for running and managing large language models locally.
+        It allows you to easily run, create, and customize AI models on your own
+        hardware, with support for various open-source models.
+      id: homebrew/core/ollama
 - id: archive
   name: Archiving & Compression
   desc: Tools for compressing, archiving, and extracting files.
@@ -42,6 +55,15 @@
         and more maintainable code by enforcing style guidelines and detecting potential
         issues.
       id: crystal-ameba/ameba/ameba
+    - name: isort
+      desc: Sort Python imports automatically
+      homepage: https://pycqa.github.io/isort/
+      recommended: true
+      info:
+        isort is a Python utility that sorts imports alphabetically and automatically
+        separates them into sections. It helps maintain consistent import formatting
+        across Python projects and improves code readability.
+      id: homebrew/core/isort
     - name: scc
       desc: Fast and accurate code counter with complexity and COCOMO estimates
       homepage: https://github.com/boyter/scc/
@@ -390,6 +412,24 @@
         current directory for a regex pattern. It's similar to grep, but much faster
         and respects gitignore rules.
       id: homebrew/core/ripgrep
+    - name: watch
+      desc: Executes a program periodically, showing output fullscreen
+      homepage: https://gitlab.com/procps-ng/procps
+      recommended: true
+      info:
+        watch is a command-line tool that runs a specified command repeatedly, displaying
+        its output fullscreen. It's useful for monitoring changing data or processes
+        in real-time.
+      id: homebrew/core/watch
+    - name: watchman
+      desc: Watch files and take action when they change
+      homepage: https://github.com/facebook/watchman
+      recommended: true
+      info:
+        Watchman is a file watching service that can trigger actions when files change.
+        It's optimized for performance and reliability, making it ideal for development
+        workflows and build tools that need to respond to file changes.
+      id: homebrew/core/watchman
     - name: tree
       desc: Display directories as trees (with optional color/HTML output)
       homepage: https://oldmanprogrammer.net/source.php?dir=projects/tree
@@ -398,6 +438,15 @@
         listing of files. It's useful for visualizing directory structures in a more
         intuitive way than ls.
       id: homebrew/core/tree
+    - name: duck
+      desc: Command-line interface for Cyberduck (a multi-protocol file transfer tool)
+      homepage: https://duck.sh/
+      recommended: true
+      info:
+        duck is a command-line interface for Cyberduck, providing file transfer
+        capabilities across multiple protocols including FTP, SFTP, WebDAV, S3, and more.
+        It enables scripted and automated file transfers with various cloud storage services.
+      id: homebrew/core/duck
 - id: k8s
   name: Kubernetes Tools
   desc: Tools for interacting with and managing Kubernetes clusters and resources.
@@ -613,6 +662,16 @@
     Tools and utilities that enhance the macOS experience and provide additional
     functionality.
   packages:
+    - name: XQuartz
+      desc: Open-source version of the X.Org X Window System
+      homepage: https://www.xquartz.org/
+      cask: true
+      recommended: true
+      info:
+        XQuartz is the X Window System implementation for macOS. It enables you to run
+        X11-based applications and provides essential functionality for running many
+        Unix graphical applications on macOS.
+      id: homebrew/cask/xquartz  
     - name: Loupdeck
       desc: Software for Loupedeck consoles
       homepage: https://loupedeck.com/
@@ -633,7 +692,36 @@
         and control over the device's features. It enhances the user experience and
         workflow for Logitech peripherals.
       id: homebrew/cask/logi-options+
-    
+    - name: Espanso
+      desc: Cross-platform Text Expander written in Rust
+      homepage: https://espanso.org/
+      cask: true
+      recommended: true
+      info:
+        Espanso is a privacy-first text expander that works across different applications.
+        It helps you save time by replacing text shortcuts with custom snippets, supporting
+        both simple replacements and complex scripts.
+      id: homebrew/cask/espanso      
+    - name: Maccy
+      desc: Clipboard manager
+      homepage: https://maccy.app/
+      cask: true
+      recommended: true
+      info:
+        Maccy is a lightweight clipboard manager for macOS that keeps track of your
+        copy history. It provides quick access to your clipboard history through a
+        simple interface and keyboard shortcuts.
+      id: homebrew/cask/maccy
+    - name: AltTab
+      desc: Enable Windows-like alt-tab
+      homepage: https://alt-tab-macos.netlify.app/
+      cask: true
+      recommended: true
+      info:
+        AltTab brings the power of Windows' window switcher to macOS. It shows window
+        previews and allows you to switch between windows with Alt-Tab, providing a more
+        familiar and efficient window switching experience.
+      id: homebrew/cask/alt-tab
     - name: Esse
       desc: Swiss army knife of text transformation for iOS and macOS
       homepage: https://esse.ameba.co
@@ -683,6 +771,16 @@
         windows using keyboard shortcuts or by dragging to screen edges. It helps organize
         your workspace efficiently.
       id: homebrew/cask/rectangle
+    - name: Raycast
+      desc: Control your tools with a few keystrokes
+      homepage: https://raycast.com/
+      cask: true
+      recommended: true
+      info:
+        Raycast is a productivity tool for macOS that lets you control your computer
+        with keyboard commands. It provides quick access to applications, system settings,
+        and custom scripts while being highly extensible through store extensions.
+      id: homebrew/cask/raycast
 - id: media
   name: Media & Design
   desc: Tools for graphic design, illustration, diagramming, and 3D modeling.
@@ -859,6 +957,20 @@
         of plain text Markdown files. It allows you to create a personal knowledge graph
         with bidirectional linking between notes.
       id: homebrew/cask/obsidian
+- id: office
+  name: Office
+  desc: Office suites applications for document creation and editing.
+  packages:
+    - name: LibreOffice
+      desc: Free cross-platform office suite, fresh version
+      homepage: https://www.libreoffice.org/
+      cask: true
+      recommended: true
+      info:
+        LibreOffice is a powerful and free office suite that includes applications
+        for word processing, spreadsheets, presentations, diagrams, and databases.
+        It's fully compatible with Microsoft Office formats while supporting open standards.
+      id: homebrew/cask/libreoffice
 - id: scm
   name: Source Code Management
   desc:
@@ -883,6 +995,24 @@
         wiki software server in a single integrated package. It's designed to be simpler
         than Git while still powerful.
       id: homebrew/core/fossil
+    - name: gitversion
+      desc: Easy semantic versioning for projects using Git
+      homepage: https://gitversion.net/docs/
+      recommended: true
+      info:
+        GitVersion is a tool that generates a Semantic Version number based on your Git
+        repository history. It works with various Git workflows and can be integrated
+        into build processes to automate version numbering.
+      id: homebrew/core/gitversion
+    - name: git-secret
+      desc: Bash-tool to store the private data inside a git repo
+      homepage: https://sobolevn.me/git-secret
+      recommended: true
+      info:
+        git-secret enables you to store private data inside a git repository by encrypting
+        files with GPG. The encrypted files can be safely shared in public repositories
+        while only authorized users with the proper GPG keys can decrypt them.
+      id: homebrew/core/git-secret
     - name: gh
       desc: GitHub command-line tool
       homepage: https://cli.github.com/
@@ -920,6 +1050,15 @@
         with Git and provides a simple interface for common Git operations like committing
         changes and browsing history.
       id: homebrew/core/git-gui
+    - name: git-lfs
+      desc: Git extension for versioning large files
+      homepage: https://git-lfs.com/
+      recommended: true
+      info:
+        Git Large File Storage (LFS) is a Git extension that replaces large files
+        with text pointers while storing the file contents on a remote server. It's
+        designed to handle large files more efficiently in Git repositories.
+      id: homebrew/core/git-lfs
     - name: GitKraken
       desc: Git client focusing on productivity
       homepage: https://www.gitkraken.com/
@@ -1025,6 +1164,15 @@
         your passwords in an encrypted database. It includes features like auto-type,
         browser integration, and TOTP support.
       id: homebrew/cask/keepassxc
+    - name: mkcert
+      desc: Simple tool to make locally trusted development certificates
+      homepage: https://github.com/FiloSottile/mkcert
+      recommended: true
+      info:
+        mkcert is a zero-config tool that makes locally-trusted development certificates.
+        It automatically creates and installs a local CA in the system root store, and
+        generates locally-trusted certificates for local development and testing.
+      id: homebrew/core/mkcert
     - name: pass
       desc: Password manager
       homepage: https://www.passwordstore.org/
@@ -1051,6 +1199,15 @@
         a 2D barcode. It's useful for sharing Wi-Fi passwords, URLs, or other data that
         can be scanned by smartphones.
       id: homebrew/core/qrencode
+    - name: sops
+      desc: Editor of encrypted files
+      homepage: https://getsops.io/
+      recommended: true
+      info:
+        SOPS (Secrets OPerationS) is an editor of encrypted files that supports YAML, 
+        JSON, ENV, INI and BINARY formats. It encrypts with AWS KMS, GCP KMS, Azure Key 
+        Vault, age, and PGP, making it ideal for managing sensitive configuration files.
+      id: homebrew/core/sops
 - id: snip
   name: Command Snippets & Documentation
   desc: Tools for managing command snippets, recording terminal sessions, and learning.
@@ -1123,6 +1280,16 @@
         using the Self-Monitoring, Analysis, and Reporting Technology (SMART) built
         into most modern hard drives and SSDs.
       id: homebrew/core/smartmontools
+    - name: Stats
+      desc: System monitor for the menu bar
+      homepage: https://github.com/exelban/stats
+      cask: true
+      recommended: true
+      info:
+        Stats is a macOS system monitor that lives in your menu bar. It provides real-time
+        information about your CPU, GPU, memory, network usage, and other system metrics
+        in a clean and configurable interface.
+      id: homebrew/cask/stats
     - name: bpytop
       desc: Linux/OSX/FreeBSD resource monitor
       homepage: https://github.com/aristocratos/bpytop
@@ -1181,18 +1348,9 @@
         with Taskwarrior. It helps you track time spent on activities and generates
         reports on how you spend your time.
       id: homebrew/core/timewarrior
-    - name: watch
-      desc: Executes a program periodically, showing output fullscreen
-      homepage: https://gitlab.com/procps-ng/procps
-      recommended: true
-      info:
-        watch is a command-line tool that runs a specified command repeatedly, displaying
-        its output fullscreen. It's useful for monitoring changing data or processes
-        in real-time.
-      id: homebrew/core/watch
 - id: term
-  name: Terminal Enhancements
-  desc: Tools for improving terminal experience, multiplexers, and system monitoring.
+  name: Terminal Emulators & Shell Tools
+  desc: Modern terminal emulators, multiplexers, and shell enhancements to improve productivity and user experience in the command line.
   packages:
     - name: gettext
       desc: GNU internationalization (i18n) and localization (l10n) library
@@ -1355,16 +1513,6 @@
         Bundesnetzagentur. It allows you to test your internet connection speed and
         quality to ensure you're getting the service you're paying for.
       id: homebrew/cask/breitbandmessung
-    - name: YouTube Downloader
-      desc: Simple menu bar app to download YouTube movies
-      homepage: https://github.com/DenBeke/YouTube-Downloader-for-macOS
-      cask: true
-      recommended: true
-      info:
-        YouTube Downloader is a simple menu bar app for macOS that allows you to
-        download YouTube movies for offline viewing. It provides a convenient way to
-        save videos for later.
-      id: homebrew/cask/youtube-downloader
     - name: Brave
       desc: Privacy-focused web browser
       homepage: https://brave.com/
@@ -1404,6 +1552,16 @@
         Orion is a WebKit-based browser designed for macOS. It aims to be a fast,
         privacy-focused alternative to Safari with support for Chrome and Firefox extensions.
       id: homebrew/cask/orion
+    - name: Bruno
+      desc: Opensource IDE for exploring and testing api's
+      homepage: https://www.usebruno.com/
+      cask: true
+      recommended: true
+      info:
+        Bruno is an open source IDE for exploring and testing APIs. It provides a
+        clean interface for sending HTTP requests, managing collections, and sharing
+        API documentation with your team.
+      id: homebrew/cask/bruno
 - id: uncategorized
   name: Uncategorized Packages
   desc: Packages that are installed on your System but not categorized, yet.
