@@ -447,6 +447,15 @@
         capabilities across multiple protocols including FTP, SFTP, WebDAV, S3, and more.
         It enables scripted and automated file transfers with various cloud storage services.
       id: homebrew/core/duck
+    - name: yazi
+      desc: Blazing fast terminal file manager written in Rust, based on async I/O
+      homepage: https://github.com/sxyazi/yazi
+      recommended: true
+      info:
+        Yazi is a blazing fast terminal file manager written in Rust and based on async I/O.
+        It provides an intuitive interface for navigating and managing files with high performance
+        and customizable features.
+      id: homebrew/core/yazi
 - id: k8s
   name: Kubernetes Tools
   desc: Tools for interacting with and managing Kubernetes clusters and resources.
@@ -656,6 +665,15 @@
         It provides an interactive environment with an integrated native compiler, debugger,
         and many extensions.
       id: homebrew/core/sbcl
+    - name: solargraph
+      desc: Ruby language server
+      homepage: https://solargraph.org
+      recommended: true
+      info:
+        Solargraph is a Ruby language server that provides code completion, inline documentation,
+        and static analysis for Ruby code. It enhances development environments with intelligent
+        features to improve productivity when working with Ruby.
+      id: homebrew/core/solargraph
 - id: macos
   name: macOS Enhancements
   desc:
@@ -1123,6 +1141,33 @@
         you to manage issues, pull requests, and other Gitea features from the command
         line, similar to GitHub's gh tool.
       id: homebrew/core/tea
+    - name: git-absorb
+      desc: Automatic git commit --fixup
+      homepage: https://github.com/tummychow/git-absorb
+      recommended: true
+      info:
+        git-absorb is a tool that automatically creates fixup commits for your staged changes,
+        matching them with their correct commits. It makes it easier to maintain a clean git
+        history by identifying which previous commits should be fixed.
+      id: homebrew/core/git-absorb
+    - name: git-ignore
+      desc: List, fetch and generate .gitignore templates
+      homepage: https://github.com/sondr3/git-ignore
+      recommended: true
+      info:
+        git-ignore is a tool for working with .gitignore templates. It allows you to list,
+        fetch, and generate .gitignore files for various programming languages and environments,
+        making it easier to exclude unwanted files from your git repositories.
+      id: homebrew/core/git-ignore
+    - name: git-recent
+      desc: See your latest local git branches, formatted real fancy
+      homepage: https://github.com/paulirish/git-recent
+      recommended: true
+      info:
+        git-recent displays your latest local git branches in a formatted and visually appealing
+        manner. It helps you quickly identify and switch to recently used branches, making
+        git workflow more efficient.
+      id: homebrew/core/git-recent
 - id: security
   name: Security & Encryption
   desc: Tools for password management, encryption, and security-related operations.
