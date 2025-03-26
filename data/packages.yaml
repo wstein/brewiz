@@ -456,6 +456,20 @@
         It provides an intuitive interface for navigating and managing files with high performance
         and customizable features.
       id: homebrew/core/yazi
+- id: fonts
+  name: Fonts
+  desc: Typography and font packages for coding and document preparation.
+  packages:
+    - name: font-hack-nerd-font
+      desc: Patched font Hack with icons
+      homepage: https://github.com/ryanoasis/nerd-fonts
+      cask: true
+      recommended: true
+      info:
+        Hack Nerd Font is a programmer's font with a high number of glyphs (icons).
+        It's designed to be a clean, distinctive, and readable monospace font that includes
+        programming ligatures and specialized icons useful for coding.
+      id: homebrew/cask/font-hack-nerd-font
 - id: k8s
   name: Kubernetes Tools
   desc: Tools for interacting with and managing Kubernetes clusters and resources.
@@ -1168,6 +1182,34 @@
         manner. It helps you quickly identify and switch to recently used branches, making
         git workflow more efficient.
       id: homebrew/core/git-recent
+    - name: git-spice
+      desc: Manage stacked Git branches
+      homepage: https://abhinav.github.io/git-spice/
+      recommended: true
+      info:
+        Git Spice is a tool for working with stacked Git branches. It provides commands
+        to create, update, and manage stacks of related branches, making complex feature
+        development and code reviews more efficient.
+      id: homebrew/core/git-spice
+    - name: git-who
+      desc: Git blame for file trees
+      homepage: https://github.com/sinclairtarget/git-who
+      recommended: true
+      info:
+        Git Who extends Git's blame functionality to work on entire file trees rather
+        than individual files. It helps you understand who wrote which parts of your
+        codebase, providing insights about code ownership across multiple files.
+      id: homebrew/core/git-who
+    - name: gitup
+      desc: Git interface focused on visual interaction
+      homepage: https://gitup.co/
+      cask: true
+      recommended: true
+      info:
+        GitUp is a Git interface focused on visual interaction. It offers a unique
+        way to visualize and manage Git repositories with features like live branching,
+        quick undo/redo, and a visual commit graph for easier repository navigation.
+      id: homebrew/cask/gitup
 - id: security
   name: Security & Encryption
   desc: Tools for password management, encryption, and security-related operations.
