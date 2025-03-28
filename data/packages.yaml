@@ -546,6 +546,15 @@
         it easier to view logs from multiple sources simultaneously. It's particularly
         useful in microservice architectures.
       id: homebrew/core/stern
+    - name: telepresence-oss
+      desc: Local dev environment attached to a remote Kubernetes cluster
+      homepage: https://telepresence.io
+      recommended: true
+      info:
+        Telepresence allows developers to run a single service locally while connecting
+        to a remote Kubernetes cluster. It enables faster feedback loops when developing
+        services that are part of a larger application running in Kubernetes.
+      id: telepresenceio/telepresence/telepresence-oss
 - id: lang
   name: Programming Languages
   desc:
@@ -813,6 +822,16 @@
         with keyboard commands. It provides quick access to applications, system settings,
         and custom scripts while being highly extensible through store extensions.
       id: homebrew/cask/raycast
+    - name: Karabiner Elements
+      desc: Keyboard customiser
+      homepage: https://karabiner-elements.pqrs.org/
+      cask: true
+      recommended: true
+      info:
+        Karabiner Elements is a powerful keyboard customization tool for macOS that
+        allows you to remap keys, create complex modifications, and customize keyboard
+        behavior at a system level for improved productivity and ergonomics.
+      id: homebrew/cask/karabiner-elements
 - id: media
   name: Media & Design
   desc: Tools for graphic design, illustration, diagramming, and 3D modeling.
@@ -963,6 +982,15 @@
         to localhost. It allows you to expose local servers to the internet for testing
         and sharing without deploying code.
       cask: true
+    - name: wget
+      desc: Internet file retriever
+      homepage: https://www.gnu.org/software/wget/
+      recommended: true
+      info:
+        wget is a free utility for non-interactive download of files from the web.
+        It supports HTTP, HTTPS, and FTP protocols, as well as retrieval through HTTP
+        proxies, making it a versatile tool for downloading files from the command line.
+      id: homebrew/core/wget
 - id: notes
   name: Notes & Knowledge Management
   desc: Tools for note-taking, knowledge management, and document organization.
@@ -1210,6 +1238,15 @@
         way to visualize and manage Git repositories with features like live branching,
         quick undo/redo, and a visual commit graph for easier repository navigation.
       id: homebrew/cask/gitup
+    - name: forgit
+      desc: Interactive git commands in the terminal
+      homepage: https://github.com/wfxr/forgit
+      recommended: true
+      info:
+        forgit is a utility that leverages fzf to enhance git commands, providing
+        interactive interfaces for git add, git diff, git log, git blame, and more.
+        It makes Git operations more intuitive and visual in the terminal.
+      id: homebrew/core/forgit
 - id: security
   name: Security & Encryption
   desc: Tools for password management, encryption, and security-related operations.
@@ -1295,6 +1332,33 @@
         JSON, ENV, INI and BINARY formats. It encrypts with AWS KMS, GCP KMS, Azure Key 
         Vault, age, and PGP, making it ideal for managing sensitive configuration files.
       id: homebrew/core/sops
+    - name: showcert
+      desc: X.509 TLS certificate reader and creator
+      homepage: https://github.com/yaroslaff/showcert
+      recommended: true
+      info:
+        showcert is a tool for reading and creating X.509 TLS certificates. It provides
+        a simple interface for inspecting certificate information and generating certificates
+        for testing and development purposes.
+      id: homebrew/core/showcert
+    - name: testssl
+      desc: Tool which checks for the support of TLS/SSL ciphers and flaws
+      homepage: https://testssl.sh/
+      recommended: true
+      info:
+        testssl.sh is a command line tool that checks a server's service on any port
+        for the support of TLS/SSL ciphers, protocols and cryptographic flaws. It helps
+        identify security vulnerabilities in SSL/TLS configurations.
+      id: homebrew/core/testssl
+    - name: trivy
+      desc: Vulnerability scanner for container images, file systems, and Git repos
+      homepage: https://trivy.dev/
+      recommended: true
+      info:
+        Trivy is a comprehensive security scanner for vulnerabilities in container images,
+        file systems, and Git repositories. It detects vulnerabilities in OS packages
+        and application dependencies, helping to secure your software supply chain.
+      id: homebrew/core/trivy
 - id: snip
   name: Command Snippets & Documentation
   desc: Tools for managing command snippets, recording terminal sessions, and learning.
