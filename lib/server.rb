@@ -14,8 +14,7 @@ class Server
   rescue Interrupt
     @server.shutdown
   rescue StandardError => e
-    puts "Error: #{e.message}"
-    exit 1
+    raise "Error starting server: #{e.message}"
   end
 
   private
@@ -52,7 +51,6 @@ class Server
   def frontend_server_port_open?
     Net::HTTP.get_response(URI(@options[:app_url]))
   rescue StandardError
-    puts "Error: Node server not running on #{@options[:app_url]}"
-    exit 1
+    raise "Node server not running on #{@options[:app_url]}"
   end
 end
