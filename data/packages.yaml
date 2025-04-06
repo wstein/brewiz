@@ -2,7 +2,16 @@
 - id: ai
   name: AI & Machine Learning
   desc: Tools for artificial intelligence, machine learning, and large language models.
-  packages: []
+  packages: 
+    - name: ollama
+      desc: Create, run, and share large language models (LLMs)
+      homepage: https://ollama.com/
+      recommended: true
+      info:
+        Ollama is a tool for running and managing large language models locally.
+        It allows you to easily run, create, and customize AI models on your own
+        hardware, with support for various open-source models.
+      id: homebrew/core/ollama
 - id: archive
   name: Archiving & Compression
   desc: Tools for compressing, archiving, and extracting files.
@@ -141,15 +150,6 @@
   name: Containers & Virtualization
   desc: Container management tools, Docker utilities, and container runtime environments.
   packages:
-    - name: govc
-      desc: Command-line tool for VMware vSphere
-      homepage: https://github.com/vmware/govmomi/tree/main/govc
-      recommended: true
-      info:
-        govc is a command-line tool for interacting with VMware vSphere APIs. It
-        provides a simple and powerful way to manage virtual machines, datastores, networks,
-        and other vSphere resources.
-      id: homebrew/core/govc
     - name: rancher-cli
       desc: Unified tool to manage your Rancher server
       homepage: https://github.com/rancher/cli
@@ -274,15 +274,6 @@
         on the concept of a project object model (POM), Maven can manage a project's
         build, reporting and documentation from a central piece of information.
       id: homebrew/core/maven
-    - name: ollama
-      desc: Create, run, and share large language models (LLMs)
-      homepage: https://ollama.com/
-      recommended: true
-      info:
-        Ollama is a tool for running and managing large language models locally.
-        It allows you to easily run, create, and customize AI models on your own
-        hardware, with support for various open-source models.
-      id: homebrew/core/ollama
 - id: editor
   name: IDE & Editors
   desc: Text editors, integrated development environments, and coding tools.
@@ -1182,6 +1173,24 @@
         Git easier, safer, and more powerful with features like visual commit history,
         merge conflict resolution tools, and integrations with GitHub, GitLab, and Bitbucket.
       id: homebrew/cask/gitkraken
+    - name: gitversion
+      desc: Easy semantic versioning for projects using Git
+      homepage: https://gitversion.net/docs/
+      recommended: true
+      info:
+        GitVersion is a tool that generates a Semantic Version number based on your Git
+        repository history. It works with various Git workflows and can be integrated
+        into build processes to automate version numbering.
+      id: homebrew/core/gitversion
+    - name: tea
+      desc: Command-line tool to interact with Gitea servers
+      homepage: https://gitea.com/gitea/tea
+      recommended: true
+      info:
+        tea is the official CLI tool for Gitea, a self-hosted Git service. It allows
+        you to manage issues, pull requests, and other Gitea features from the command
+        line, similar to GitHub's gh tool.
+      id: homebrew/core/tea
     - name: GitKraken CLI
       desc: CLI for GitKraken
       homepage: https://github.com/gitkraken/gk-cli
@@ -1277,30 +1286,6 @@
         wiki software server in a single integrated package. It's designed to be simpler
         than Git while still powerful.
       id: homebrew/core/fossil
-    - name: gitversion
-      desc: Easy semantic versioning for projects using Git
-      homepage: https://gitversion.net/docs/
-      recommended: true
-      info:
-        GitVersion is a tool that generates a Semantic Version number based on your Git
-        repository history. It works with various Git workflows and can be integrated
-        into build processes to automate version numbering.
-      id: homebrew/core/gitversion
-    - name: tea
-      desc: Command-line tool to interact with Gitea servers
-      homepage: https://gitea.com/gitea/tea
-      recommended: true
-      info:
-        tea is the official CLI tool for Gitea, a self-hosted Git service. It allows
-        you to manage issues, pull requests, and other Gitea features from the command
-        line, similar to GitHub's gh tool.
-      id: homebrew/core/tea
-- id: scm
-  name: Source Code Management
-  desc:
-    Tools for source code management, Git extensions, and collaborative development
-    workflows.
-  packages: []
 - id: security
   name: Security & Encryption
   desc: Tools for password management, encryption, and security-related operations.
@@ -1676,6 +1661,15 @@
   name: Virtual Machines
   desc: Tools for managing, emulating, and running virtual machines.
   packages:
+    - name: govc
+      desc: Command-line tool for VMware vSphere
+      homepage: https://github.com/vmware/govmomi/tree/main/govc
+      recommended: true
+      info:
+        govc is a command-line tool for interacting with VMware vSphere APIs. It
+        provides a simple and powerful way to manage virtual machines, datastores, networks,
+        and other vSphere resources.
+      id: homebrew/core/govc
     - name: lima
       desc: Linux virtual machines
       homepage: https://lima-vm.io/
