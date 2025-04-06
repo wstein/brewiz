@@ -1,0 +1,76 @@
+#!/usr/bin/env ruby
+#frozen_string_literal: true
+
+require 'yaml'
+
+# Path to the YAML file
+packages_file = 'data/packages.yaml'
+
+# Load the YAML file
+puts "Loading packages from #{packages_file}..."
+packages_data = YAML.load_file(packages_file)
+
+# Count tag occurrences to identify single-use tags
+tag_counts = {}
+
+# First pass: count all tags
+packages_data.each do |category|
+  next unless category.is_a?(Hash) && category['packages'].is_a?(Array)
+
+  category['packages'].each do |package|
+    next unless package['tags'].is_a?(Array)
+
+    package['tags'].each do |tag|
+      tag_counts[tag] ||= 0
+      tag_counts[tag] += 1
+    end
+  end
+end
+
+# Identify single-use tags
+single_use_tags = tag_counts.select { |tag, count| count == 1 }.keys
+puts "Found #{single_use_tags.size} tags that are used only once:"
+puts single_use_tags.sort.join(", ")
+
+# Second pass: remove single-use tags
+removed_count = 0
+packages_data.each do |category|
+  next unless category.is_a?(Hash) && category['packages'].is_a?(Array)
+
+  category['packages'].each do |package|
+    next unless package['tags'].is_a?(Array)
+
+    original_size = package['tags'].size
+    package['tags'] = package['tags'].reject { |tag| single_use_tags.include?(tag) }
+    removed_count += (original_size - package['tags'].size)
+  end
+end
+
+puts "Removed #{removed_count} tag occurrences from packages"
+
+# Create a backup of the original file
+backup_path = "#{packages_file}.bak"
+File.write(backup_path, File.read(packages_file))
+puts "Created backup at #{backup_path}"
+
+# Write the updated packages.yaml
+File.open(packages_file, 'w') do |file|
+  file.write(YAML.dump(packages_data))
+end
+
+puts "Updated packages file successfully!"
+
+
+__END__
+
+The script:
+
+- Loads your packages.yaml file
+- Counts how many times each tag is used across all packages
+- Identifies tags that appear only once
+- Removes these single-use tags from all packages
+- Creates a backup of your original file
+- Saves the updated YAML file
+
+This helps clean up your tag system by removing tags that are too specific or not useful for filtering across multiple
+packages. The script also prints a list of the removed tags so you can see what was eliminated.

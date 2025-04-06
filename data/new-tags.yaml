@@ -1,0 +1,3 @@
+---
+- id: homebrew/core/ollama
+  tags: [ai]

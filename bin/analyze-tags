@@ -1,0 +1,108 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require 'yaml'
+
+# Parse the YAML file
+file_path = 'data/packages.yaml'
+data = YAML.load_file(file_path)
+
+# Initialize tracking variables
+tag_counts = Hash.new(0)
+tag_to_packages = Hash.new { |h, k| h[k] = [] }
+tag_to_categories = Hash.new { |h, k| h[k] = Set.new }
+packages_with_tags = 0
+total_packages = 0
+categories_with_tags = Set.new
+packages_without_tags = []
+
+# Process data
+data.each do |category|
+  category_id = category['id']
+  category_has_tagged_packages = false
+
+  if category['packages']
+    category['packages'].each do |package|
+      total_packages += 1
+
+      if package['tags'] && !package['tags'].empty?
+        packages_with_tags += 1
+        category_has_tagged_packages = true
+
+        package['tags'].each do |tag|
+          tag_counts[tag] += 1
+          tag_to_packages[tag] << package['name']
+          tag_to_categories[tag].add(category_id)
+        end
+      else
+        packages_without_tags << {
+          'name' => package['name'],
+          'category' => category_id,
+          'category_name' => category['name']
+        }
+      end
+    end
+  end
+
+  categories_with_tags.add(category_id) if category_has_tagged_packages
+end
+
+# Sort tags by frequency
+sorted_tags = tag_counts.sort_by { |_tag, count| -count }
+
+# Output main statistics
+puts "=== MAIN STATISTICS ===".center(80, "=")
+puts "Total packages: #{total_packages}"
+puts "Packages with tags: #{packages_with_tags} (#{(packages_with_tags.to_f / total_packages * 100).round(2)}%)"
+puts "Packages without tags: #{packages_without_tags.size} (#{(packages_without_tags.size.to_f / total_packages * 100).round(2)}%)"
+puts "Total unique tags: #{tag_counts.size}"
+puts "Categories with tagged packages: #{categories_with_tags.size}/#{data.size}"
+puts
+
+puts "=== PACKAGES WITHOUT TAGS (#{packages_without_tags.size}) ===".center(80, "=")
+puts "Package Name".ljust(40) + "Category"
+puts "-" * 80
+packages_without_tags.sort_by { |p| [p['category_name'], p['name']] }.each do |package|
+  puts "#{package['name']}".ljust(40) + "#{package['category_name']} (#{package['category']})"
+end
+puts
+
+puts "=== MOST COMMON TAGS ===".center(80, "=")
+sorted_tags.take(10).each_with_index do |(tag, count), index|
+  percentage = (count.to_f / packages_with_tags * 100).round(2)
+  puts "#{index + 1}. #{tag}: #{count} packages (#{percentage}% of tagged packages)"
+end
+puts
+
+puts "=== TAGS PER CATEGORY ===".center(80, "=")
+category_tags = Hash.new { |h, k| h[k] = Set.new }
+
+data.each do |category|
+  if category['packages']
+    category['packages'].each do |package|
+      if package['tags']
+        package['tags'].each do |tag|
+          category_tags[category['id']].add(tag)
+        end
+      end
+    end
+  end
+end
+
+category_tags.sort_by { |_category, tags| -tags.size }.each do |category_id, tags|
+  category_name = data.find { |c| c['id'] == category_id }['name']
+  puts "#{category_id} (#{category_name}): #{tags.size} unique tags"
+  puts "   Most common: #{tags.to_a.sort_by { |tag| -tag_counts[tag] }.take(5).join(', ')}" unless tags.empty?
+end
+puts
+
+puts "=== SUGGESTIONS ===".center(80, "=")
+# Identify categories without tags
+categories_without_tags = data.select { |category| category['packages'] && !categories_with_tags.include?(category['id']) }
+                             .map { |category| "#{category['id']} (#{category['name']})" }
+puts "Categories without any tagged packages: #{categories_without_tags.join(', ')}" unless categories_without_tags.empty?
+
+# Identify single-use tags that might be consolidated
+single_tags_count = sorted_tags.count { |_tag, count| count == 1 }
+puts "Single-use tags: #{single_tags_count} (#{(single_tags_count.to_f / tag_counts.size * 100).round(2)}% of all tags)"
+puts "Consider consolidating similar single-use tags for better organization."

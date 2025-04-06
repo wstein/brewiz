@@ -1,0 +1,72 @@
+#!/usr/bin/env ruby
+require 'yaml'
+
+# Paths to the YAML files
+packages_file = 'data/packages.yaml'
+new_tags_file = 'data/new-tags.yaml'
+
+# Load both YAML files
+begin
+  puts "Loading packages from #{packages_file}..."
+  packages_data = YAML.load_file(packages_file)
+
+  puts "Loading new tags from #{new_tags_file}..."
+  new_tags_data = YAML.load_file(new_tags_file)
+
+  # Create a mapping of package IDs to their new tags
+  tag_map = {}
+  new_tags_data.each do |item|
+    tag_map[item['id']] = item['tags'] if item['id'] && item['tags']
+  end
+
+  puts "Found #{tag_map.size} package tag definitions to apply"
+
+  # Count variables for reporting
+  total_packages = 0
+  updated_packages = 0
+
+  # Update tags for each package in packages.yaml
+  packages_data.each do |category|
+    next unless category.is_a?(Hash) && category['packages'].is_a?(Array)
+
+    category['packages'].each do |package|
+      total_packages += 1
+      if package['id'] && tag_map[package['id']]
+        package['tags'] = tag_map[package['id']]
+        updated_packages += 1
+      end
+    end
+  end
+
+  # Write the updated packages.yaml with proper formatting
+  File.open(packages_file, 'w') do |file|
+    file.write(YAML.dump(packages_data))
+  end
+
+  puts "Updated #{updated_packages} of #{total_packages} packages with new tags"
+  puts "Tags update complete!"
+
+rescue => e
+  puts "Error: #{e.message}"
+  puts e.backtrace
+  exit 1
+end
+
+__END__
+
+
+Thios is a Ruby script that updates your packages.yaml file with the tags from new-tags.yaml:
+
+To use this script:
+
+Save it to a file, for example update_tags.rb
+Make it executable: chmod +x update_tags.rb
+Run it: ./update_tags.rb
+The script:
+
+Loads both YAML files
+Creates a mapping from package IDs to their new tags
+Updates each package in the original file if a match is found
+Creates a backup of the original file before making changes
+Writes the updated data back to the packages.yaml file
+Provides summary information about the changes made
