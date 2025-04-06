@@ -2,16 +2,7 @@
 - id: ai
   name: AI & Machine Learning
   desc: Tools for artificial intelligence, machine learning, and large language models.
-  packages:
-    - name: ollama
-      desc: Create, run, and share large language models (LLMs)
-      homepage: https://ollama.com/
-      recommended: true
-      info:
-        Ollama is a tool for running and managing large language models locally.
-        It allows you to easily run, create, and customize AI models on your own
-        hardware, with support for various open-source models.
-      id: homebrew/core/ollama
+  packages: []
 - id: archive
   name: Archiving & Compression
   desc: Tools for compressing, archiving, and extracting files.
@@ -82,28 +73,6 @@
         suggestions for bash/sh shell scripts. It helps identify and fix common shell
         script issues and follows best practices.
       id: homebrew/core/shellcheck
-- id: build
-  name: Build Tools & Package Managers
-  desc: Tools for managing dependencies, building projects, and package management.
-  packages:
-    - name: leiningen
-      desc: Build tool for Clojure
-      homepage: https://github.com/technomancy/leiningen
-      recommended: true
-      info:
-        Leiningen is the easiest way to use Clojure. With a focus on project automation
-        and declarative configuration, it gets out of your way and lets you focus on
-        your code.
-      id: homebrew/core/leiningen
-    - name: maven
-      desc: Java-based project management
-      homepage: https://maven.apache.org/
-      recommended: true
-      info:
-        Apache Maven is a software project management and comprehension tool. Based
-        on the concept of a project object model (POM), Maven can manage a project's
-        build, reporting and documentation from a central piece of information.
-      id: homebrew/core/maven
 - id: cloud
   name: Cloud & DevOps
   desc: Tools for cloud infrastructure, deployment automation, and DevOps workflows.
@@ -273,6 +242,47 @@
         images and image repositories. It can copy, inspect, delete, and sign container
         images without needing a daemon.
       id: homebrew/core/skopeo
+    - name: mintoolkit
+      desc: Minify and secure Docker images
+      homepage: https://slimtoolkit.org/
+      recommended: true
+      info:
+        mintoolkit (previously slimtoolkit) is a suite of tools to analyze, optimize, and 
+        secure Docker images. It helps reduce container size by up to 30x, minimize attack surface, 
+        and improve deployment efficiency by automatically removing unnecessary components from images
+        through static and dynamic analysis.
+      id: homebrew/core/mintoolkit
+- id: devutil
+  name: Development Utilities
+  desc: Tools and utilities for software development, building, and analysis across programming languages.
+  packages:
+    - name: leiningen
+      desc: Build tool for Clojure
+      homepage: https://github.com/technomancy/leiningen
+      recommended: true
+      info:
+        Leiningen is the easiest way to use Clojure. With a focus on project automation
+        and declarative configuration, it gets out of your way and lets you focus on
+        your code.
+      id: homebrew/core/leiningen
+    - name: maven
+      desc: Java-based project management
+      homepage: https://maven.apache.org/
+      recommended: true
+      info:
+        Apache Maven is a software project management and comprehension tool. Based
+        on the concept of a project object model (POM), Maven can manage a project's
+        build, reporting and documentation from a central piece of information.
+      id: homebrew/core/maven
+    - name: ollama
+      desc: Create, run, and share large language models (LLMs)
+      homepage: https://ollama.com/
+      recommended: true
+      info:
+        Ollama is a tool for running and managing large language models locally.
+        It allows you to easily run, create, and customize AI models on your own
+        hardware, with support for various open-source models.
+      id: homebrew/core/ollama
 - id: editor
   name: IDE & Editors
   desc: Text editors, integrated development environments, and coding tools.
@@ -336,9 +346,67 @@
         Atom and Tree-sitter. It's built to be fast, collaborative, and extensible with
         a modern user interface.
       id: homebrew/cask/zed
-- id: file
-  name: File Navigation & Management
-  desc: Tools for searching, navigating, and managing files and directories.
+- id: file-nav
+  name: File Navigation & Search
+  desc: Tools for searching, navigating, and exploring file systems and directories.
+  packages:
+    - name: fd
+      desc: Simple, fast and user-friendly alternative to find
+      homepage: https://github.com/sharkdp/fd
+      recommended: true
+      info:
+        fd is a simple, fast, and user-friendly alternative to the find command.
+        It offers sensible defaults for most use cases and has convenient syntax for
+        filtering and matching.
+      id: homebrew/core/fd
+    - name: fzf
+      desc: Command-line fuzzy finder written in Go
+      homepage: https://github.com/junegunn/fzf
+      recommended: true
+      info:
+        "fzf is a general-purpose command-line fuzzy finder. It's an interactive
+        Unix filter for command-line that can be used with any list: files, command
+        history, processes, hostnames, git commits, etc."
+      id: homebrew/core/fzf
+    - name: tre-command
+      id: homebrew/core/tre-command
+      desc: Tree command, improved
+      homepage: https://github.com/dduan/tre
+      recommended: true
+      info:
+        tre is an improved version of the tree command, showing directory structures
+        in a tree-like format. It's useful for visualizing file hierarchies and navigating
+        directories more efficiently.
+    - name: ripgrep
+      desc: Search tool like grep and The Silver Searcher
+      homepage: https://github.com/BurntSushi/ripgrep
+      recommended: true
+      info:
+        ripgrep (rg) is a line-oriented search tool that recursively searches your
+        current directory for a regex pattern. It's similar to grep, but much faster
+        and respects gitignore rules.
+      id: homebrew/core/ripgrep
+    - name: tree
+      desc: Display directories as trees (with optional color/HTML output)
+      homepage: https://oldmanprogrammer.net/source.php?dir=projects/tree
+      info:
+        tree is a recursive directory listing command that produces a depth-indented
+        listing of files. It's useful for visualizing directory structures in a more
+        intuitive way than ls.
+      id: homebrew/core/tree
+    - name: yazi
+      desc: Blazing fast terminal file manager written in Rust, based on async I/O
+      homepage: https://github.com/sxyazi/yazi
+      recommended: true
+      info:
+        Yazi is a blazing fast terminal file manager written in Rust and based on async I/O.
+        It provides an intuitive interface for navigating and managing files with high performance
+        and customizable features.
+      id: homebrew/core/yazi
+
+- id: file-util
+  name: File System Utilities
+  desc: Tools for monitoring disk usage, file operations, and system file management.
   packages:
     - name: duf
       desc: Disk Usage/Free Utility - a better 'df' alternative
@@ -367,33 +435,6 @@
         defaults. It uses colors to distinguish file types and metadata and has excellent
         Git integration.
       id: homebrew/core/eza
-    - name: tre-command
-      id: homebrew/core/tre-command
-      desc: Tree command, improved
-      homepage: https://github.com/dduan/tre
-      recommended: true
-      info:
-        tre is an improved version of the tree command, showing directory structures
-        in a tree-like format. It's useful for visualizing file hierarchies and navigating
-        directories more efficiently.
-    - name: fd
-      desc: Simple, fast and user-friendly alternative to find
-      homepage: https://github.com/sharkdp/fd
-      recommended: true
-      info:
-        fd is a simple, fast, and user-friendly alternative to the find command.
-        It offers sensible defaults for most use cases and has convenient syntax for
-        filtering and matching.
-      id: homebrew/core/fd
-    - name: fzf
-      desc: Command-line fuzzy finder written in Go
-      homepage: https://github.com/junegunn/fzf
-      recommended: true
-      info:
-        "fzf is a general-purpose command-line fuzzy finder. It's an interactive
-        Unix filter for command-line that can be used with any list: files, command
-        history, processes, hostnames, git commits, etc."
-      id: homebrew/core/fzf
     - name: moreutils
       desc: Collection of tools that nobody wrote when UNIX was young
       homepage: https://joeyh.name/code/moreutils/
@@ -403,15 +444,6 @@
         standard utilities. It includes tools like sponge, vidir, ts, combine, and more
         to enhance your command-line workflow.
       id: homebrew/core/moreutils
-    - name: ripgrep
-      desc: Search tool like grep and The Silver Searcher
-      homepage: https://github.com/BurntSushi/ripgrep
-      recommended: true
-      info:
-        ripgrep (rg) is a line-oriented search tool that recursively searches your
-        current directory for a regex pattern. It's similar to grep, but much faster
-        and respects gitignore rules.
-      id: homebrew/core/ripgrep
     - name: watch
       desc: Executes a program periodically, showing output fullscreen
       homepage: https://gitlab.com/procps-ng/procps
@@ -430,14 +462,6 @@
         It's optimized for performance and reliability, making it ideal for development
         workflows and build tools that need to respond to file changes.
       id: homebrew/core/watchman
-    - name: tree
-      desc: Display directories as trees (with optional color/HTML output)
-      homepage: https://oldmanprogrammer.net/source.php?dir=projects/tree
-      info:
-        tree is a recursive directory listing command that produces a depth-indented
-        listing of files. It's useful for visualizing directory structures in a more
-        intuitive way than ls.
-      id: homebrew/core/tree
     - name: duck
       desc: Command-line interface for Cyberduck (a multi-protocol file transfer tool)
       homepage: https://duck.sh/
@@ -447,15 +471,6 @@
         capabilities across multiple protocols including FTP, SFTP, WebDAV, S3, and more.
         It enables scripted and automated file transfers with various cloud storage services.
       id: homebrew/core/duck
-    - name: yazi
-      desc: Blazing fast terminal file manager written in Rust, based on async I/O
-      homepage: https://github.com/sxyazi/yazi
-      recommended: true
-      info:
-        Yazi is a blazing fast terminal file manager written in Rust and based on async I/O.
-        It provides an intuitive interface for navigating and managing files with high performance
-        and customizable features.
-      id: homebrew/core/yazi
 - id: fonts
   name: Fonts
   desc: Typography and font packages for coding and document preparation.
@@ -653,6 +668,15 @@
         It allows you to run JavaScript on the server side, enabling the development
         of scalable network applications.
       id: homebrew/core/node
+    - name: node@18
+      desc: Platform built on V8 to build network applications
+      homepage: https://nodejs.org/
+      info:
+        Node.js 18 is an LTS (Long Term Support) version of Node.js that will be maintained until 
+        October 2025. It provides a stable JavaScript runtime for server applications with improved 
+        performance and security features over previous versions. This keg-only formula requires 
+        manual path configuration to use as your primary Node.js environment.
+      id: homebrew/core/node@18
     - name: openjdk@21
       desc: Development kit for the Java programming language
       homepage: https://openjdk.java.net/
@@ -697,6 +721,16 @@
         and static analysis for Ruby code. It enhances development environments with intelligent
         features to improve productivity when working with Ruby.
       id: homebrew/core/solargraph
+    - name: vala
+      desc: Compiler for the GObject type system
+      homepage: https://wiki.gnome.org/Projects/Vala
+      recommended: true
+      info:
+        Vala is a programming language that aims to bring modern programming language features 
+        to GNOME developers without imposing additional runtime requirements. It translates to C 
+        and is designed to work with the GObject type system, making it ideal for GNOME and GTK 
+        application development with syntax similar to C# and Java.
+      id: homebrew/core/vala
 - id: macos
   name: macOS Enhancements
   desc:
@@ -990,6 +1024,8 @@
         wget is a free utility for non-interactive download of files from the web.
         It supports HTTP, HTTPS, and FTP protocols, as well as retrieval through HTTP
         proxies, making it a versatile tool for downloading files from the command line.
+        It can work in the background and recover from broken downloads, making it ideal for
+        unstable connections.
       id: homebrew/core/wget
 - id: notes
   name: Notes & Knowledge Management
@@ -1031,57 +1067,19 @@
         for word processing, spreadsheets, presentations, diagrams, and databases.
         It's fully compatible with Microsoft Office formats while supporting open standards.
       id: homebrew/cask/libreoffice
-- id: scm
-  name: Source Code Management
-  desc:
-    Tools for source code management, Git extensions, and collaborative development
-    workflows.
+- id: git
+  name: Git Tools
+  desc: Git-specific utilities, extensions, and interfaces for enhanced Git workflows.
   packages:
-    - name: darcs
-      desc: Distributed version control system that tracks changes, via Haskell
-      homepage: https://darcs.net/
+    - name: git-absorb
+      desc: Automatic git commit --fixup
+      homepage: https://github.com/tummychow/git-absorb
       recommended: true
       info:
-        Darcs is a distributed version control system written in Haskell. It has
-        a unique approach to version control with its 'theory of patches', focusing
-        on changes rather than snapshots.
-      id: homebrew/core/darcs
-    - name: fossil
-      desc: Distributed software configuration management
-      homepage: https://www.fossil-scm.org/home/
-      recommended: true
-      info:
-        Fossil is a distributed version control system, bug tracking system and
-        wiki software server in a single integrated package. It's designed to be simpler
-        than Git while still powerful.
-      id: homebrew/core/fossil
-    - name: gitversion
-      desc: Easy semantic versioning for projects using Git
-      homepage: https://gitversion.net/docs/
-      recommended: true
-      info:
-        GitVersion is a tool that generates a Semantic Version number based on your Git
-        repository history. It works with various Git workflows and can be integrated
-        into build processes to automate version numbering.
-      id: homebrew/core/gitversion
-    - name: git-secret
-      desc: Bash-tool to store the private data inside a git repo
-      homepage: https://sobolevn.me/git-secret
-      recommended: true
-      info:
-        git-secret enables you to store private data inside a git repository by encrypting
-        files with GPG. The encrypted files can be safely shared in public repositories
-        while only authorized users with the proper GPG keys can decrypt them.
-      id: homebrew/core/git-secret
-    - name: gh
-      desc: GitHub command-line tool
-      homepage: https://cli.github.com/
-      recommended: true
-      info:
-        GitHub CLI (gh) brings GitHub to your terminal. It allows you to manage
-        issues, pull requests, releases, and other GitHub features directly from the
-        command line.
-      id: homebrew/core/gh
+        git-absorb is a tool that automatically creates fixup commits for your staged changes,
+        matching them with their correct commits. It makes it easier to maintain a clean git
+        history by identifying which previous commits should be fixed.
+      id: homebrew/core/git-absorb
     - name: git-branchless
       desc: High-velocity, monorepo-scale workflow for Git
       homepage: https://github.com/arxanas/git-branchless
@@ -1101,6 +1099,16 @@
         authentication for Git operations. It supports various authentication methods
         including multi-factor authentication for GitHub, Azure DevOps, and other services.
       id: homebrew/cask/git-credential-manager
+    - name: git-cliff
+      desc: Highly customizable changelog generator
+      homepage: https://git-cliff.org/
+      recommended: true
+      info:
+        git-cliff is a highly customizable changelog generator that creates changelogs
+        based on Git history. It parses conventional commits to automatically generate
+        structured release notes and version histories. It supports custom templates,
+        filtering options, and integrates well with CI/CD pipelines.
+      id: homebrew/core/git-cliff
     - name: git-gui
       desc: Tcl/Tk UI for the git revision control system
       homepage: https://git-scm.com
@@ -1110,6 +1118,15 @@
         with Git and provides a simple interface for common Git operations like committing
         changes and browsing history.
       id: homebrew/core/git-gui
+    - name: git-ignore
+      desc: List, fetch and generate .gitignore templates
+      homepage: https://github.com/sondr3/git-ignore
+      recommended: true
+      info:
+        git-ignore is a tool for working with .gitignore templates. It allows you to list,
+        fetch, and generate .gitignore files for various programming languages and environments,
+        making it easier to exclude unwanted files from your git repositories.
+      id: homebrew/core/git-ignore
     - name: git-lfs
       desc: Git extension for versioning large files
       homepage: https://git-lfs.com/
@@ -1119,6 +1136,42 @@
         with text pointers while storing the file contents on a remote server. It's
         designed to handle large files more efficiently in Git repositories.
       id: homebrew/core/git-lfs
+    - name: git-recent
+      desc: See your latest local git branches, formatted real fancy
+      homepage: https://github.com/paulirish/git-recent
+      recommended: true
+      info:
+        git-recent displays your latest local git branches in a formatted and visually appealing
+        manner. It helps you quickly identify and switch to recently used branches, making
+        git workflow more efficient.
+      id: homebrew/core/git-recent
+    - name: git-secret
+      desc: Bash-tool to store the private data inside a git repo
+      homepage: https://sobolevn.me/git-secret
+      recommended: true
+      info:
+        git-secret enables you to store private data inside a git repository by encrypting
+        files with GPG. The encrypted files can be safely shared in public repositories
+        while only authorized users with the proper GPG keys can decrypt them.
+      id: homebrew/core/git-secret
+    - name: git-spice
+      desc: Manage stacked Git branches
+      homepage: https://abhinav.github.io/git-spice/
+      recommended: true
+      info:
+        Git Spice is a tool for working with stacked Git branches. It provides commands
+        to create, update, and manage stacks of related branches, making complex feature
+        development and code reviews more efficient.
+      id: homebrew/core/git-spice
+    - name: git-who
+      desc: Git blame for file trees
+      homepage: https://github.com/sinclairtarget/git-who
+      recommended: true
+      info:
+        Git Who extends Git's blame functionality to work on entire file trees rather
+        than individual files. It helps you understand who wrote which parts of your
+        codebase, providing insights about code ownership across multiple files.
+      id: homebrew/core/git-who
     - name: GitKraken
       desc: Git client focusing on productivity
       homepage: https://www.gitkraken.com/
@@ -1156,78 +1209,6 @@
         a visual interface for Git operations in the terminal with keyboard-driven navigation
         and a responsive interface.
       id: homebrew/core/gitui
-    - name: hub
-      desc: Add GitHub support to git on the command-line
-      homepage: https://hub.github.com/
-      recommended: true
-      info:
-        hub is a command-line tool that wraps Git to provide additional functionality
-        when working with GitHub. It makes it easier to clone repositories, create pull
-        requests, and interact with GitHub from the terminal.
-      id: homebrew/core/hub
-    - name: lazygit
-      desc: Simple terminal UI for git commands
-      homepage: https://github.com/jesseduffield/lazygit/
-      recommended: true
-      info:
-        Lazygit is a simple terminal UI for Git commands, written in Go. It provides
-        an intuitive interface for managing branches, staging changes, and committing,
-        all within your terminal.
-      id: homebrew/core/lazygit
-    - name: tea
-      desc: Command-line tool to interact with Gitea servers
-      homepage: https://gitea.com/gitea/tea
-      recommended: true
-      info:
-        tea is the official CLI tool for Gitea, a self-hosted Git service. It allows
-        you to manage issues, pull requests, and other Gitea features from the command
-        line, similar to GitHub's gh tool.
-      id: homebrew/core/tea
-    - name: git-absorb
-      desc: Automatic git commit --fixup
-      homepage: https://github.com/tummychow/git-absorb
-      recommended: true
-      info:
-        git-absorb is a tool that automatically creates fixup commits for your staged changes,
-        matching them with their correct commits. It makes it easier to maintain a clean git
-        history by identifying which previous commits should be fixed.
-      id: homebrew/core/git-absorb
-    - name: git-ignore
-      desc: List, fetch and generate .gitignore templates
-      homepage: https://github.com/sondr3/git-ignore
-      recommended: true
-      info:
-        git-ignore is a tool for working with .gitignore templates. It allows you to list,
-        fetch, and generate .gitignore files for various programming languages and environments,
-        making it easier to exclude unwanted files from your git repositories.
-      id: homebrew/core/git-ignore
-    - name: git-recent
-      desc: See your latest local git branches, formatted real fancy
-      homepage: https://github.com/paulirish/git-recent
-      recommended: true
-      info:
-        git-recent displays your latest local git branches in a formatted and visually appealing
-        manner. It helps you quickly identify and switch to recently used branches, making
-        git workflow more efficient.
-      id: homebrew/core/git-recent
-    - name: git-spice
-      desc: Manage stacked Git branches
-      homepage: https://abhinav.github.io/git-spice/
-      recommended: true
-      info:
-        Git Spice is a tool for working with stacked Git branches. It provides commands
-        to create, update, and manage stacks of related branches, making complex feature
-        development and code reviews more efficient.
-      id: homebrew/core/git-spice
-    - name: git-who
-      desc: Git blame for file trees
-      homepage: https://github.com/sinclairtarget/git-who
-      recommended: true
-      info:
-        Git Who extends Git's blame functionality to work on entire file trees rather
-        than individual files. It helps you understand who wrote which parts of your
-        codebase, providing insights about code ownership across multiple files.
-      id: homebrew/core/git-who
     - name: gitup
       desc: Git interface focused on visual interaction
       homepage: https://gitup.co/
@@ -1247,6 +1228,79 @@
         interactive interfaces for git add, git diff, git log, git blame, and more.
         It makes Git operations more intuitive and visual in the terminal.
       id: homebrew/core/forgit
+    - name: gh
+      desc: GitHub command-line tool
+      homepage: https://cli.github.com/
+      recommended: true
+      info:
+        GitHub CLI (gh) brings GitHub to your terminal. It allows you to manage
+        issues, pull requests, releases, and other GitHub features directly from the
+        command line.
+      id: homebrew/core/gh
+    - name: hub
+      desc: Add GitHub support to git on the command-line
+      homepage: https://hub.github.com/
+      recommended: true
+      info:
+        hub is a command-line tool that wraps Git to provide additional functionality
+        when working with GitHub. It makes it easier to clone repositories, create pull
+        requests, and interact with GitHub from the terminal.
+      id: homebrew/core/hub
+    - name: lazygit
+      desc: Simple terminal UI for git commands
+      homepage: https://github.com/jesseduffield/lazygit/
+      recommended: true
+      info:
+        Lazygit is a simple terminal UI for Git commands, written in Go. It provides
+        an intuitive interface for managing branches, staging changes, and committing,
+        all within your terminal.
+      id: homebrew/core/lazygit
+- id: vcs
+  name: Version Control Systems
+  desc: Various version control systems beyond Git and tools for different VCS platforms.
+  packages:
+    - name: darcs
+      desc: Distributed version control system that tracks changes, via Haskell
+      homepage: https://darcs.net/
+      recommended: true
+      info:
+        Darcs is a distributed version control system written in Haskell. It has
+        a unique approach to version control with its 'theory of patches', focusing
+        on changes rather than snapshots.
+      id: homebrew/core/darcs
+    - name: fossil
+      desc: Distributed software configuration management
+      homepage: https://www.fossil-scm.org/home/
+      recommended: true
+      info:
+        Fossil is a distributed version control system, bug tracking system and
+        wiki software server in a single integrated package. It's designed to be simpler
+        than Git while still powerful.
+      id: homebrew/core/fossil
+    - name: gitversion
+      desc: Easy semantic versioning for projects using Git
+      homepage: https://gitversion.net/docs/
+      recommended: true
+      info:
+        GitVersion is a tool that generates a Semantic Version number based on your Git
+        repository history. It works with various Git workflows and can be integrated
+        into build processes to automate version numbering.
+      id: homebrew/core/gitversion
+    - name: tea
+      desc: Command-line tool to interact with Gitea servers
+      homepage: https://gitea.com/gitea/tea
+      recommended: true
+      info:
+        tea is the official CLI tool for Gitea, a self-hosted Git service. It allows
+        you to manage issues, pull requests, and other Gitea features from the command
+        line, similar to GitHub's gh tool.
+      id: homebrew/core/tea
+- id: scm
+  name: Source Code Management
+  desc:
+    Tools for source code management, Git extensions, and collaborative development
+    workflows.
+  packages: []
 - id: security
   name: Security & Encryption
   desc: Tools for password management, encryption, and security-related operations.
@@ -1459,6 +1513,16 @@
         alternative to top, with the ability to scroll vertically and horizontally,
         and kill processes without entering their PIDs.
       id: homebrew/core/htop
+    - name: fastfetch
+      desc: Like neofetch, but much faster because written mostly in C
+      homepage: https://github.com/fastfetch-cli/fastfetch
+      recommended: true
+      info:
+        fastfetch is a system information tool similar to neofetch but written primarily
+        in C for superior performance. It displays system specs, OS information, and 
+        hardware details in a visually appealing way and loads significantly faster.
+        It supports extensive customization and various output formats.
+      id: homebrew/core/fastfetch
 - id: task
   name: Task & Time Management
   desc: Tools for managing tasks, time tracking, and implementing productivity techniques.
@@ -1713,6 +1777,16 @@
         clean interface for sending HTTP requests, managing collections, and sharing
         API documentation with your team.
       id: homebrew/cask/bruno
+    - name: LibreWolf
+      desc: Web browser
+      homepage: https://librewolf.net/
+      cask: true
+      recommended: true
+      info:
+        LibreWolf is a privacy-focused web browser based on Firefox. It comes with enhanced 
+        privacy settings by default, removes telemetry, and includes built-in content blocking 
+        to protect user privacy without sacrificing usability.
+      id: homebrew/cask/librewolf
 - id: uncategorized
   name: Uncategorized Packages
   desc: Packages that are installed on your System but not categorized, yet.
