@@ -11,6 +11,8 @@ export function PackageList(props) {
               category={category}
               selectedPackages={props.selectedPackages}
               onPackageToggle={props.onPackageToggle}
+              selectedTags={props.selectedTags}
+              onTagClick={props.onTagClick}
             />
           )}
         </For>

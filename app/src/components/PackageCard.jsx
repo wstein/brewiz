@@ -114,6 +114,24 @@ export function PackageCard(props) {
         </div>
       </div>
       <p class="text-gray-600 mt-2 text-sm flex-grow">{props.pkg.desc}</p>
+
+      {/* Tags section */}
+      {props.pkg.tags && props.pkg.tags.length > 0 && (
+        <div class="flex flex-wrap gap-1.5 mt-3">
+          {props.pkg.tags.map(tag => (
+            <span 
+              class={`px-1.5 py-0.5 text-xs bg-gray-100 text-gray-700 rounded-full cursor-pointer hover:bg-gray-200 ${props.selectedTags?.includes(tag) ? 'bg-blue-100 text-blue-700 border border-blue-300' : ''}`}
+              onClick={(e) => {
+                e.stopPropagation();
+                props.onTagClick && props.onTagClick(tag);
+              }}
+              title="Click to filter by this tag"
+            >
+              #{tag}
+            </span>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

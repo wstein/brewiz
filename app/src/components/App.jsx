@@ -1,4 +1,4 @@
-import { createSignal, onMount } from "solid-js";
+import { createSignal, onMount, createMemo } from "solid-js";
 import { usePackageStore } from "../stores/packageStore";
 import { useSearchStore } from "../stores/searchStore";
 import { Header } from "./Header";
@@ -27,13 +27,60 @@ function App() {
     setSearchTerm,
     filters,
     updateFilter,
-    resetFilters
+    resetFilters,
+    selectedTags,
+    toggleTag,
+    clearTags,
+    tagSearchTerm,
+    setTagSearchTerm
   } = useSearchStore();
 
   const handleReset = () => {
     resetSelection();
     resetFilters();
   };
+
+  // Create a list of all available tags across all packages
+  const allAvailableTags = createMemo(() => {
+    const tagsSet = new Set();
+    
+    packages().forEach(category => {
+      category.packages.forEach(pkg => {
+        if (pkg.tags && Array.isArray(pkg.tags)) {
+          pkg.tags.forEach(tag => tagsSet.add(tag));
+        }
+      });
+    });
+    
+    return Array.from(tagsSet).sort();
+  });
+
+  // Count packages per tag to show alongside tags
+  const tagCounts = createMemo(() => {
+    const counts = {};
+    
+    packages().forEach(category => {
+      category.packages.forEach(pkg => {
+        if (pkg.tags && Array.isArray(pkg.tags)) {
+          pkg.tags.forEach(tag => {
+            counts[tag] = (counts[tag] || 0) + 1;
+          });
+        }
+      });
+    });
+    
+    return counts;
+  });
+
+  // Filter tags based on search term
+  const filteredTags = createMemo(() => {
+    if (!tagSearchTerm()) return allAvailableTags();
+    
+    const search = tagSearchTerm().toLowerCase();
+    return allAvailableTags().filter(tag => 
+      tag.toLowerCase().includes(search)
+    );
+  });
 
   const filteredPackages = () => {
     let filtered = packages();
@@ -70,6 +117,19 @@ function App() {
       }));
     }
 
+    // Apply tag filters - show packages with ANY of the selected tags (OR logic)
+    if (selectedTags().length > 0) {
+      filtered = filtered.map(category => ({
+        ...category,
+        packages: category.packages.filter(pkg => {
+          if (!pkg.tags || !Array.isArray(pkg.tags)) return false;
+          
+          // Show package if it has any of the selected tags (OR logic)
+          return selectedTags().some(selectedTag => pkg.tags.includes(selectedTag));
+        })
+      }));
+    }
+
     // Remove empty categories
     return filtered.filter(category => category.packages.length > 0);
   };
@@ -94,12 +154,22 @@ function App() {
         onSearch={setSearchTerm}
         filters={filters}
         onFilterChange={(key) => updateFilter(key, !filters()[key])}
+        selectedTags={selectedTags}
+        onTagToggle={toggleTag}
+        onClearTags={clearTags}
+        allAvailableTags={allAvailableTags()}
+        tagCounts={tagCounts()}
+        filteredTags={filteredTags()}
+        tagSearchTerm={tagSearchTerm()}
+        onTagSearch={setTagSearchTerm}
       />
 
       <PackageList 
         packages={filteredPackages()}
         selectedPackages={selectedPackages()}
         onPackageToggle={togglePackage}
+        selectedTags={selectedTags()}
+        onTagClick={toggleTag}
       />
 
       <BrewCommands

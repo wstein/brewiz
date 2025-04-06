@@ -25,6 +25,8 @@ export function CategorySection(props) {
                   pkg={pkg}
                   selected={props.selectedPackages.has(pkg.name)}
                   onToggle={() => props.onPackageToggle(pkg)}
+                  selectedTags={props.selectedTags}
+                  onTagClick={props.onTagClick}
                 />
               )}
             </For>

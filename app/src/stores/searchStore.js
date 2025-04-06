@@ -9,6 +9,8 @@ export function useSearchStore() {
     casks: true,
     formulae: true
   });
+  const [selectedTags, setSelectedTags] = createSignal([]);
+  const [tagSearchTerm, setTagSearchTerm] = createSignal("");
 
   const updateFilter = (key, value) => {
     setFilters(prev => {
@@ -43,6 +45,22 @@ export function useSearchStore() {
       formulae: true
     });
     setSearchTerm("");
+    setSelectedTags([]);
+    setTagSearchTerm("");
+  };
+
+  const toggleTag = (tag) => {
+    setSelectedTags(prev => {
+      if (prev.includes(tag)) {
+        return prev.filter(t => t !== tag);
+      } else {
+        return [...prev, tag];
+      }
+    });
+  };
+
+  const clearTags = () => {
+    setSelectedTags([]);
   };
 
   return {
@@ -50,6 +68,11 @@ export function useSearchStore() {
     setSearchTerm,
     filters,
     updateFilter,
-    resetFilters
+    resetFilters,
+    selectedTags,
+    toggleTag,
+    clearTags,
+    tagSearchTerm,
+    setTagSearchTerm
   };
 }
