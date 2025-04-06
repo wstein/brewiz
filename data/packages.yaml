@@ -1153,7 +1153,7 @@
       spreadsheets, presentations, diagrams, and databases. It's fully compatible with Microsoft Office
       formats while supporting open standards.
     id: homebrew/cask/libreoffice
-    tags: []
+    tags: [productivity, document-editor]
 - id: lang
   name: Programming Languages
   desc: Programming language implementations, runtimes, and interpreters for various languages.
@@ -1524,7 +1524,7 @@
       gettext is a GNU library for internationalization and localization. It provides tools and libraries
       for translating programs into multiple languages and handling different character encodings.
     id: homebrew/core/gettext
-    tags: []
+    tags: [command-line]
   - name: kitty
     desc: GPU-based terminal emulator
     homepage: https://github.com/kovidgoyal/kitty
