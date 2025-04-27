@@ -43,7 +43,7 @@ function addInstallCommands(commands, selectedPkgs) {
     .sort();
 
   if (installFormulas.length) {
-    commands.push(`brew install ${installFormulas.join(" ")}`);
+    commands.push(`brew install --formula ${installFormulas.join(" ")}`);
   }
 
   if (installCasks.length) {
@@ -69,7 +69,7 @@ function addUninstallCommands(commands, selectedPkgs) {
   .sort();
 
   if (uninstallFormulae.length) {
-    commands.push(`brew uninstall ${uninstallFormulae.join(" ")}`);
+    commands.push(`brew uninstall --formula ${uninstallFormulae.join(" ")}`);
   }
 
   if (uninstallCasks.length) {
