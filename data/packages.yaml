@@ -45,6 +45,14 @@
   name: Browsers & Web Tools
   desc: Web browsers and tools for API development and web-related tasks.
   packages:
+  - name: arc
+    desc: Chromium based browser
+    homepage: https://arc.net/
+    info: >-
+      Arc is a Chromium-based web browser focused on productivity and a modern user interface. It offers
+      unique features for tab and workspace management.
+    id: homebrew/cask/arc
+    tags: [web, productivity]
   - name: Brave
     desc: Privacy-focused web browser
     homepage: https://brave.com/
@@ -54,7 +62,7 @@
       protects your privacy by default. It's built on Chromium and includes features like Tor integration
       and a built-in ad blocker.
     id: homebrew/cask/brave-browser
-    tags: [browser, privacy]
+    tags: [web, security]
   - name: Breitbandmessung
     desc: Official internet speed test from the German Bundesnetzagentur
     homepage: https://www.breitbandmessung.de/
@@ -73,7 +81,7 @@
       Bruno is an open source IDE for exploring and testing APIs. It provides a clean interface for
       sending HTTP requests, managing collections, and sharing API documentation with your team.
     id: homebrew/cask/bruno
-    tags: [api, http, development, testing, opensource]
+    tags: [api, http, development, testing]
   - name: Hoppscotch
     desc: Open source API development ecosystem
     homepage: https://hoppscotch.com/
@@ -82,7 +90,7 @@
       Hoppscotch is an open-source API development ecosystem. It provides a lightweight, web-based API
       client that helps you create and test API requests quickly and efficiently.
     id: homebrew/cask/hoppscotch
-    tags: [api, http, development, testing, opensource]
+    tags: [api, http, development, testing]
   - name: LibreWolf
     desc: Web browser
     homepage: https://librewolf.net/
@@ -92,7 +100,7 @@
       by default, removes telemetry, and includes built-in content blocking to protect user privacy
       without sacrificing usability.
     id: homebrew/cask/librewolf
-    tags: [browser, privacy, opensource]
+    tags: [web, security]
   - name: Orion Browser
     desc: WebKit based web browser
     homepage: https://browser.kagi.com/
@@ -101,7 +109,7 @@
       Orion is a WebKit-based browser designed for macOS. It aims to be a fast, privacy-focused
       alternative to Safari with support for Chrome and Firefox extensions.
     id: homebrew/cask/orion
-    tags: [browser, privacy, macos]
+    tags: [web, security, macos]
   - name: Postman
     desc: API development environment
     homepage: https://www.postman.com/
@@ -123,7 +131,7 @@
       tool to download and configure, you can control multiple AWS services from the command line and
       automate them through scripts.
     id: homebrew/core/awscli
-    tags: [cloud, cli, automation]
+    tags: [cloud, command-line, automation]
   - name: azure-cli
     desc: Microsoft Azure CLI 2.0
     homepage: https://docs.microsoft.com/cli/azure/overview
@@ -131,7 +139,7 @@
       The Azure Command Line Interface (CLI) is a set of commands used to manage Azure resources from the
       command line or in scripts. It provides a consistent interface for interacting with Azure services.
     id: homebrew/core/azure-cli
-    tags: [cloud, cli]
+    tags: [cloud, command-line]
 - id: analyze
   name: Code Analysis
   desc: Tools for static code analysis, linting, and code quality assessment.
@@ -143,7 +151,7 @@
       Ameba is a static code analysis tool for Crystal, helping you write cleaner and more maintainable
       code by enforcing style guidelines and detecting potential issues.
     id: crystal-ameba/ameba/ameba
-    tags: [code-analysis, linting]
+    tags: [code-analysis, testing]
   - name: isort
     desc: Sort Python imports automatically
     homepage: https://pycqa.github.io/isort/
@@ -152,7 +160,7 @@
       sections. It helps maintain consistent import formatting across Python projects and improves code
       readability.
     id: homebrew/core/isort
-    tags: [code-analysis, python, linting]
+    tags: [code-analysis, python, testing]
   - name: scc
     desc: Fast and accurate code counter with complexity and COCOMO estimates
     homepage: https://github.com/boyter/scc/
@@ -169,7 +177,7 @@
       ShellCheck is a shell script static analysis tool that gives warnings and suggestions for bash/sh
       shell scripts. It helps identify and fix common shell script issues and follows best practices.
     id: homebrew/core/shellcheck
-    tags: [code-analysis, linting]
+    tags: [code-analysis, testing]
 - id: snip
   name: Command Snippets & Documentation
   desc: Tools for managing command snippets, recording terminal sessions, and learning.
@@ -228,7 +236,7 @@
       Colima provides container runtimes on macOS with minimal setup. It creates a Lima VM with containerd
       and optionally Docker, Kubernetes available inside. A lightweight alternative to Docker Desktop.
     id: homebrew/core/colima
-    tags: [container, docker, macos, vm]
+    tags: [container, macos, virtualization]
   - name: DevPod
     desc: UI to create reproducible developer environments based on a devcontainer.json
     homepage: https://devpod.sh/
@@ -245,7 +253,7 @@
       Dive is a tool for exploring a Docker image, layer contents, and discovering ways to shrink the size
       of your Docker/OCI image. It helps optimize container images by analyzing what's in each layer.
     id: homebrew/core/dive
-    tags: [container, docker, optimization]
+    tags: [container, optimization]
   - name: docker
     desc: Pack, ship and run any application as a lightweight container
     homepage: https://www.docker.com/
@@ -261,7 +269,7 @@
       This package provides command-line completion for Docker in Bash, Zsh, and Fish shells, making it
       easier to use Docker commands by providing tab completion for commands and options.
     id: homebrew/core/docker-completion
-    tags: [docker, productivity]
+    tags: [container, productivity]
   - name: lazydocker
     desc: Lazier way to manage everything docker
     homepage: https://github.com/jesseduffield/lazydocker
@@ -269,7 +277,7 @@
       Lazydocker is a terminal UI for managing Docker containers and services. It provides an easy-to-use
       interface for viewing logs, managing containers, and monitoring resource usage.
     id: homebrew/core/lazydocker
-    tags: [docker, container, management, terminal-ui]
+    tags: [container, management]
   - name: mintoolkit
     desc: Minify and secure Docker images
     homepage: https://slimtoolkit.org/
@@ -279,7 +287,7 @@
       efficiency by automatically removing unnecessary components from images through static and dynamic
       analysis.
     id: homebrew/core/mintoolkit
-    tags: [docker, container, security, optimization]
+    tags: [container, security, optimization]
   - name: OrbStack
     desc: Replacement for Docker Desktop
     homepage: https://orbstack.dev/
@@ -288,7 +296,7 @@
       OrbStack is a fast, light, and simple way to run Docker containers and Linux machines on macOS. It's
       designed as a more efficient alternative to Docker Desktop with better performance.
     id: homebrew/cask/orbstack
-    tags: [docker, container, virtualization, macos]
+    tags: [container, virtualization, macos]
   - name: Rancher Desktop
     desc: Kubernetes and container management on the desktop
     homepage: https://rancherdesktop.io/
@@ -306,7 +314,7 @@
       The Rancher CLI is a unified tool to manage your Rancher server. It provides a consistent interface
       for interacting with Rancher resources, making it easier to manage your Kubernetes clusters.
     id: homebrew/core/rancher-cli
-    tags: [kubernetes, container, cli]
+    tags: [kubernetes, container, command-line]
   - name: skopeo
     desc: Work with remote images registries
     homepage: https://github.com/containers/skopeo
@@ -314,7 +322,7 @@
       Skopeo is a command-line utility that performs various operations on container images and image
       repositories. It can copy, inspect, delete, and sign container images without needing a daemon.
     id: homebrew/core/skopeo
-    tags: [container, docker]
+    tags: [container]
 - id: db
   name: Databases & Data Tools
   desc: Tools for managing databases and manipulating data formats like JSON, YAML, and CSV.
@@ -334,7 +342,7 @@
       jq is a lightweight and flexible command-line JSON processor. It's like sed for JSON data - you can
       use it to slice, filter, map, and transform structured data with ease.
     id: homebrew/core/jq
-    tags: [data, json, command-line, data-processing, filter]
+    tags: [data, json, command-line, filter]
   - name: sqlite
     desc: Command-line interface for SQLite
     homepage: https://sqlite.org/index.html
@@ -343,7 +351,7 @@
       full-featured, SQL database engine. This package provides the command-line interface to interact
       with SQLite databases.
     id: homebrew/core/sqlite
-    tags: [data, sql, lightweight]
+    tags: [data, sql]
   - name: yq
     desc: Process YAML, JSON, XML, CSV and properties documents from the CLI
     homepage: https://github.com/mikefarah/yq
@@ -352,7 +360,7 @@
       jq-like syntax but works with various data formats, making it a versatile tool for data
       manipulation.
     id: homebrew/core/yq
-    tags: [data, json, command-line, data-processing]
+    tags: [data, json, command-line]
 - id: devutil
   name: Development Utilities
   desc: Tools and utilities for software development, building, and analysis across programming languages.
@@ -364,7 +372,7 @@
       Leiningen is the easiest way to use Clojure. With a focus on project automation and declarative
       configuration, it gets out of your way and lets you focus on your code.
     id: homebrew/core/leiningen
-    tags: [build, jvm, dependency-management, build-tool]
+    tags: [build, runtime]
   - name: maven
     desc: Java-based project management
     homepage: https://maven.apache.org/
@@ -373,7 +381,7 @@
       project object model (POM), Maven can manage a project's build, reporting and documentation from a
       central piece of information.
     id: homebrew/core/maven
-    tags: [build, java, dependency-management, build-tool]
+    tags: [build, java]
 - id: file-nav
   name: File Navigation & Search
   desc: Tools for searching, navigating, and exploring file systems and directories.
@@ -385,7 +393,7 @@
       fd is a simple, fast, and user-friendly alternative to the find command. It offers sensible defaults
       for most use cases and has convenient syntax for filtering and matching.
     id: homebrew/core/fd
-    tags: [file-navigation, search, command-line]
+    tags: [file-management, search, command-line]
   - name: fzf
     desc: Command-line fuzzy finder written in Go
     homepage: https://github.com/junegunn/fzf
@@ -393,7 +401,7 @@
       fzf is a general-purpose command-line fuzzy finder. It's an interactive Unix filter for command-line
       that can be used with any list: files, command history, processes, hostnames, git commits, etc.
     id: homebrew/core/fzf
-    tags: [search, command-line, filter, fuzzy-finder]
+    tags: [search, command-line, filter]
   - name: ripgrep
     desc: Search tool like grep and The Silver Searcher
     homepage: https://github.com/BurntSushi/ripgrep
@@ -409,7 +417,7 @@
       tre is an improved version of the tree command, showing directory structures in a tree-like format.
       It's useful for visualizing file hierarchies and navigating directories more efficiently.
     id: homebrew/core/tre-command
-    tags: [file-navigation, command-line, directory]
+    tags: [file-management, command-line]
   - name: tree
     desc: Display directories as trees (with optional color/HTML output)
     homepage: https://oldmanprogrammer.net/source.php?dir=projects/tree
@@ -417,7 +425,7 @@
       tree is a recursive directory listing command that produces a depth-indented listing of files. It's
       useful for visualizing directory structures in a more intuitive way than ls.
     id: homebrew/core/tree
-    tags: [file-navigation, command-line, directory, visualization]
+    tags: [file-management, command-line, visualization]
   - name: yazi
     desc: Blazing fast terminal file manager written in Rust, based on async I/O
     homepage: https://github.com/sxyazi/yazi
@@ -426,7 +434,7 @@
       intuitive interface for navigating and managing files with high performance and customizable
       features.
     id: homebrew/core/yazi
-    tags: [terminal, file-navigation, rust]
+    tags: [terminal, file-management, rust]
 - id: file-util
   name: File System Utilities
   desc: Tools for monitoring disk usage, file operations, and system file management.
@@ -439,7 +447,7 @@
       protocols including FTP, SFTP, WebDAV, S3, and more. It enables scripted and automated file
       transfers with various cloud storage services.
     id: homebrew/core/duck
-    tags: [cli]
+    tags: [command-line]
   - name: duf
     desc: 'Disk Usage/Free Utility - a better ''df'' alternative'
     homepage: https://github.com/muesli/duf
@@ -447,7 +455,7 @@
       duf is a disk usage/free utility that provides a more intuitive and user-friendly way to see disk
       usage information. It's a modern alternative to the traditional df command.
     id: homebrew/core/duf
-    tags: [monitoring, command-line, disk-usage, file-system]
+    tags: [monitoring, command-line, file-system]
   - name: dust
     desc: More intuitive version of du in rust
     homepage: https://github.com/bootandy/dust
@@ -455,7 +463,7 @@
       dust is a more intuitive version of du (disk usage) written in Rust. It provides a colorful and
       user-friendly way to see which directories are using disk space.
     id: homebrew/core/dust
-    tags: [monitoring, command-line, disk-usage, file-system]
+    tags: [monitoring, command-line, file-system]
   - name: eza
     desc: Modern, maintained replacement for ls
     homepage: https://github.com/eza-community/eza
@@ -515,7 +523,7 @@
       git add, git diff, git log, git blame, and more. It makes Git operations more intuitive and visual
       in the terminal.
     id: homebrew/core/forgit
-    tags: [git, command-line, fuzzy-finder]
+    tags: [git, command-line, search]
   - name: gh
     desc: GitHub command-line tool
     homepage: https://cli.github.com/
@@ -569,7 +577,7 @@
       git-gui is a Tcl/Tk based graphical user interface to Git. It's included with Git and provides a
       simple interface for common Git operations like committing changes and browsing history.
     id: homebrew/core/git-gui
-    tags: [git, gui, version-control, interface]
+    tags: [git, interface, version-control]
   - name: git-ignore
     desc: List, fetch and generate .gitignore templates
     homepage: https://github.com/sondr3/git-ignore
@@ -595,7 +603,7 @@
       git-recent displays your latest local git branches in a formatted and visually appealing manner. It
       helps you quickly identify and switch to recently used branches, making git workflow more efficient.
     id: homebrew/core/git-recent
-    tags: [git, version-control, navigation]
+    tags: [git, version-control, window-management]
   - name: git-secret
     desc: Bash-tool to store the private data inside a git repo
     homepage: https://sobolevn.me/git-secret
@@ -604,7 +612,7 @@
       The encrypted files can be safely shared in public repositories while only authorized users with the
       proper GPG keys can decrypt them.
     id: homebrew/core/git-secret
-    tags: [git, security, encryption, gpg]
+    tags: [git, security, encryption]
   - name: git-spice
     desc: Manage stacked Git branches
     homepage: https://abhinav.github.io/git-spice/
@@ -632,7 +640,7 @@
       more powerful with features like visual commit history, merge conflict resolution tools, and
       integrations with GitHub, GitLab, and Bitbucket.
     id: homebrew/cask/gitkraken
-    tags: [git, gui, version-control, interface]
+    tags: [git, interface, version-control]
   - name: GitKraken CLI
     desc: CLI for GitKraken
     homepage: https://github.com/gitkraken/gk-cli
@@ -658,7 +666,7 @@
       GitUI is a blazing fast terminal-based UI for Git written in Rust. It provides a visual interface
       for Git operations in the terminal with keyboard-driven navigation and a responsive interface.
     id: homebrew/core/gitui
-    tags: [git, version-control, tui, interface]
+    tags: [git, version-control, interface]
   - name: gitup
     desc: Git interface focused on visual interaction
     homepage: https://gitup.co/
@@ -668,7 +676,7 @@
       manage Git repositories with features like live branching, quick undo/redo, and a visual commit
       graph for easier repository navigation.
     id: homebrew/cask/gitup
-    tags: [git, gui, version-control, interface]
+    tags: [git, interface, version-control]
   - name: gitversion
     desc: Easy semantic versioning for projects using Git
     homepage: https://gitversion.net/docs/
@@ -694,7 +702,7 @@
       Lazygit is a simple terminal UI for Git commands, written in Go. It provides an intuitive interface
       for managing branches, staging changes, and committing, all within your terminal.
     id: homebrew/core/lazygit
-    tags: [git, tui, version-control, interface]
+    tags: [git, version-control, interface]
   - name: tea
     desc: Command-line tool to interact with Gitea servers
     homepage: https://gitea.com/gitea/tea
@@ -715,7 +723,7 @@
       AsciiDocFX is a book/document editor to build PDF, Epub, Mobi and HTML books, documents and slides.
       It provides a live preview and various export options for AsciiDoc documents.
     id: homebrew/cask/asciidocfx
-    tags: [editor, document-editor, publishing, text-editor]
+    tags: [editor, publishing]
   - name: JetBrains Toolbox
     desc: JetBrains tools manager
     homepage: https://www.jetbrains.com/toolbox-app/
@@ -725,6 +733,15 @@
       IntelliJ IDEA, PyCharm, WebStorm, and others, keeping them updated and organized.
     id: homebrew/cask/jetbrains-toolbox
     tags: [ide, development]
+  - name: jupyterlab
+    desc: Interactive environments for writing and running code
+    homepage: https://jupyter.org/
+    info: >-
+      JupyterLab is a next-generation web-based user interface for Project Jupyter. It enables you to work
+      with documents and activities such as Jupyter notebooks, text editors, terminals, and custom
+      components in a flexible, integrated, and extensible manner.
+    id: homebrew/core/jupyterlab
+    tags: [interactive, python, ide]
   - name: Meld for macOS
     desc: Visual diff and merge tool
     homepage: https://gitlab.com/dehesselle/meld_macos
@@ -742,7 +759,7 @@
       Neovim is a refactor of Vim focused on extensibility and usability. It maintains compatibility with
       Vim while adding new features, better plugin support, and improved user experience.
     id: homebrew/core/neovim
-    tags: [editor, text-editor, terminal]
+    tags: [editor, terminal]
   - name: Windsurf
     desc: Agentic IDE powered by AI Flow paradigm
     homepage: https://www.codeium.com/windsurf
@@ -751,7 +768,7 @@
       Windsurf is an agentic IDE powered by the AI Flow paradigm. It provides intelligent code completion,
       code generation, and code analysis to help you write better code faster.
     id: homebrew/cask/windsurf
-    tags: [ide, ai, development, code-editor]
+    tags: [ide, ai, development, editor]
   - name: Zed
     desc: Multiplayer code editor
     homepage: https://zed.dev/
@@ -760,7 +777,7 @@
       Zed is a high-performance, multiplayer code editor from the creators of Atom and Tree-sitter. It's
       built to be fast, collaborative, and extensible with a modern user interface.
     id: homebrew/cask/zed
-    tags: [editor, code-editor]
+    tags: [editor]
 - id: k8s
   name: Kubernetes Tools
   desc: Tools for interacting with and managing Kubernetes clusters and resources.
@@ -780,7 +797,7 @@
       K9s is a terminal-based UI to interact with your Kubernetes clusters. It provides a more intuitive
       way to navigate, observe and manage your applications, making cluster management easier.
     id: homebrew/core/k9s
-    tags: [kubernetes, monitoring, terminal-ui]
+    tags: [kubernetes, monitoring]
   - name: krew
     desc: Package manager for kubectl plugins
     homepage: https://sigs.k8s.io/krew/
@@ -796,7 +813,7 @@
       Kubeconform is a Kubernetes manifests validator that's extremely fast and supports custom resources.
       It helps catch configuration errors before applying them to your cluster.
     id: homebrew/core/kubeconform
-    tags: [kubernetes, linting]
+    tags: [kubernetes, testing]
   - name: kubectx
     desc: Tool that can switch between kubectl contexts easily and create aliases
     homepage: https://github.com/ahmetb/kubectx
@@ -812,7 +829,7 @@
       kubectl is the command-line interface for running commands against Kubernetes clusters. It allows
       you to deploy applications, inspect and manage cluster resources, and view logs.
     id: homebrew/core/kubernetes-cli
-    tags: [kubernetes, kubectl, cli]
+    tags: [kubernetes, kubectl, command-line]
   - name: okteto
     desc: Build better apps by developing and testing code directly in Kubernetes
     homepage: https://okteto.com
@@ -851,7 +868,15 @@
       you to switch between windows with Alt-Tab, providing a more familiar and efficient window switching
       experience.
     id: homebrew/cask/alt-tab
-    tags: [macos, productivity, window-management, navigation]
+    tags: [macos, productivity, window-management]
+  - name: borders
+    desc: A window border system for macOS
+    homepage: https://github.com/FelixKratz/JankyBorders
+    info: >-
+      Borders is a window border system for macOS, providing customizable window borders for better window
+      management and visibility. It can be run as a background service or manually from the command line.
+    id: felixkratz/formulae/borders
+    tags: [macos, window-management, utility]
   - name: Espanso
     desc: Cross-platform Text Expander written in Rust
     homepage: https://espanso.org/
@@ -861,7 +886,7 @@
       time by replacing text shortcuts with custom snippets, supporting both simple replacements and
       complex scripts.
     id: homebrew/cask/espanso
-    tags: [productivity, automation, cross-platform]
+    tags: [productivity, automation]
   - name: Esse
     desc: Swiss army knife of text transformation for iOS and macOS
     homepage: https://esse.ameba.co
@@ -890,7 +915,7 @@
       keys, create complex modifications, and customize keyboard behavior at a system level for improved
       productivity and ergonomics.
     id: homebrew/cask/karabiner-elements
-    tags: [keyboard, customization, utility]
+    tags: [keyboard, utility]
   - name: Logitech Options+
     desc: Software for Logitech devices
     homepage: https://www.logitech.com/en-us/software/logi-options-plus.html
@@ -899,7 +924,7 @@
       Logitech Options+ is software for Logitech devices that provides customization and control over the
       device's features. It enhances the user experience and workflow for Logitech peripherals.
     id: homebrew/cask/logi-options+
-    tags: [hardware, customization]
+    tags: [hardware]
   - name: Loupdeck
     desc: Software for Loupedeck consoles
     homepage: https://loupedeck.com/
@@ -918,6 +943,14 @@
       provides quick access to your clipboard history through a simple interface and keyboard shortcuts.
     id: homebrew/cask/maccy
     tags: [productivity, macos, utility]
+  - name: mouseless
+    desc: Mouse control with the keyboard
+    homepage: https://mouseless.click/
+    info: >-
+      Mouseless is a tool that allows you to control your mouse using only the keyboard, improving
+      accessibility and efficiency for keyboard-centric workflows.
+    id: homebrew/cask/mouseless
+    tags: [macos, keyboard, productivity]
   - name: Raycast
     desc: Control your tools with a few keystrokes
     homepage: https://raycast.com/
@@ -977,7 +1010,7 @@
       org charts, UML, ER and network diagrams. The desktop version works offline and integrates with
       various storage solutions.
     id: homebrew/cask/drawio
-    tags: [diagram, design, graphics]
+    tags: [visualization, design, graphics]
   - name: excalidraw-converter
     desc: A command line tool for porting Excalidraw diagrams to Gliffy.
     homepage: https://github.com/sindrel/excalidraw-converter
@@ -985,7 +1018,7 @@
       Excalidraw Converter is a command-line tool that converts Excalidraw diagrams to Gliffy format,
       allowing you to use hand-drawn style diagrams in tools that support Gliffy.
     id: sindrel/tap/excalidraw-converter
-    tags: [diagram, graphics, conversion]
+    tags: [visualization, graphics, conversion]
   - name: ffmpeg
     desc: Play, record, convert, and stream audio and video
     homepage: https://ffmpeg.org/
@@ -1004,6 +1037,15 @@
       image retouching and editing, free-form drawing, and converting between different image formats.
     id: homebrew/cask/gimp
     tags: [graphics, design]
+  - name: gource
+    desc: Version Control Visualization Tool
+    homepage: https://gource.io/
+    info: >-
+      Gource is a tool for visualizing version control repositories as animated tree structures. It
+      supports Git, Mercurial, Bazaar, and SVN, and helps you understand project history and collaboration
+      visually.
+    id: homebrew/core/gource
+    tags: [visualization, version-control, graphics]
   - name: graphviz
     desc: Graph visualization software from AT&T and Bell Labs
     homepage: https://www.graphviz.org/
@@ -1012,7 +1054,7 @@
       as diagrams of abstract graphs and networks, making it useful for visualizing data structures and
       relationships.
     id: homebrew/core/graphviz
-    tags: [visualization, diagram, documentation]
+    tags: [visualization, documentation]
   - name: Inkscape
     desc: Vector graphics editor
     homepage: https://inkscape.org/
@@ -1040,7 +1082,7 @@
       Visual Paradigm is a UML CASE Tool supporting UML 2, SysML and Business Process Modeling Notation.
       It provides software designers with tools for analysis, design, coding, testing, and deployment.
     id: homebrew/cask/visual-paradigm
-    tags: [design, diagram]
+    tags: [design, visualization]
 - id: network
   name: Network Tools
   desc: Utilities for network diagnostics, communication, and connection management.
@@ -1052,7 +1094,7 @@
       darkhttpd is a small, static web server that's designed to be secure, simple, and fast. It's perfect
       for quickly serving static content without the complexity of larger web servers.
     id: homebrew/core/darkhttpd
-    tags: [http, lightweight]
+    tags: [http]
   - name: fping
     desc: Scriptable ping program for checking if multiple hosts are up
     homepage: https://fping.org/
@@ -1098,7 +1140,7 @@
       password for SSH connections on the command line, which is useful for scripts but should be used
       with caution for security reasons.
     id: homebrew/core/sshpass
-    tags: [ssh, security, password, automation]
+    tags: [ssh, security, password-manager, automation]
   - name: sshuttle
     desc: 'Proxy server that works as a poor man''s VPN'
     homepage: https://github.com/sshuttle/sshuttle
@@ -1130,7 +1172,7 @@
       Craft is a beautiful, native document editor for Mac and iOS that combines the best of document
       editing and note-taking. It features a block-based editor with excellent organization tools.
     id: homebrew/cask/craft
-    tags: [notes, productivity, document-editor, knowledge-management]
+    tags: [knowledge-management, productivity, editor]
   - name: Obsidian
     desc: Knowledge base that works on top of a local folder of plain text Markdown files
     homepage: https://obsidian.md/
@@ -1139,7 +1181,7 @@
       Obsidian is a powerful knowledge base that works on top of a local folder of plain text Markdown
       files. It allows you to create a personal knowledge graph with bidirectional linking between notes.
     id: homebrew/cask/obsidian
-    tags: [notes, knowledge-management]
+    tags: [knowledge-management]
 - id: office
   name: Office
   desc: Office suites applications for document creation and editing.
@@ -1153,7 +1195,7 @@
       spreadsheets, presentations, diagrams, and databases. It's fully compatible with Microsoft Office
       formats while supporting open standards.
     id: homebrew/cask/libreoffice
-    tags: [productivity, document-editor]
+    tags: [productivity, editor]
 - id: lang
   name: Programming Languages
   desc: Programming language implementations, runtimes, and interpreters for various languages.
@@ -1174,7 +1216,7 @@
       GNU CLISP is an implementation of Common Lisp. It includes an interpreter, compiler, debugger, and
       other features, making it a complete environment for Lisp development.
     id: homebrew/core/clisp
-    tags: [lisp, programming-language, development, interpreter]
+    tags: [lisp, programming-language, development, runtime]
   - name: clojure
     desc: Dynamic, general-purpose programming language
     homepage: https://clojure.org
@@ -1183,7 +1225,7 @@
       immutability and provides easy access to Java libraries, making it powerful for concurrent
       programming.
     id: homebrew/core/clojure
-    tags: [programming-language, jvm, lisp]
+    tags: [programming-language, runtime, lisp]
   - name: crystal
     desc: Fast and statically typed, compiled language with Ruby-like syntax
     homepage: https://crystal-lang.org/
@@ -1200,6 +1242,15 @@
       to WebAssembly for running in web browsers at near-native speed.
     id: homebrew/core/emscripten
     tags: [compiler, javascript]
+  - name: fennel
+    desc: Lua Lisp Language
+    homepage: https://fennel-lang.org
+    info: >-
+      Fennel is a programming language that brings a Lisp syntax to Lua. It compiles to Lua, is fully
+      compatible with Lua libraries, and is designed for embedding and scripting with a focus on
+      simplicity and speed.
+    id: homebrew/core/fennel
+    tags: [lisp, lua, programming-language]
   - name: groovy
     desc: Java-based scripting language
     homepage: https://www.groovy-lang.org/
@@ -1207,7 +1258,16 @@
       Groovy is a powerful, optionally typed and dynamic language for the Java platform. It integrates
       smoothly with Java code and libraries, adding modern programming language features.
     id: homebrew/core/groovy
-    tags: [programming-language, jvm, scripting, development]
+    tags: [programming-language, runtime, scripting, development]
+  - name: ipython
+    desc: Interactive computing in Python
+    homepage: https://ipython.org/
+    info: >-
+      IPython provides a rich toolkit to help you make the most out of using Python interactively. Its
+      powerful interactive shell features easy editing, recording, and debugging, and is widely used in
+      scientific computing.
+    id: homebrew/core/ipython
+    tags: [python, interactive, terminal]
   - name: jruby
     desc: Ruby implementation in pure Java
     homepage: https://www.jruby.org/
@@ -1215,7 +1275,39 @@
       JRuby is an implementation of Ruby on the JVM. It allows you to run Ruby code on any Java Virtual
       Machine, with access to Java libraries and better threading support than MRI Ruby.
     id: homebrew/core/jruby
-    tags: [ruby, jvm, programming-language, interpreter]
+    tags: [ruby, runtime, programming-language]
+  - name: llvm
+    desc: Next-gen compiler infrastructure
+    homepage: https://llvm.org/
+    info: >-
+      LLVM is a collection of modular and reusable compiler and toolchain technologies. It is widely used
+      for developing new programming languages and optimizing compilers.
+    id: homebrew/core/llvm
+    tags: [compiler, development]
+  - name: lua
+    desc: Powerful, lightweight programming language
+    homepage: https://www.lua.org/
+    info: >-
+      Lua is a lightweight, high-level, multi-paradigm programming language designed primarily for
+      embedded use in applications. It is fast, portable, and easy to embed.
+    id: homebrew/core/lua
+    tags: [lua, programming-language, scripting]
+  - name: luajit
+    desc: Just-In-Time Compiler (JIT) for the Lua programming language
+    homepage: https://luajit.org/luajit.html
+    info: >-
+      LuaJIT is a Just-In-Time Compiler for Lua, designed to be fast and efficient. It is widely used for
+      performance-critical applications that require Lua scripting.
+    id: homebrew/core/luajit
+    tags: [lua, compiler, programming-language]
+  - name: luarocks
+    desc: Package manager for the Lua programming language
+    homepage: https://luarocks.org/
+    info: >-
+      LuaRocks is the package manager for Lua modules. It allows you to install Lua libraries and manage
+      dependencies for Lua projects easily.
+    id: homebrew/core/luarocks
+    tags: [lua, package-manager]
   - name: node
     desc: Platform built on V8 to build network applications
     homepage: https://nodejs.org/
@@ -1249,7 +1341,7 @@
       pipx is a tool to execute binaries from Python packages in isolated environments. It allows you to
       install and run Python applications without affecting your system Python installation.
     id: homebrew/core/pipx
-    tags: [python, package-manager, cli]
+    tags: [python, package-manager, command-line]
   - name: python@3.13
     desc: Interpreted, interactive, object-oriented programming language
     homepage: https://www.python.org/
@@ -1257,7 +1349,7 @@
       Python 3.13 is a high-level, interpreted programming language known for its readability and
       versatility. It supports multiple programming paradigms and has a comprehensive standard library.
     id: homebrew/core/python@3.13
-    tags: [python, programming-language, development, interpreter]
+    tags: [python, programming-language, development, runtime]
   - name: ruby
     desc: Powerful, clean, object-oriented scripting language
     homepage: https://www.ruby-lang.org/
@@ -1266,7 +1358,7 @@
       has an elegant syntax that is natural to read and easy to write, making it popular for web
       development.
     id: homebrew/core/ruby
-    tags: [programming-language, development, interpreter, scripting]
+    tags: [programming-language, development, runtime, scripting]
   - name: rustup
     desc: Rust toolchain installer
     homepage: https://rust-lang.github.io/rustup/
@@ -1313,7 +1405,7 @@
       GnuPG (GPG) is a complete implementation of the OpenPGP standard for encrypting and signing data and
       communications. It's widely used for secure email communication and file encryption.
     id: homebrew/core/gnupg
-    tags: [security, encryption, pgp]
+    tags: [security, encryption]
   - name: gnutls
     desc: GNU Transport Layer Security (TLS) Library
     homepage: https://gnutls.org/
@@ -1322,7 +1414,7 @@
       an API to access secure communication protocols that helps you implement security in your
       applications.
     id: homebrew/core/gnutls
-    tags: [security, encryption, tls, ssl]
+    tags: [security, encryption]
   - name: gpg-tui
     desc: Manage your GnuPG keys with ease!
     homepage: https://github.com/orhun/gpg-tui
@@ -1330,7 +1422,7 @@
       gpg-tui is a Terminal User Interface for GnuPG. It provides a visual way to manage your GPG keys,
       making key management more intuitive and accessible from the terminal.
     id: homebrew/core/gpg-tui
-    tags: [security, encryption, pgp, tui]
+    tags: [security, encryption]
   - name: KeePassXC
     desc: Password manager app
     homepage: https://keepassxc.org/
@@ -1348,7 +1440,7 @@
       creates and installs a local CA in the system root store, and generates locally-trusted certificates
       for local development and testing.
     id: homebrew/core/mkcert
-    tags: [security, development, certificates, tls]
+    tags: [security, development]
   - name: pass
     desc: Password manager
     homepage: https://www.passwordstore.org/
@@ -1357,7 +1449,7 @@
       philosophy. It stores passwords in GPG-encrypted files, which can be managed with standard Unix
       commands.
     id: homebrew/core/pass
-    tags: [security, password-manager, encryption, gpg]
+    tags: [security, password-manager, encryption]
   - name: pwgen
     desc: Password generator
     homepage: https://pwgen.sourceforge.net/
@@ -1365,7 +1457,7 @@
       pwgen is a small, GPL-licensed password generator which creates passwords which can be easily
       memorized by a human, while being as secure as possible.
     id: homebrew/core/pwgen
-    tags: [security, password, generator, command-line]
+    tags: [security, password-manager, automation, command-line]
   - name: qrencode
     desc: QR Code generation
     homepage: https://fukuchi.org/works/qrencode/index.html.en
@@ -1373,7 +1465,7 @@
       qrencode is a fast and compact library for encoding data in a QR Code symbol, a 2D barcode. It's
       useful for sharing Wi-Fi passwords, URLs, or other data that can be scanned by smartphones.
     id: homebrew/core/qrencode
-    tags: [command-line, generator]
+    tags: [command-line, automation]
   - name: showcert
     desc: X.509 TLS certificate reader and creator
     homepage: https://github.com/yaroslaff/showcert
@@ -1382,7 +1474,7 @@
       for inspecting certificate information and generating certificates for testing and development
       purposes.
     id: homebrew/core/showcert
-    tags: [security, certificates, tls]
+    tags: [security]
   - name: sops
     desc: Editor of encrypted files
     homepage: https://getsops.io/
@@ -1400,7 +1492,7 @@
       TLS/SSL ciphers, protocols and cryptographic flaws. It helps identify security vulnerabilities in
       SSL/TLS configurations.
     id: homebrew/core/testssl
-    tags: [security, testing, ssl, tls]
+    tags: [security, testing]
   - name: trivy
     desc: Vulnerability scanner for container images, file systems, and Git repos
     homepage: https://trivy.dev/
@@ -1430,7 +1522,7 @@
       performance. It displays system specs, OS information, and hardware details in a visually appealing
       way and loads significantly faster. It supports extensive customization and various output formats.
     id: homebrew/core/fastfetch
-    tags: [system, customization]
+    tags: [system]
   - name: htop
     desc: Improved top (interactive process viewer)
     homepage: https://htop.dev/
@@ -1494,7 +1586,7 @@
       Taskwarrior TUI provides a terminal user interface for Taskwarrior, making it easier to view,
       filter, and manage your tasks with a more visual interface while still in the terminal.
     id: homebrew/core/taskwarrior-tui
-    tags: [productivity, task-management, tui, command-line]
+    tags: [productivity, task-management, command-line]
   - name: timewarrior
     desc: Command-line time tracking application
     homepage: https://timewarrior.net/
@@ -1590,6 +1682,14 @@
       more visually appealing way to view file contents in the terminal.
     id: homebrew/core/bat
     tags: [command-line]
+  - name: markdownlint-cli
+    desc: CLI for Node.js style checker and lint tool for Markdown files
+    homepage: https://github.com/igorshubovych/markdownlint-cli
+    info: >-
+      markdownlint-cli is a command-line tool for checking Markdown files and enforcing style rules. It
+      helps maintain consistent Markdown formatting in documentation and codebases.
+    id: homebrew/core/markdownlint-cli
+    tags: [markdown, testing, documentation]
   - name: pandoc
     desc: Swiss-army knife of markup format conversion
     homepage: https://pandoc.org/
@@ -1598,6 +1698,15 @@
       It supports dozens of formats including Markdown, HTML, LaTeX, PDF, EPUB, and Microsoft Word.
     id: homebrew/core/pandoc
     tags: [markup, publishing, text-processing]
+  - name: prettier
+    desc: Code formatter for JavaScript, CSS, JSON, GraphQL, Markdown, YAML
+    homepage: https://prettier.io/
+    info: >-
+      Prettier is an opinionated code formatter that supports many languages and formats, including
+      JavaScript, CSS, JSON, Markdown, and YAML. It enforces a consistent style by parsing your code and
+      re-printing it with its own rules.
+    id: homebrew/core/prettier
+    tags: [testing, javascript, markdown]
   - name: typst
     desc: Markup-based typesetting system
     homepage: https://typst.app
@@ -1626,6 +1735,15 @@
       single integrated package. It's designed to be simpler than Git while still powerful.
     id: homebrew/core/fossil
     tags: [version-control, distributed]
+  - name: jj
+    desc: Git-compatible distributed version control system
+    homepage: https://github.com/jj-vcs/jj
+    info: >-
+      JJ is a Git-compatible distributed version control system. It aims to provide a simpler, more
+      powerful interface for managing changes and branches, while remaining interoperable with Git
+      repositories.
+    id: homebrew/core/jj
+    tags: [version-control, git]
 - id: vm
   name: Virtual Machines
   desc: Tools for managing, emulating, and running virtual machines.
@@ -1654,7 +1772,7 @@
       Multipass is a lightweight VM manager for Linux, Windows, and macOS. It lets you quickly spin up
       Ubuntu VMs with a single command, making it easy to create development environments.
     id: homebrew/cask/multipass
-    tags: [virtualization, vm, development]
+    tags: [virtualization, development]
   - name: qemu
     desc: Generic machine emulator and virtualizer
     homepage: https://www.qemu.org/
@@ -1662,7 +1780,7 @@
       QEMU is a generic and open source machine emulator and virtualizer. It can run operating systems and
       programs made for one machine on a different machine, and is used by many virtualization tools.
     id: homebrew/core/qemu
-    tags: [virtualization, cross-platform, system]
+    tags: [virtualization, system]
   - name: UTM
     desc: Virtual machines UI using QEMU
     homepage: https://mac.getutm.app/
@@ -1674,5 +1792,8 @@
     tags: [virtualization, macos]
 - id: uncategorized
   name: Uncategorized Packages
-  desc: Packages that are installed on your System but not categorized, yet.
+  desc: >-
+    Packages that are installed on your System but not categorized, yet. This section is reserved for
+    uncategorized packages. Please assign packages to existing categories or create new ones as
+    appropriate.
   packages: []
