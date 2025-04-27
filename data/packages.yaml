@@ -750,7 +750,7 @@
       Meld is a visual diff and merge tool that helps you compare files, directories, and version
       controlled projects. It's particularly useful for reviewing code changes and resolving merge
       conflicts.
-    id: homebrew/cask/dehesselle-meld
+    id: homebrew/cask/meld
     tags: [git]
   - name: neovim
     desc: Ambitious Vim-fork focused on extensibility and agility
