@@ -58,25 +58,23 @@ If you prefer not to install anything, you can run it directly:
 For offline use or customization:
 
 ```bash
-# Download the script
 curl -fsSL -o brewiz https://brewiz.github.io/bin/brewiz
 chmod +x brewiz
-
-# Run it
 ./brewiz
 ```
 
 ### How It Works
 
-1. When you run Brewiz, it starts a local web server and opens your browser
-2. You'll see all available Homebrew packages organized by category
+1. When you run Brewiz, it starts a local web server and opens your browser.
+2. You'll see all available Homebrew packages organized by category.
 3. **Color coding:**
-   - Blue packages are already installed
-   - White packages are available to install
-   - Click to toggle selection (green = will install, red = will uninstall)
-4. The command panel at the bottom shows what will be executed
-5. Click "Copy" to copy the commands to your clipboard
-6. Paste into your terminal to execute
+   - Blue: already installed
+   - White: available to install
+   - Green: selected for install
+   - Red: selected for uninstall
+4. The command panel at the bottom shows the generated Homebrew commands.
+5. Click "Copy" to copy the commands to your clipboard.
+6. Paste into your terminal to execute.
 
 ![Brewiz Command Panel](https://brewiz.github.io/docs/images/brewiz-cmd.png)
 
@@ -88,7 +86,11 @@ Usage: brewiz [options]
     -p, --port PORT                  Port to run Server on
     -c, --cache                      Enable caching of brew info results
         --packages LOCATION          URL or file path to packages.yaml package list
-        --no-open                    Don't open browser automatically
+        --no-open                    Do not open browser automatically
+        --app-url URL                URL for frontend assets (dev only)
+    -d, --dev                        Run in development mode
+        --access                     Enable access log (dev only)
+        --zsh-completion             Generate zsh completion script
     -v, --version                    Show version
     -h, --help                       Show this help message
 ```
@@ -115,17 +117,17 @@ cd brewiz
 rake install
 ```
 
-3. Start the development server:
+3. Start the development environment:
 
 ```bash
 rake dev
 ```
 
-The application will be available at `http://localhost:8047`
+The backend server will be available at `http://localhost:8047` and the frontend dev server at `http://localhost:8048`.
 
 ### Version Management
 
-Brewiz uses a central `VERSION` file at the root of the project to manage version information across all components:
+Brewiz uses a central `VERSION` file at the root of the project to manage version information across all components.
 
 ### Building for Production
 
@@ -152,7 +154,7 @@ The built files will be in the `app/dist` and `bin` directory.
 
 ### Development Mode
 
-When started in dev mode (`rake dev`), Brewiz runs two separate processes that work together:
+When started in dev mode (`rake dev` or `ruby brewiz --dev`), Brewiz runs two separate processes that work together:
 
 #### Backend Ruby Server
 
@@ -175,19 +177,20 @@ When started in dev mode (`rake dev`), Brewiz runs two separate processes that w
 
 #### Development Workflow
 
-1. The `rake dev` task starts both servers in the correct order
-2. The backend server (`brewiz --dev`) connects to the frontend dev server
-3. Make changes to backend Ruby code and restart when needed
-4. Make changes to frontend code and see them immediately
-5. API requests from the frontend are handled by the backend server
-6. The Rake task handles proper startup/shutdown of both servers
+1. The `rake dev` task starts both servers in the correct order.
+2. The backend server (`brewiz --dev`) connects to the frontend dev server.
+3. Make changes to backend Ruby code and restart when needed.
+4. Make changes to frontend code and see them immediately.
+5. API requests from the frontend are handled by the backend server.
+6. The Rake task handles proper startup/shutdown of both servers.
 
 ### Production Mode
 
 In production mode:
 
-- Static files are loaded from the github repository
+- Static files are loaded from the GitHub repository
 - Frontend is optimized for production
+- Only the backend server is started (default port 8047)
 
 ## Tech Stack
 
