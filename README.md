@@ -1,6 +1,6 @@
 # Brewiz - Homebrew Package Wizard
 
-[![Version](https://img.shields.io/badge/version-0.9.10-blue.svg)](https://github.com/wstein/brewiz/tree/v0.9.10)
+[![Version](https://img.shields.io/badge/version-0.9.11-blue.svg)](https://github.com/wstein/brewiz/tree/v0.9.11)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![macOS](https://img.shields.io/badge/platform-macOS-lightgrey.svg)](https://www.apple.com/macos)
 [![Ruby](https://img.shields.io/badge/ruby-%3E%3D%202.6-red.svg)](https://www.ruby-lang.org/)
