@@ -751,7 +751,7 @@
       controlled projects. It's particularly useful for reviewing code changes and resolving merge
       conflicts.
     id: homebrew/cask/meld
-    tags: [git]
+    tags: [editor, diff, merge]
   - name: neovim
     desc: Ambitious Vim-fork focused on extensibility and agility
     homepage: https://neovim.io/
