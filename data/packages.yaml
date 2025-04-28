@@ -1055,7 +1055,7 @@
       supports Git, Mercurial, Bazaar, and SVN, and helps you understand project history and collaboration
       visually.
     id: homebrew/core/gource
-    tags: [visualization, version-control, graphics]
+    tags: [git, visualization, version-control, graphics]
   - name: graphviz
     desc: Graph visualization software from AT&T and Bell Labs
     homepage: https://www.graphviz.org/
