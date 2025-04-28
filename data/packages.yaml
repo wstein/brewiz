@@ -361,6 +361,16 @@
       manipulation.
     id: homebrew/core/yq
     tags: [data, json, command-line]
+  - name: dolt
+    desc: Git for Data – SQL database with Git-style versioning
+    homepage: https://github.com/dolthub/dolt
+    info: >-
+      Dolt is a SQL database that you can fork, clone, branch, merge, push, and pull just like a Git repository. 
+      It enables collaborative data workflows and version control for structured data.
+      To start Dolt as a background service: `brew services start dolt`
+      Or run manually: `/opt/homebrew/opt/dolt/bin/dolt sql-server`
+    id: homebrew/core/dolt
+    tags: [data, git, sql, version-control]
 - id: devutil
   name: Development Utilities
   desc: Tools and utilities for software development, building, and analysis across programming languages.
