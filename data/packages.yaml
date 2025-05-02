@@ -1,4 +1,58 @@
 ---
+# This part is only for documentation purposes and is ignored
+Title: Brewiz Package List
+Description: >
+    This file is part of Brewiz, the UI for Homebrew.
+    It contains a list of packages and their metadata for Brewiz.
+    Each package has an ID, name, description, homepage, and other metadata.
+    The file is structured as a YAML document with a list of categories, each containing a list of packages.
+    Each package has a unique ID, name, description, and other metadata.
+    The file is used to generate the Brewiz UI.
+Disclaimers:
+  - This file is not part of the official Homebrew project.
+  - This file is not maintained by the Homebrew team.
+  - This file is not an official Homebrew package list.
+  - This file is not guaranteed to be up-to-date or accurate.
+  - This file is provided as-is, without any warranties or guarantees.
+  - Use this file at your own risk.
+Copyright: Copyright (c) 2025 Werner Stein
+License: MIT
+LicenseFile: LICENSE
+# Replace the `$ brew info...` block with your Homebrew info
+UpdatePrompt: |
+  You are a Homebrew package maintainer. Your task is to update the Brewiz package list with the provided Homebrew info.
+  You will be given a list of packages and their metadata, including the package name, description, homepage, and other metadata.
+  Your task is to update the Brewiz package list with the provided Homebrew info.
+
+  Update the Brewiz package list as follows:
+    1. Add the following package to the most appropriate existing category, using the provided Homebrew info
+    2. Ensure the package is placed in the best-fitting existing category (e.g., "Text Processing & Publishing" or "Development Utilities").
+    3. Use the style and metadata format consistent with the rest of the file.
+    4. Prefer assigning to existing categories; avoid creating new categories unless absolutely necessary.
+    5. Assign tags by preferring already existing tags from the file; avoid creating new tags unless absolutely necessary.
+    6. Do not duplicate packages if they already exist.
+
+  The Homebrew info for the package list is as follows:
+
+  ───────x───────x───────x───────x───────x───────x───────x───────x───────x───────
+
+  $ brew info --formula doxygen
+  doxygen: stable 1.13.2 (bottled), HEAD
+  Generate documentation for several programming languages
+  https://www.doxygen.nl/
+  Not installed
+  From: https://github.com/Homebrew/homebrew-core/blob/HEAD/Formula/d/doxygen.rb
+  License: GPL-2.0-only
+  Dependencies:
+    Build: bison, cmake
+  Options:
+    --HEAD: Install HEAD version
+  Analytics:
+    install: 6,020 (30 days), 20,827 (90 days), 109,527 (365 days)
+    install-on-request: 2,005 (30 days), 7,563 (90 days), 40,582 (365 days)
+    build-error: 270 (30 days)
+
+---
 - id: ai
   name: AI & Machine Learning
   desc: Tools for artificial intelligence, machine learning, and large language models.
