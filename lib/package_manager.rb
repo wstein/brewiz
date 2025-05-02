@@ -32,13 +32,15 @@ class PackageManager
   end
 
   def load_config
-    YAML.safe_load(
-      if @options[:packages_yaml].start_with?('http')
-        URI.open(@options[:packages_yaml]).read
-      else
-        File.read(@options[:packages_yaml])
-      end
-    )
+    yaml_content = if @options[:packages_yaml].start_with?('http')
+      URI.open(@options[:packages_yaml]).read
+    else
+      File.read(@options[:packages_yaml])
+    end
+    docs = YAML.load_stream(yaml_content)
+    # If the first doc is a metadata/docu section (has 'Title'), skip it
+    doc = docs.find { |d| d.is_a?(Array) && d.first&.key?('id') } || docs.first
+    doc
   end
 
   def update_packages_with_brew_info
