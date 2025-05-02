@@ -1,6 +1,6 @@
 # Brewiz - Homebrew Package Wizard
 
-[![Version](https://img.shields.io/badge/version-0.9.11-blue.svg)](https://github.com/wstein/brewiz/tree/v0.9.11)
+[![Version](https://img.shields.io/badge/version-0.9.12-blue.svg)](https://github.com/wstein/brewiz/tree/v0.9.12)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![macOS](https://img.shields.io/badge/platform-macOS-lightgrey.svg)](https://www.apple.com/macos)
 [![Ruby](https://img.shields.io/badge/ruby-%3E%3D%202.6-red.svg)](https://www.ruby-lang.org/)
@@ -94,6 +94,10 @@ Usage: brewiz [options]
     -v, --version                    Show version
     -h, --help                       Show this help message
 ```
+
+## Package List YAML Format
+
+Brewiz uses a YAML file to define package categories and packages. The loader automatically ignores any documentation or metadata sections at the top of the YAML file (such as `Title`, `Description`, or `Disclaimers`). Only the list of categories (with `id`, `name`, `desc`, and `packages`) is processed. This allows you to include documentation in your YAML file without affecting package loading.
 
 ## Development
 
