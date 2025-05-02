@@ -579,6 +579,15 @@ UpdatePrompt: |
   name: Git Tools
   desc: Git-specific utilities, extensions, and interfaces for enhanced Git workflows.
   packages:
+  - name: ugit
+    desc: Undo git commands. Your damage control git buddy
+    homepage: https://bhupesh.me/undo-your-last-git-mistake-with-ugit/
+    info: >-
+      ugit is a utility that allows you to easily undo Git commands. It serves as a safety net for when you make mistakes in Git,
+      providing a simple way to reverse potentially harmful operations. Note that it conflicts with git-extras
+      as both install `git-undo` binaries.
+    id: homebrew/core/ugit
+    tags: [git, version-control, command-line]  
   - name: forgit
     desc: Interactive git commands in the terminal
     homepage: https://github.com/wfxr/forgit
@@ -1665,6 +1674,15 @@ UpdatePrompt: |
     Modern terminal emulators, multiplexers, and shell enhancements to improve productivity and user
     experience in the command line.
   packages:
+  - name: nushell
+    desc: Modern shell for the GitHub era
+    homepage: https://www.nushell.sh
+    info: >-
+      Nushell is a modern shell designed for the GitHub era. It works with structured data like JSON, YAML, 
+      and CSV natively, treats all output as structured data, and offers rich error messages and 
+      excellent cross-platform support. It's written in Rust for performance and reliability.
+    id: homebrew/core/nushell
+    tags: [terminal, shell, command-line, rust]
   - name: byobu
     desc: Text-based window manager and terminal multiplexer
     homepage: https://github.com/dustinkirkland/byobu
@@ -1746,6 +1764,18 @@ UpdatePrompt: |
       more visually appealing way to view file contents in the terminal.
     id: homebrew/core/bat
     tags: [command-line]
+  - name: doxygen
+    desc: Generate documentation for several programming languages
+    homepage: https://www.doxygen.nl/
+    info: >-
+      Doxygen is a documentation generator for a wide range of programming languages. It extracts documentation from source code comments and produces HTML, LaTeX, man pages, and more.
+      Useful for generating API documentation for C, C++, Java, Python, and other languages.
+      License: GPL-2.0-only
+      Build dependencies: bison, cmake
+      Option: --HEAD (install HEAD version)
+      Formula: https://github.com/Homebrew/homebrew-core/blob/HEAD/Formula/d/doxygen.rb
+    id: homebrew/core/doxygen
+    tags: [documentation, publishing, code, generator]    
   - name: markdownlint-cli
     desc: CLI for Node.js style checker and lint tool for Markdown files
     homepage: https://github.com/igorshubovych/markdownlint-cli
