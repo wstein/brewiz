@@ -446,6 +446,15 @@ UpdatePrompt: |
       central piece of information.
     id: homebrew/core/maven
     tags: [build, java]
+  - name: openapi-generator
+    desc: Generate clients, server & docs from an OpenAPI spec (v2, v3)
+    homepage: https://openapi-generator.tech/
+    info: >-
+      OpenAPI Generator is a community-driven project that generates API client libraries, server stubs,
+      and API documentation from an OpenAPI Specification. It supports various programming languages and
+      frameworks.
+    id: homebrew/core/openapi-generator
+    tags: [build, java]
 - id: file-nav
   name: File Navigation & Search
   desc: Tools for searching, navigating, and exploring file systems and directories.
@@ -928,6 +937,221 @@ UpdatePrompt: |
       larger application running in Kubernetes.
     id: telepresenceio/telepresence/telepresence-oss
     tags: [kubernetes, development, testing]
+- id: lang
+  name: Programming Languages
+  desc: Programming language implementations, runtimes, and interpreters for various languages.
+  packages:
+  - name: alire
+    desc: A package manager for the Ada programming language
+    homepage: https://alire.ada.dev/
+    info: >-
+      Alire (alr) is a source-based package manager and build tool for the Ada and SPARK programming
+      languages. It helps manage dependencies and build projects written in Ada.
+    id: homebrew/core/alire
+    tags: [package-manager, ada, development]
+  - name: bun
+    desc: Incredibly fast JavaScript runtime, bundler, transpiler and package manager - all in one.
+    homepage: https://bun.sh/
+    info: >-
+      Bun is an all-in-one JavaScript runtime, bundler, transpiler, and package manager designed for
+      speed. It aims to be a drop-in replacement for Node.js with significantly better performance and
+      additional features.
+    id: oven-sh/bun/bun
+    tags: [javascript, runtime, package-manager]
+  - name: clisp
+    desc: GNU CLISP, a Common Lisp implementation
+    homepage: https://clisp.sourceforge.io/
+    info: >-
+      GNU CLISP is an implementation of Common Lisp. It includes an interpreter, compiler, debugger, and
+      other features, making it a complete environment for Lisp development.
+    id: homebrew/core/clisp
+    tags: [lisp, programming-language, development, runtime]
+  - name: clojure
+    desc: Dynamic, general-purpose programming language
+    homepage: https://clojure.org
+    info: >-
+      Clojure is a dynamic, functional programming language that runs on the JVM. It emphasizes
+      immutability and provides easy access to Java libraries, making it powerful for concurrent
+      programming.
+    id: homebrew/core/clojure
+    tags: [programming-language, runtime, lisp]
+  - name: crystal
+    desc: Fast and statically typed, compiled language with Ruby-like syntax
+    homepage: https://crystal-lang.org/
+    info: >-
+      Crystal is a programming language with Ruby-like syntax but with static type checking and
+      compilation to efficient native code. It aims to have the elegance of Ruby with the speed of C.
+    id: homebrew/core/crystal
+    tags: [programming-language, development]
+  - name: emscripten
+    desc: LLVM bytecode to JavaScript compiler
+    homepage: https://emscripten.org/
+    info: >-
+      Emscripten is a complete compiler toolchain to WebAssembly, allowing you to compile C and C++ code
+      to WebAssembly for running in web browsers at near-native speed.
+    id: homebrew/core/emscripten
+    tags: [compiler, javascript]
+  - name: fennel
+    desc: Lua Lisp Language
+    homepage: https://fennel-lang.org
+    info: >-
+      Fennel is a programming language that brings a Lisp syntax to Lua. It compiles to Lua, is fully
+      compatible with Lua libraries, and is designed for embedding and scripting with a focus on
+      simplicity and speed.
+    id: homebrew/core/fennel
+    tags: [lisp, lua, programming-language]
+  - name: groovy
+    desc: Java-based scripting language
+    homepage: https://www.groovy-lang.org/
+    info: >-
+      Groovy is a powerful, optionally typed and dynamic language for the Java platform. It integrates
+      smoothly with Java code and libraries, adding modern programming language features.
+    id: homebrew/core/groovy
+    tags: [programming-language, runtime, scripting, development]
+  - name: ipython
+    desc: Interactive computing in Python
+    homepage: https://ipython.org/
+    info: >-
+      IPython provides a rich toolkit to help you make the most out of using Python interactively. Its
+      powerful interactive shell features easy editing, recording, and debugging, and is widely used in
+      scientific computing.
+    id: homebrew/core/ipython
+    tags: [python, interactive, terminal]
+  - name: jruby
+    desc: Ruby implementation in pure Java
+    homepage: https://www.jruby.org/
+    info: >-
+      JRuby is an implementation of Ruby on the JVM. It allows you to run Ruby code on any Java Virtual
+      Machine, with access to Java libraries and better threading support than MRI Ruby.
+    id: homebrew/core/jruby
+    tags: [ruby, runtime, programming-language]
+  - name: llvm
+    desc: Next-gen compiler infrastructure
+    homepage: https://llvm.org/
+    info: >-
+      LLVM is a collection of modular and reusable compiler and toolchain technologies. It is widely used
+      for developing new programming languages and optimizing compilers.
+    id: homebrew/core/llvm
+    tags: [compiler, development]
+  - name: lua
+    desc: Powerful, lightweight programming language
+    homepage: https://www.lua.org/
+    info: >-
+      Lua is a lightweight, high-level, multi-paradigm programming language designed primarily for
+      embedded use in applications. It is fast, portable, and easy to embed.
+    id: homebrew/core/lua
+    tags: [lua, programming-language, scripting]
+  - name: luajit
+    desc: Just-In-Time Compiler (JIT) for the Lua programming language
+    homepage: https://luajit.org/luajit.html
+    info: >-
+      LuaJIT is a Just-In-Time Compiler for Lua, designed to be fast and efficient. It is widely used for
+      performance-critical applications that require Lua scripting.
+    id: homebrew/core/luajit
+    tags: [lua, compiler, programming-language]
+  - name: luarocks
+    desc: Package manager for the Lua programming language
+    homepage: https://luarocks.org/
+    info: >-
+      LuaRocks is the package manager for Lua modules. It allows you to install Lua libraries and manage
+      dependencies for Lua projects easily.
+    id: homebrew/core/luarocks
+    tags: [lua, package-manager]
+  - name: node
+    desc: Platform built on V8 to build network applications
+    homepage: https://nodejs.org/
+    info: >-
+      Node.js is a JavaScript runtime built on Chrome's V8 JavaScript engine. It allows you to run
+      JavaScript on the server side, enabling the development of scalable network applications.
+    id: homebrew/core/node
+    tags: [javascript, runtime, development, npm]
+  - name: node@18
+    desc: Platform built on V8 to build network applications
+    homepage: https://nodejs.org/
+    info: >-
+      Node.js 18 is an LTS (Long Term Support) version of Node.js that will be maintained until October
+      2025. It provides a stable JavaScript runtime for server applications with improved performance and
+      security features over previous versions. This keg-only formula requires manual path configuration
+      to use as your primary Node.js environment.
+    id: homebrew/core/node@18
+    tags: [javascript, runtime, development, npm]
+  - name: openjdk@21
+    desc: Development kit for the Java programming language
+    homepage: https://openjdk.java.net/
+    info: >-
+      OpenJDK 21 is an open-source implementation of the Java Platform, Standard Edition. It includes the
+      JVM, class libraries, and development tools needed for Java application development.
+    id: homebrew/core/openjdk@21
+    tags: [java, development, programming-language]
+  - name: pipx
+    desc: Execute binaries from Python packages in isolated environments
+    homepage: https://pipx.pypa.io
+    info: >-
+      pipx is a tool to execute binaries from Python packages in isolated environments. It allows you to
+      install and run Python applications without affecting your system Python installation.
+    id: homebrew/core/pipx
+    tags: [python, package-manager, command-line]
+  - name: python@3.13
+    desc: Interpreted, interactive, object-oriented programming language
+    homepage: https://www.python.org/
+    info: >-
+      Python 3.13 is a high-level, interpreted programming language known for its readability and
+      versatility. It supports multiple programming paradigms and has a comprehensive standard library.
+    id: homebrew/core/python@3.13
+    tags: [python, programming-language, development, runtime]
+  - name: ruby
+    desc: Powerful, clean, object-oriented scripting language
+    homepage: https://www.ruby-lang.org/
+    info: >-
+      Ruby is a dynamic, open-source programming language with a focus on simplicity and productivity. It
+      has an elegant syntax that is natural to read and easy to write, making it popular for web
+      development.
+    id: homebrew/core/ruby
+    tags: [programming-language, development, runtime, scripting]
+  - name: rustup
+    desc: Rust toolchain installer
+    homepage: https://rust-lang.github.io/rustup/
+    info: >-
+      rustup is the Rust toolchain installer, allowing you to manage multiple Rust toolchains and switch
+      between them with ease. It's the recommended way to install and manage Rust on your system.
+    id: homebrew/core/rustup
+    tags: [rust, compiler, development]
+  - name: sbcl
+    desc: Steel Bank Common Lisp system
+    homepage: https://www.sbcl.org/
+    info: >-
+      Steel Bank Common Lisp (SBCL) is a high-performance Common Lisp compiler. It provides an interactive
+      environment with an integrated native compiler, debugger, and many extensions.
+    id: homebrew/core/sbcl
+    tags: [lisp, programming-language, development, compiler]
+  - name: solargraph
+    desc: Ruby language server
+    homepage: https://solargraph.org
+    info: >-
+      Solargraph is a Ruby language server that provides code completion, inline documentation, and static
+      analysis for Ruby code. It enhances development environments with intelligent features to improve
+      productivity when working with Ruby.
+    id: homebrew/core/solargraph
+    tags: [ruby, ide, development]
+  - name: uv
+    desc: Extremely fast Python package installer and resolver, written in Rust
+    homepage: https://docs.astral.sh/uv/
+    info: >-
+      uv is an extremely fast Python package installer and resolver, written in Rust.
+      uv is designed as a drop-in replacement for pip and pip-tools workflows.
+      It can install and resolve Python packages up to 10-100x faster than pip and pip-tools.
+    id: homebrew/core/uv
+    tags: [python, package-manager]
+  - name: vala
+    desc: Compiler for the GObject type system
+    homepage: https://wiki.gnome.org/Projects/Vala
+    info: >-
+      Vala is a programming language that aims to bring modern programming language features to GNOME
+      developers without imposing additional runtime requirements. It translates to C and is designed to
+      work with the GObject type system, making it ideal for GNOME and GTK application development with
+      syntax similar to C# and Java.
+    id: homebrew/core/vala
+    tags: [programming-language, development]
 - id: macos
   name: macOS Enhancements
   desc: Tools and utilities that enhance the macOS experience and provide additional functionality.
@@ -1233,6 +1457,15 @@ UpdatePrompt: |
       downloads, making it ideal for unstable connections.
     id: homebrew/core/wget
     tags: [http]
+  - name: wireshark
+    desc: Network protocol analyzer
+    homepage: https://www.wireshark.org/
+    info: >-
+      Wireshark is a network protocol analyzer that lets you capture and interactively browse the traffic
+      on your computer network. It provides detailed information about network protocols and is widely used
+      for network troubleshooting, analysis, and development.
+    id: homebrew/cask/wireshark
+    tags: [network, diagnostics]
 - id: notes
   name: Notes & Knowledge Management
   desc: Tools for note-taking, knowledge management, and document organization.
@@ -1269,204 +1502,6 @@ UpdatePrompt: |
       formats while supporting open standards.
     id: homebrew/cask/libreoffice
     tags: [productivity, editor]
-- id: lang
-  name: Programming Languages
-  desc: Programming language implementations, runtimes, and interpreters for various languages.
-  packages:
-  - name: bun
-    desc: Incredibly fast JavaScript runtime, bundler, transpiler and package manager - all in one.
-    homepage: https://bun.sh/
-    info: >-
-      Bun is an all-in-one JavaScript runtime, bundler, transpiler, and package manager designed for
-      speed. It aims to be a drop-in replacement for Node.js with significantly better performance and
-      additional features.
-    id: oven-sh/bun/bun
-    tags: [javascript, runtime, package-manager]
-  - name: clisp
-    desc: GNU CLISP, a Common Lisp implementation
-    homepage: https://clisp.sourceforge.io/
-    info: >-
-      GNU CLISP is an implementation of Common Lisp. It includes an interpreter, compiler, debugger, and
-      other features, making it a complete environment for Lisp development.
-    id: homebrew/core/clisp
-    tags: [lisp, programming-language, development, runtime]
-  - name: clojure
-    desc: Dynamic, general-purpose programming language
-    homepage: https://clojure.org
-    info: >-
-      Clojure is a dynamic, functional programming language that runs on the JVM. It emphasizes
-      immutability and provides easy access to Java libraries, making it powerful for concurrent
-      programming.
-    id: homebrew/core/clojure
-    tags: [programming-language, runtime, lisp]
-  - name: crystal
-    desc: Fast and statically typed, compiled language with Ruby-like syntax
-    homepage: https://crystal-lang.org/
-    info: >-
-      Crystal is a programming language with Ruby-like syntax but with static type checking and
-      compilation to efficient native code. It aims to have the elegance of Ruby with the speed of C.
-    id: homebrew/core/crystal
-    tags: [programming-language, development]
-  - name: emscripten
-    desc: LLVM bytecode to JavaScript compiler
-    homepage: https://emscripten.org/
-    info: >-
-      Emscripten is a complete compiler toolchain to WebAssembly, allowing you to compile C and C++ code
-      to WebAssembly for running in web browsers at near-native speed.
-    id: homebrew/core/emscripten
-    tags: [compiler, javascript]
-  - name: fennel
-    desc: Lua Lisp Language
-    homepage: https://fennel-lang.org
-    info: >-
-      Fennel is a programming language that brings a Lisp syntax to Lua. It compiles to Lua, is fully
-      compatible with Lua libraries, and is designed for embedding and scripting with a focus on
-      simplicity and speed.
-    id: homebrew/core/fennel
-    tags: [lisp, lua, programming-language]
-  - name: groovy
-    desc: Java-based scripting language
-    homepage: https://www.groovy-lang.org/
-    info: >-
-      Groovy is a powerful, optionally typed and dynamic language for the Java platform. It integrates
-      smoothly with Java code and libraries, adding modern programming language features.
-    id: homebrew/core/groovy
-    tags: [programming-language, runtime, scripting, development]
-  - name: ipython
-    desc: Interactive computing in Python
-    homepage: https://ipython.org/
-    info: >-
-      IPython provides a rich toolkit to help you make the most out of using Python interactively. Its
-      powerful interactive shell features easy editing, recording, and debugging, and is widely used in
-      scientific computing.
-    id: homebrew/core/ipython
-    tags: [python, interactive, terminal]
-  - name: jruby
-    desc: Ruby implementation in pure Java
-    homepage: https://www.jruby.org/
-    info: >-
-      JRuby is an implementation of Ruby on the JVM. It allows you to run Ruby code on any Java Virtual
-      Machine, with access to Java libraries and better threading support than MRI Ruby.
-    id: homebrew/core/jruby
-    tags: [ruby, runtime, programming-language]
-  - name: llvm
-    desc: Next-gen compiler infrastructure
-    homepage: https://llvm.org/
-    info: >-
-      LLVM is a collection of modular and reusable compiler and toolchain technologies. It is widely used
-      for developing new programming languages and optimizing compilers.
-    id: homebrew/core/llvm
-    tags: [compiler, development]
-  - name: lua
-    desc: Powerful, lightweight programming language
-    homepage: https://www.lua.org/
-    info: >-
-      Lua is a lightweight, high-level, multi-paradigm programming language designed primarily for
-      embedded use in applications. It is fast, portable, and easy to embed.
-    id: homebrew/core/lua
-    tags: [lua, programming-language, scripting]
-  - name: luajit
-    desc: Just-In-Time Compiler (JIT) for the Lua programming language
-    homepage: https://luajit.org/luajit.html
-    info: >-
-      LuaJIT is a Just-In-Time Compiler for Lua, designed to be fast and efficient. It is widely used for
-      performance-critical applications that require Lua scripting.
-    id: homebrew/core/luajit
-    tags: [lua, compiler, programming-language]
-  - name: luarocks
-    desc: Package manager for the Lua programming language
-    homepage: https://luarocks.org/
-    info: >-
-      LuaRocks is the package manager for Lua modules. It allows you to install Lua libraries and manage
-      dependencies for Lua projects easily.
-    id: homebrew/core/luarocks
-    tags: [lua, package-manager]
-  - name: node
-    desc: Platform built on V8 to build network applications
-    homepage: https://nodejs.org/
-    info: >-
-      Node.js is a JavaScript runtime built on Chrome's V8 JavaScript engine. It allows you to run
-      JavaScript on the server side, enabling the development of scalable network applications.
-    id: homebrew/core/node
-    tags: [javascript, runtime, development, npm]
-  - name: node@18
-    desc: Platform built on V8 to build network applications
-    homepage: https://nodejs.org/
-    info: >-
-      Node.js 18 is an LTS (Long Term Support) version of Node.js that will be maintained until October
-      2025. It provides a stable JavaScript runtime for server applications with improved performance and
-      security features over previous versions. This keg-only formula requires manual path configuration
-      to use as your primary Node.js environment.
-    id: homebrew/core/node@18
-    tags: [javascript, runtime, development, npm]
-  - name: openjdk@21
-    desc: Development kit for the Java programming language
-    homepage: https://openjdk.java.net/
-    info: >-
-      OpenJDK 21 is an open-source implementation of the Java Platform, Standard Edition. It includes the
-      JVM, class libraries, and development tools needed for Java application development.
-    id: homebrew/core/openjdk@21
-    tags: [java, development, programming-language]
-  - name: pipx
-    desc: Execute binaries from Python packages in isolated environments
-    homepage: https://pipx.pypa.io
-    info: >-
-      pipx is a tool to execute binaries from Python packages in isolated environments. It allows you to
-      install and run Python applications without affecting your system Python installation.
-    id: homebrew/core/pipx
-    tags: [python, package-manager, command-line]
-  - name: python@3.13
-    desc: Interpreted, interactive, object-oriented programming language
-    homepage: https://www.python.org/
-    info: >-
-      Python 3.13 is a high-level, interpreted programming language known for its readability and
-      versatility. It supports multiple programming paradigms and has a comprehensive standard library.
-    id: homebrew/core/python@3.13
-    tags: [python, programming-language, development, runtime]
-  - name: ruby
-    desc: Powerful, clean, object-oriented scripting language
-    homepage: https://www.ruby-lang.org/
-    info: >-
-      Ruby is a dynamic, open-source programming language with a focus on simplicity and productivity. It
-      has an elegant syntax that is natural to read and easy to write, making it popular for web
-      development.
-    id: homebrew/core/ruby
-    tags: [programming-language, development, runtime, scripting]
-  - name: rustup
-    desc: Rust toolchain installer
-    homepage: https://rust-lang.github.io/rustup/
-    info: >-
-      rustup is the Rust toolchain installer, allowing you to manage multiple Rust toolchains and switch
-      between them with ease. It's the recommended way to install and manage Rust on your system.
-    id: homebrew/core/rustup
-    tags: [rust, compiler, development]
-  - name: sbcl
-    desc: Steel Bank Common Lisp system
-    homepage: https://www.sbcl.org/
-    info: >-
-      Steel Bank Common Lisp (SBCL) is a high-performance Common Lisp compiler. It provides an interactive
-      environment with an integrated native compiler, debugger, and many extensions.
-    id: homebrew/core/sbcl
-    tags: [lisp, programming-language, development, compiler]
-  - name: solargraph
-    desc: Ruby language server
-    homepage: https://solargraph.org
-    info: >-
-      Solargraph is a Ruby language server that provides code completion, inline documentation, and static
-      analysis for Ruby code. It enhances development environments with intelligent features to improve
-      productivity when working with Ruby.
-    id: homebrew/core/solargraph
-    tags: [ruby, ide, development]
-  - name: vala
-    desc: Compiler for the GObject type system
-    homepage: https://wiki.gnome.org/Projects/Vala
-    info: >-
-      Vala is a programming language that aims to bring modern programming language features to GNOME
-      developers without imposing additional runtime requirements. It translates to C and is designed to
-      work with the GObject type system, making it ideal for GNOME and GTK application development with
-      syntax similar to C# and Java.
-    id: homebrew/core/vala
-    tags: [programming-language, development]
 - id: security
   name: Security & Encryption
   desc: Tools for password management, encryption, and security-related operations.
