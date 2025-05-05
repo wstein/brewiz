@@ -947,7 +947,7 @@ UpdatePrompt: |
     info: >-
       Alire (alr) is a source-based package manager and build tool for the Ada and SPARK programming
       languages. It helps manage dependencies and build projects written in Ada.
-    id: homebrew/core/alire
+    id: neved4/tap/alire
     tags: [package-manager, ada, development]
   - name: bun
     desc: Incredibly fast JavaScript runtime, bundler, transpiler and package manager - all in one.
