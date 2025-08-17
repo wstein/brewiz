@@ -682,6 +682,17 @@ UpdatePrompt: |
       respond to file changes.
     id: homebrew/core/watchman
     tags: [development, automation]
+  - name: openzfs
+    desc: ZFS driver and utilities
+    homepage: https://openzfsonosx.org/
+    cask: true
+    info: >-
+      OpenZFS on OS X provides the ZFS file system and utilities for macOS. It enables advanced file system features such as snapshots, data integrity verification, and efficient storage management.
+      License: OpenZFS
+      Formula: https://github.com/Homebrew/homebrew-cask/blob/HEAD/Casks/o/openzfs.rb
+      Note: Requires a kernel extension to work. See vendor documentation for details.
+    id: homebrew/cask/openzfs
+    tags: [file-system, storage, utility]
 - id: fonts
   name: Fonts
   desc: Typography and font packages for coding and document preparation.
@@ -1929,6 +1940,26 @@ UpdatePrompt: |
       your CPU, GPU, memory, network usage, and other system metrics in a clean and configurable
       interface.
     id: homebrew/cask/stats
+    tags: [system, monitoring, performance]
+  - name: asitop
+    desc: Perf monitoring CLI tool for Apple Silicon
+    homepage: https://tlkh.github.io/asitop/
+    info: >-
+      asitop is a performance monitoring CLI tool for Apple Silicon Macs. It provides real-time CPU, GPU, and memory usage statistics, helping you monitor and analyze system performance.
+      License: MIT
+      Requires: arm64 architecture, macOS
+      Formula: https://github.com/Homebrew/homebrew-core/blob/HEAD/Formula/a/asitop.rb
+    id: homebrew/core/asitop
+    tags: [system, monitoring, performance, process-manager]
+  - name: nvtop
+    desc: Interactive GPU process monitor
+    homepage: https://github.com/Syllo/nvtop
+    info: >-
+      nvtop is an interactive GPU process monitor. It displays real-time GPU usage, processes, and performance metrics for supported GPUs.
+      License: GPL-3.0-or-later
+      Build dependency: cmake
+      Formula: https://github.com/Homebrew/homebrew-core/blob/HEAD/Formula/n/nvtop.rb
+    id: homebrew/core/nvtop
     tags: [system, monitoring, performance]
 - id: task
   name: Task & Time Management
