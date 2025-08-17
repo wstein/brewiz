@@ -57,6 +57,15 @@ UpdatePrompt: |
   name: AI & Machine Learning
   desc: Tools for artificial intelligence, machine learning, and large language models.
   packages:
+  - name: llm
+    desc: Access large language models from the command-line
+    homepage: https://llm.datasette.io/
+    info: >-
+      LLM is a command-line tool for interacting with large language models. It provides a simple
+      interface to query various language models, manage conversations, and work with prompts from
+      the terminal.
+    id: homebrew/core/llm
+    tags: [ai, command-line]
   - name: ollama
     desc: Create, run, and share large language models (LLMs)
     homepage: https://ollama.com/
@@ -66,6 +75,15 @@ UpdatePrompt: |
       models.
     id: homebrew/core/ollama
     tags: [ai]
+  - name: tgpt
+    desc: AI Chatbots in terminal without needing API keys
+    homepage: https://github.com/aandrew-me/tgpt
+    info: >-
+      tgpt is a command-line interface for AI chatbots that doesn't require API keys. It provides
+      access to various AI models directly from the terminal, making it easy to get AI assistance
+      without complex setup.
+    id: homebrew/core/tgpt
+    tags: [ai, command-line]
 - id: archive
   name: Archiving & Compression
   desc: Tools for compressing, archiving, and extracting files.
@@ -173,10 +191,37 @@ UpdatePrompt: |
       It provides a user-friendly interface for making HTTP requests and inspecting responses.
     id: homebrew/cask/postman
     tags: [api, http, development, testing]
+  - name: Katalon Studio
+    desc: Test automation solution
+    homepage: https://katalon.com/download
+    cask: true
+    info: >-
+      Katalon Studio is a comprehensive test automation solution for web, API, mobile, and desktop applications.
+      It provides a complete testing framework with built-in keywords, test case management, and reporting
+      capabilities for both manual and automated testing.
+    id: homebrew/cask/katalon-studio
+    tags: [testing, automation, development]
 - id: cloud
   name: Cloud & DevOps
   desc: Tools for cloud infrastructure, deployment automation, and DevOps workflows.
   packages:
+  - name: ansible
+    desc: Automate deployment, configuration, and upgrading
+    homepage: https://www.ansible.com/
+    info: >-
+      Ansible is an open source automation platform that automates cloud provisioning, configuration
+      management, application deployment, intra-service orchestration, and other IT needs. It uses
+      a simple, human-readable language called YAML to define automation tasks.
+    id: homebrew/core/ansible
+    tags: [cloud, automation, deployment]
+  - name: ansible-lint
+    desc: Checks ansible playbooks for practices and behaviour
+    homepage: https://ansible-lint.readthedocs.io/
+    info: >-
+      Ansible-lint is a command-line tool for linting Ansible playbooks. It helps identify and fix
+      issues in Ansible code by checking against best practices and common mistakes.
+    id: homebrew/core/ansible-lint
+    tags: [cloud, automation, testing]
   - name: awscli
     desc: Official Amazon AWS command-line interface
     homepage: https://aws.amazon.com/cli/
@@ -397,6 +442,14 @@ UpdatePrompt: |
       use it to slice, filter, map, and transform structured data with ease.
     id: homebrew/core/jq
     tags: [data, json, command-line, filter]
+  - name: jqp
+    desc: a TUI playground to experiment and play with jq
+    homepage: https://github.com/noahgorstein/jqp
+    info: >-
+      jqp is a TUI (Terminal User Interface) playground for experimenting with jq queries. It provides
+      an interactive environment to test jq expressions on JSON data with real-time results.
+    id: noahgorstein/tap/jqp
+    tags: [data, json, command-line, filter, terminal]
   - name: sqlite
     desc: Command-line interface for SQLite
     homepage: https://sqlite.org/index.html
@@ -429,6 +482,24 @@ UpdatePrompt: |
   name: Development Utilities
   desc: Tools and utilities for software development, building, and analysis across programming languages.
   packages:
+  - name: editorconfig
+    desc: Maintain consistent coding style between multiple editors
+    homepage: https://editorconfig.org/
+    info: >-
+      EditorConfig helps maintain consistent coding styles for multiple developers working on the same
+      project across various editors and IDEs. It defines and maintains consistent coding conventions
+      through a simple configuration file.
+    id: homebrew/core/editorconfig
+    tags: [development, editor]
+  - name: gradle
+    desc: Open-source build automation tool based on the Groovy and Kotlin DSL
+    homepage: https://www.gradle.org/
+    info: >-
+      Gradle is a build automation tool for multi-language software development. It provides build
+      scripting using Groovy or Kotlin DSL and is especially popular for Java projects, including
+      Android development.
+    id: homebrew/core/gradle
+    tags: [build, java, development]
   - name: leiningen
     desc: Build tool for Clojure
     homepage: https://github.com/technomancy/leiningen
@@ -455,6 +526,30 @@ UpdatePrompt: |
       frameworks.
     id: homebrew/core/openapi-generator
     tags: [build, java]
+  - name: swagger-codegen
+    desc: Generate clients, server stubs, and docs from an OpenAPI spec
+    homepage: https://swagger.io/tools/swagger-codegen/
+    info: >-
+      Swagger Codegen generates client libraries, server stubs, and API documentation from OpenAPI
+      specifications. It supports many programming languages and frameworks for API development.
+    id: homebrew/core/swagger-codegen
+    tags: [build, java, api]
+  - name: tree-sitter
+    desc: Incremental parsing library
+    homepage: https://tree-sitter.github.io/
+    info: >-
+      Tree-sitter is an incremental parsing library that can build and update syntax trees for a source
+      file as the file is edited. It's used by text editors for syntax highlighting and code analysis.
+    id: homebrew/core/tree-sitter
+    tags: [development, programming]
+  - name: tree-sitter-cli
+    desc: Parser generator tool
+    homepage: https://tree-sitter.github.io
+    info: >-
+      Tree-sitter CLI is a command-line tool for generating and testing Tree-sitter parsers. It helps
+      developers create grammar parsers for programming languages.
+    id: homebrew/core/tree-sitter-cli
+    tags: [development, programming, command-line]
 - id: file-nav
   name: File Navigation & Search
   desc: Tools for searching, navigating, and exploring file systems and directories.
@@ -545,6 +640,15 @@ UpdatePrompt: |
       colors to distinguish file types and metadata and has excellent Git integration.
     id: homebrew/core/eza
     tags: [file-management, command-line]
+  - name: lsd
+    desc: Clone of ls with colorful output, file type icons, and more
+    homepage: https://github.com/lsd-rs/lsd
+    info: >-
+      lsd is a modern replacement for the ls command, offering colorful output, file type icons, and
+      tree view functionality. It provides a more visually appealing way to browse directories with
+      Git integration and customizable themes.
+    id: homebrew/core/lsd
+    tags: [file-management, command-line]
   - name: moreutils
     desc: Collection of tools that nobody wrote when UNIX was young
     homepage: https://joeyh.name/code/moreutils/
@@ -553,6 +657,14 @@ UpdatePrompt: |
       includes tools like sponge, vidir, ts, combine, and more to enhance your command-line workflow.
     id: homebrew/core/moreutils
     tags: [command-line]
+  - name: ncdu
+    desc: NCurses Disk Usage
+    homepage: https://dev.yorhel.nl/ncdu
+    info: >-
+      ncdu is a disk usage analyzer with an ncurses interface. It provides an interactive way to browse
+      and analyze disk usage, making it easier to identify which directories are consuming the most space.
+    id: homebrew/core/ncdu
+    tags: [monitoring, command-line, file-system]
   - name: watch
     desc: Executes a program periodically, showing output fullscreen
     homepage: https://gitlab.com/procps-ng/procps
@@ -583,6 +695,36 @@ UpdatePrompt: |
       clean, distinctive, and readable monospace font that includes programming ligatures and specialized
       icons useful for coding.
     id: homebrew/cask/font-hack-nerd-font
+    tags: [programming]
+  - name: font-caskaydia-cove-nerd-font
+    desc: Patched font CaskaydiaCove Nerd Font (Cascadia Code)
+    homepage: https://github.com/ryanoasis/nerd-fonts
+    cask: true
+    info: >-
+      CaskaydiaCove Nerd Font is based on Microsoft's Cascadia Code font with added Nerd Font icons.
+      It's designed specifically for programming with excellent readability and includes all the glyphs
+      needed for modern terminal and coding environments.
+    id: homebrew/cask/font-caskaydia-cove-nerd-font
+    tags: [programming]
+  - name: font-fira-code-nerd-font
+    desc: Patched font FiraCode Nerd Font (Fira Code)
+    homepage: https://github.com/ryanoasis/nerd-fonts
+    cask: true
+    info: >-
+      FiraCode Nerd Font combines the popular Fira Code font with programming ligatures and Nerd Font
+      icons. It provides excellent readability and includes special character combinations that make
+      code more visually appealing and easier to read.
+    id: homebrew/cask/font-fira-code-nerd-font
+    tags: [programming]
+  - name: font-jetbrains-mono-nerd-font
+    desc: Patched font JetBrainsMono Nerd Font (JetBrains Mono)
+    homepage: https://github.com/ryanoasis/nerd-fonts
+    cask: true
+    info: >-
+      JetBrainsMono Nerd Font is based on JetBrains Mono with added Nerd Font icons and glyphs.
+      It's specifically designed for developers, with increased height for better readability and
+      distinctive characters to reduce eye strain during long coding sessions.
+    id: homebrew/cask/font-jetbrains-mono-nerd-font
     tags: [programming]
 - id: git
   name: Git Tools
@@ -678,6 +820,47 @@ UpdatePrompt: |
       in Git repositories.
     id: homebrew/core/git-lfs
     tags: [git, version-control, storage]
+  - name: git-fresh
+    desc: Utility to keep git repos fresh
+    homepage: https://github.com/imsky/git-fresh
+    info: >-
+      git-fresh is a utility that helps keep git repositories fresh by removing merged branches,
+      cleaning up remote tracking branches, and pruning remote references. It's useful for maintaining
+      clean repository history.
+    id: homebrew/core/git-fresh
+    tags: [git, version-control, workflow]
+  - name: git-filter-repo
+    desc: Quickly rewrite git repository history
+    homepage: https://github.com/newren/git-filter-repo
+    info: >-
+      git-filter-repo is a versatile tool for rewriting git history. It's a powerful alternative to
+      git-filter-branch that's faster and more feature-rich, useful for repository cleanup and migration.
+    id: homebrew/core/git-filter-repo
+    tags: [git, version-control, workflow]
+  - name: git-secrets
+    desc: Prevents you from committing sensitive information to a git repo
+    homepage: https://github.com/awslabs/git-secrets
+    info: >-
+      git-secrets prevents you from committing passwords and other sensitive information to a git
+      repository. It scans commits, commit messages, and merges for prohibited patterns.
+    id: homebrew/core/git-secrets
+    tags: [git, security, encryption]
+  - name: git-sizer
+    desc: Compute various size metrics for a Git repository
+    homepage: https://github.com/github/git-sizer
+    info: >-
+      git-sizer computes various size metrics for a Git repository, helping you identify which parts
+      of your repository are taking up the most space and how they're distributed.
+    id: homebrew/core/git-sizer
+    tags: [git, version-control]
+  - name: gitleaks
+    desc: Audit git repos for secrets
+    homepage: https://gitleaks.io/
+    info: >-
+      Gitleaks is a SAST tool for detecting and preventing secrets in git repos. It scans repositories
+      for API keys, passwords, and other sensitive information that shouldn't be committed.
+    id: homebrew/core/gitleaks
+    tags: [git, security, encryption]
   - name: git-recent
     desc: See your latest local git branches, formatted real fancy
     homepage: https://github.com/paulirish/git-recent
@@ -757,7 +940,7 @@ UpdatePrompt: |
       GitUp is a Git interface focused on visual interaction. It offers a unique way to visualize and
       manage Git repositories with features like live branching, quick undo/redo, and a visual commit
       graph for easier repository navigation.
-    id: homebrew/cask/gitup
+    id: homebrew/cask/gitup-app
     tags: [git, interface, version-control]
   - name: gitversion
     desc: Easy semantic versioning for projects using Git
@@ -793,6 +976,14 @@ UpdatePrompt: |
       pull requests, and other Gitea features from the command line, similar to GitHub's gh tool.
     id: homebrew/core/tea
     tags: [git, command-line, automation]
+  - name: ungit
+    desc: Easiest way to use Git. On any platform. Anywhere
+    homepage: https://github.com/FredrikNoren/ungit
+    info: >-
+      Ungit is a web-based Git interface that provides an easy-to-use visual representation of your Git
+      repository. It makes Git accessible to users who prefer graphical interfaces over command-line tools.
+    id: homebrew/core/ungit
+    tags: [git, interface, version-control]
 - id: editor
   name: IDE & Editors
   desc: Text editors, integrated development environments, and coding tools.
@@ -860,6 +1051,16 @@ UpdatePrompt: |
       built to be fast, collaborative, and extensible with a modern user interface.
     id: homebrew/cask/zed
     tags: [editor]
+  - name: Visual Studio Code
+    desc: Open-source code editor
+    homepage: https://code.visualstudio.com/
+    cask: true
+    info: >-
+      Visual Studio Code is a lightweight but powerful source code editor developed by Microsoft. It
+      includes support for debugging, embedded Git control, syntax highlighting, intelligent code
+      completion, snippets, and code refactoring with a rich ecosystem of extensions.
+    id: homebrew/cask/visual-studio-code
+    tags: [editor, development, ide]
 - id: k8s
   name: Kubernetes Tools
   desc: Tools for interacting with and managing Kubernetes clusters and resources.
@@ -1248,6 +1449,15 @@ UpdatePrompt: |
       accessibility and efficiency for keyboard-centric workflows.
     id: homebrew/cask/mouseless
     tags: [macos, keyboard, productivity]
+  - name: pngpaste
+    desc: Paste PNG into files
+    homepage: https://github.com/jcsalterego/pngpaste
+    info: >-
+      pngpaste is a command-line tool that allows you to paste PNG images from the clipboard directly
+      into files. It's particularly useful for macOS users who want to save clipboard images to files
+      quickly and efficiently from the terminal.
+    id: homebrew/core/pngpaste
+    tags: [macos, command-line, utility]
   - name: Raycast
     desc: Control your tools with a few keystrokes
     homepage: https://raycast.com/
@@ -1314,7 +1524,7 @@ UpdatePrompt: |
     info: >-
       Excalidraw Converter is a command-line tool that converts Excalidraw diagrams to Gliffy format,
       allowing you to use hand-drawn style diagrams in tools that support Gliffy.
-    id: sindrel/tap/excalidraw-converter
+    id: homebrew/core/excalidraw-converter
     tags: [visualization, graphics, conversion]
   - name: ffmpeg
     desc: Play, record, convert, and stream audio and video
@@ -1371,6 +1581,15 @@ UpdatePrompt: |
       language.
     id: homebrew/cask/openscad
     tags: [design, programming]
+  - name: tesseract
+    desc: OCR (Optical Character Recognition) engine
+    homepage: https://tesseract-ocr.github.io/
+    info: >-
+      Tesseract is an open-source OCR (Optical Character Recognition) engine that can recognize text
+      in images and convert it to machine-readable text. It supports many languages and can be used
+      for document digitization and text extraction from images.
+    id: homebrew/core/tesseract
+    tags: [graphics, conversion]
   - name: Visual Paradigm
     desc: UML, SysML, BPMN modelling platform
     homepage: https://www.visual-paradigm.com/
@@ -1380,6 +1599,26 @@ UpdatePrompt: |
       It provides software designers with tools for analysis, design, coding, testing, and deployment.
     id: homebrew/cask/visual-paradigm
     tags: [design, visualization]
+  - name: Audacity
+    desc: Multi-track audio editor and recorder
+    homepage: https://www.audacityteam.org/
+    cask: true
+    info: >-
+      Audacity is a free, open source, cross-platform audio software for multi-track recording and editing.
+      It supports various audio formats and provides tools for recording, mixing, and editing audio files
+      with a wide range of effects and plugins.
+    id: homebrew/cask/audacity
+    tags: [media, audio]
+  - name: VLC
+    desc: Multimedia player
+    homepage: https://www.videolan.org/vlc/
+    cask: true
+    info: >-
+      VLC media player is a free and open source cross-platform multimedia player that plays most multimedia
+      files, and various streaming protocols. It's known for its ability to play almost any video or audio
+      format without requiring additional codecs.
+    id: homebrew/cask/vlc
+    tags: [media, video]
 - id: network
   name: Network Tools
   desc: Utilities for network diagnostics, communication, and connection management.
@@ -1392,6 +1631,14 @@ UpdatePrompt: |
       for quickly serving static content without the complexity of larger web servers.
     id: homebrew/core/darkhttpd
     tags: [http]
+  - name: doggo
+    desc: Command-line DNS Client for Humans
+    homepage: https://doggo.mrkaran.dev/
+    info: >-
+      doggo is a modern command-line DNS client that provides clean and colorful output for DNS queries.
+      It's designed to be more user-friendly and feature-rich than traditional tools like dig and nslookup.
+    id: homebrew/core/doggo
+    tags: [network, command-line, diagnostics]
   - name: fping
     desc: Scriptable ping program for checking if multiple hosts are up
     homepage: https://fping.org/
@@ -1402,6 +1649,14 @@ UpdatePrompt: |
       network.
     id: homebrew/core/fping
     tags: [network, monitoring, diagnostics]
+  - name: ipcalc
+    desc: Calculate various network masks, etc. from a given IP address
+    homepage: https://jodies.de/ipcalc
+    info: >-
+      ipcalc is a command-line tool for calculating various network parameters from IP addresses and
+      network masks. It's useful for network planning, subnetting, and understanding IP address ranges.
+    id: homebrew/core/ipcalc
+    tags: [network, command-line]
   - name: mtr
     desc: '''traceroute'' and ''ping'' in a single tool'
     homepage: https://www.bitwizard.nl/mtr/
@@ -1622,6 +1877,15 @@ UpdatePrompt: |
       processes. It features a customizable interface with mouse support and fast response.
     id: homebrew/core/bpytop
     tags: [system, monitoring, performance, process-manager]
+  - name: btop
+    desc: Resource monitor. C++ version and continuation of bashtop and bpytop
+    homepage: https://github.com/aristocratos/btop
+    info: >-
+      btop is a resource monitor that displays usage and stats for processor, memory, disks, network, and
+      processes. It's the C++ version and continuation of bpytop, offering better performance and more
+      features.
+    id: homebrew/core/btop
+    tags: [system, monitoring, performance, process-manager]
   - name: fastfetch
     desc: Like neofetch, but much faster because written mostly in C
     homepage: https://github.com/fastfetch-cli/fastfetch
@@ -1726,6 +1990,15 @@ UpdatePrompt: |
       and session management. It's built on top of screen or tmux for improved usability.
     id: homebrew/core/byobu
     tags: [terminal]
+  - name: fish
+    desc: User-friendly command-line shell for UNIX-like operating systems
+    homepage: https://fishshell.com
+    info: >-
+      Fish is a smart and user-friendly command-line shell for Unix-like systems. It features syntax
+      highlighting, autosuggestions, robust tab completion, and web-based configuration, making it
+      more accessible than traditional shells while maintaining compatibility.
+    id: homebrew/core/fish
+    tags: [terminal, shell, command-line]
   - name: gettext
     desc: GNU internationalization (i18n) and localization (l10n) library
     homepage: https://www.gnu.org/software/gettext/
@@ -1760,6 +2033,15 @@ UpdatePrompt: |
       have them. It provides command history, line editing, and completion to any command.
     id: homebrew/core/rlwrap
     tags: [command-line]
+  - name: starship
+    desc: Cross-shell prompt for astronauts
+    homepage: https://starship.rs/
+    info: >-
+      Starship is a minimal, blazing-fast, and infinitely customizable prompt for any shell. It provides
+      information you need while staying sleek and minimal, with support for git status, languages, and
+      system information.
+    id: homebrew/core/starship
+    tags: [terminal, shell, command-line, rust]
   - name: tmux
     desc: Terminal multiplexer
     homepage: https://tmux.github.io/
@@ -1778,6 +2060,33 @@ UpdatePrompt: |
       sessions, making it powerful and lightweight yet powerful.
     id: homebrew/cask/warp
     tags: [terminal, rust]
+  - name: zellij
+    desc: Pluggable terminal workspace, with terminal multiplexer as the base feature
+    homepage: https://zellij.dev
+    info: >-
+      Zellij is a terminal workspace with a terminal multiplexer as its base feature. It's designed to be
+      a modern replacement for tmux with additional features like plugin support, tabs, and a more
+      intuitive interface.
+    id: homebrew/core/zellij
+    tags: [terminal, productivity, rust]
+  - name: zoxide
+    desc: Shell extension to navigate your filesystem faster
+    homepage: https://github.com/ajeetdsouza/zoxide
+    info: >-
+      Zoxide is a smarter cd command that remembers which directories you use most frequently. It learns
+      your habits and provides shortcuts to quickly navigate to frequently used directories.
+    id: homebrew/core/zoxide
+    tags: [terminal, command-line, file-management, rust]
+  - name: PowerShell
+    desc: Command-line shell and scripting language
+    homepage: https://github.com/PowerShell/PowerShell
+    cask: true
+    info: >-
+      PowerShell is a cross-platform command-line shell and scripting language built on .NET. It provides
+      powerful object-oriented features and extensive cmdlets for system administration and automation tasks
+      across Windows, macOS, and Linux.
+    id: homebrew/cask/powershell
+    tags: [terminal, shell, command-line, automation]
 - id: text
   name: Text Processing & Publishing
   desc: Tools for processing and converting text, generating documentation, and publishing.
@@ -1819,6 +2128,15 @@ UpdatePrompt: |
       helps maintain consistent Markdown formatting in documentation and codebases.
     id: homebrew/core/markdownlint-cli
     tags: [markdown, testing, documentation]
+  - name: mdformat
+    desc: CommonMark compliant Markdown formatter
+    homepage: https://mdformat.readthedocs.io/en/stable/
+    info: >-
+      mdformat is a CommonMark compliant Markdown formatter that helps maintain consistent formatting
+      in Markdown files. It focuses on ensuring compliance with the CommonMark standard while providing
+      configurable formatting options.
+    id: homebrew/core/mdformat
+    tags: [markdown, text-processing, documentation]
   - name: pandoc
     desc: Swiss-army knife of markup format conversion
     homepage: https://pandoc.org/
@@ -1836,6 +2154,15 @@ UpdatePrompt: |
       re-printing it with its own rules.
     id: homebrew/core/prettier
     tags: [testing, javascript, markdown]
+  - name: sd
+    desc: Intuitive find & replace CLI
+    homepage: https://github.com/chmln/sd
+    info: >-
+      sd is an intuitive find & replace command-line tool. It's an alternative to sed with more
+      user-friendly syntax for common text replacement tasks, making it easier to perform complex
+      find and replace operations.
+    id: homebrew/core/sd
+    tags: [text-processing, command-line]
   - name: typst
     desc: Markup-based typesetting system
     homepage: https://typst.app
@@ -1844,6 +2171,22 @@ UpdatePrompt: |
       with a simple syntax. It's designed to be easy to use while producing professional-looking output.
     id: homebrew/core/typst
     tags: [markup, publishing]
+  - name: typstyle
+    desc: Beautiful and reliable typst code formatter
+    homepage: https://typstyle-rs.github.io/typstyle/
+    info: >-
+      typstyle is a beautiful and reliable formatter for Typst code. It helps maintain consistent
+      formatting in Typst documents and ensures clean, readable markup for collaborative document creation.
+    id: homebrew/core/typstyle
+    tags: [markup, text-processing]
+  - name: xmlstarlet
+    desc: XML command-line utilities
+    homepage: https://xmlstar.sourceforge.net/
+    info: >-
+      XMLStarlet is a set of command-line utilities for transforming, querying, validating, and editing
+      XML documents. It provides a comprehensive toolkit for working with XML files from the command line.
+    id: homebrew/core/xmlstarlet
+    tags: [text-processing, command-line]
 - id: vcs
   name: Version Control Systems
   desc: Various version control systems beyond Git and tools for different VCS platforms.
@@ -1926,3 +2269,74 @@ UpdatePrompt: |
     uncategorized packages. Please assign packages to existing categories or create new ones as
     appropriate.
   packages: []
+- id: pentest
+  name: Penetration Testing & Security Tools
+  desc: Tools for security testing, vulnerability assessment, and penetration testing.
+  packages:
+  - name: ffuf
+    desc: Fast web fuzzer written in Go
+    homepage: https://github.com/ffuf/ffuf
+    info: >-
+      FFUF (Fuzz Faster U Fool) is a fast web fuzzer written in Go. It's designed for discovering 
+      content and endpoints through web fuzzing, with support for HTTP, HTTPS, and various fuzzing 
+      techniques. It's commonly used in penetration testing and security research.
+    id: homebrew/core/ffuf
+    tags: [security, testing, http]
+  - name: gobuster
+    desc: Directory/file & DNS busting tool written in Go
+    homepage: https://github.com/OJ/gobuster
+    info: >-
+      Gobuster is a tool used to brute-force URIs (directories and files) in web sites, DNS subdomains, 
+      virtual host names, and Amazon S3 buckets. It's written in Go for speed and efficiency in 
+      penetration testing and security assessments.
+    id: homebrew/core/gobuster
+    tags: [security, testing, network]
+- id: entertainment
+  name: Entertainment & Fun
+  desc: Fun terminal applications and entertainment tools.
+  packages:
+  - name: cmatrix
+    desc: Console Matrix
+    homepage: https://github.com/abishekvashok/cmatrix/
+    info: >-
+      CMatrix is a curses-based program that simulates the digital rain from the movie "The Matrix". 
+      It displays scrolling lines of random characters in a terminal, creating the iconic green 
+      "digital rain" effect. It's a fun terminal screensaver and demonstration program.
+    id: homebrew/core/cmatrix
+    tags: [terminal, entertainment]
+  - name: sl
+    desc: Prints a steam locomotive if you type sl instead of ls
+    homepage: https://github.com/mtoyoda/sl
+    info: >-
+      SL (Steam Locomotive) is a humorous command that displays an ASCII art steam locomotive 
+      animation when you accidentally type "sl" instead of "ls". It's a classic Unix joke program 
+      that teaches you to type commands correctly. Note: This package conflicts with sapling.
+    id: homebrew/core/sl
+    tags: [terminal, entertainment, command-line]
+- id: http
+  name: HTTP & API Tools
+  desc: Tools for making HTTP requests, testing APIs, and web communication.
+  packages:
+  - name: xh
+    desc: Friendly and fast tool for sending HTTP requests
+    homepage: https://github.com/ducaale/xh
+    info: >-
+      xh is a friendly and fast tool for sending HTTP requests. It reimplements as much as possible 
+      of HTTPie's excellent design, with a focus on improved performance and a more streamlined 
+      interface. It's written in Rust for speed and safety.
+    id: homebrew/core/xh
+    tags: [http, command-line]
+- id: remote
+  name: Remote Access & Control
+  desc: Tools for remote desktop access and virtual private networks.
+  packages:
+  - name: RustDesk
+    desc: Open source virtual/remote desktop application
+    homepage: https://rustdesk.com/
+    cask: true
+    info: >-
+      RustDesk is an open-source remote desktop application written in Rust. It provides secure remote
+      access with features like file transfer, screen sharing, and cross-platform compatibility, offering
+      an alternative to proprietary remote desktop solutions.
+    id: homebrew/cask/rustdesk
+    tags: [remote, utility]
