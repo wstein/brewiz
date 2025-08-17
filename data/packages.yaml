@@ -201,6 +201,15 @@ UpdatePrompt: |
       capabilities for both manual and automated testing.
     id: homebrew/cask/katalon-studio
     tags: [testing, automation, development]
+  - name: xh
+    desc: Friendly and fast tool for sending HTTP requests
+    homepage: https://github.com/ducaale/xh
+    info: >-
+      xh is a friendly and fast tool for sending HTTP requests. It reimplements as much as possible 
+      of HTTPie's excellent design, with a focus on improved performance and a more streamlined 
+      interface. It's written in Rust for speed and safety.
+    id: homebrew/core/xh
+    tags: [http, command-line, api, testing]
 - id: cloud
   name: Cloud & DevOps
   desc: Tools for cloud infrastructure, deployment automation, and DevOps workflows.
@@ -1630,6 +1639,15 @@ UpdatePrompt: |
       format without requiring additional codecs.
     id: homebrew/cask/vlc
     tags: [media, video]
+  - name: colorpicker-materialdesign
+    desc: Colour picker
+    homepage: https://github.com/CodeCatalyst/MaterialDesignColorPicker
+    info: >-
+      Material Design Color Picker is a tool for selecting colors based on Google's Material Design guidelines. It integrates with macOS as a color picker extension.
+      License: MIT
+      Formula: https://github.com/Homebrew/homebrew-cask/blob/HEAD/Casks/c/colorpicker-materialdesign.rb
+    id: homebrew/cask/colorpicker-materialdesign
+    tags: [design, macos, utility]
 - id: network
   name: Network Tools
   desc: Utilities for network diagnostics, communication, and connection management.
@@ -1668,6 +1686,17 @@ UpdatePrompt: |
       network masks. It's useful for network planning, subnetting, and understanding IP address ranges.
     id: homebrew/core/ipcalc
     tags: [network, command-line]
+  - name: iftop
+    desc: Display an interface's bandwidth usage
+    homepage: https://pdw.ex-parrot.com/iftop/
+    info: >-
+      iftop is a real-time console-based network bandwidth monitoring tool. It shows a list of network connections from/to your system and displays bandwidth usage on an interface.
+      License: GPL-2.0-or-later
+      Option: --HEAD (install HEAD version)
+      Formula: https://github.com/Homebrew/homebrew-core/blob/HEAD/Formula/i/iftop.rb
+      Note: Requires root privileges to run (`sudo iftop`).
+    id: homebrew/core/iftop
+    tags: [network, monitoring, diagnostics, command-line]
   - name: mtr
     desc: '''traceroute'' and ''ping'' in a single tool'
     homepage: https://www.bitwizard.nl/mtr/
@@ -1876,6 +1905,17 @@ UpdatePrompt: |
       secure your software supply chain.
     id: homebrew/core/trivy
     tags: [security, container]
+  - name: age
+    desc: Simple, modern, secure file encryption
+    homepage: https://github.com/FiloSottile/age
+    info: >-
+      Age is a simple, modern, and secure file encryption tool. It is designed to be easy to use and secure by default, with small and auditable code.
+      License: BSD-3-Clause
+      Build dependencies: go
+      Option: --HEAD (install HEAD version)
+      Formula: https://github.com/Homebrew/homebrew-core/blob/HEAD/Formula/a/age.rb
+    id: homebrew/core/age
+    tags: [security, encryption, file-management]
 - id: system
   name: System Monitoring & Management
   desc: Tools for monitoring and managing system components and hardware.
@@ -2047,6 +2087,17 @@ UpdatePrompt: |
       a framework for extensions. It's designed to be lightweight yet powerful.
     id: homebrew/cask/kitty
     tags: [terminal]
+  - name: mcfly
+    desc: Fly through your shell history
+    homepage: https://github.com/cantino/mcfly
+    info: >-
+      McFly is a replacement for your shell history search. It uses context to prioritize results and provides a more intuitive interface for navigating your command history.
+      License: MIT
+      Build dependencies: rust
+      Option: --HEAD (install HEAD version)
+      Formula: https://github.com/Homebrew/homebrew-core/blob/HEAD/Formula/m/mcfly.rb
+    id: homebrew/core/mcfly
+    tags: [terminal, shell, command-line, productivity]
   - name: putty
     desc: Implementation of Telnet and SSH
     homepage: https://www.chiark.greenend.org.uk/~sgtatham/putty/
@@ -2344,19 +2395,6 @@ UpdatePrompt: |
       that teaches you to type commands correctly. Note: This package conflicts with sapling.
     id: homebrew/core/sl
     tags: [terminal, entertainment, command-line]
-- id: http
-  name: HTTP & API Tools
-  desc: Tools for making HTTP requests, testing APIs, and web communication.
-  packages:
-  - name: xh
-    desc: Friendly and fast tool for sending HTTP requests
-    homepage: https://github.com/ducaale/xh
-    info: >-
-      xh is a friendly and fast tool for sending HTTP requests. It reimplements as much as possible 
-      of HTTPie's excellent design, with a focus on improved performance and a more streamlined 
-      interface. It's written in Rust for speed and safety.
-    id: homebrew/core/xh
-    tags: [http, command-line]
 - id: remote
   name: Remote Access & Control
   desc: Tools for remote desktop access and virtual private networks.
@@ -2371,3 +2409,25 @@ UpdatePrompt: |
       an alternative to proprietary remote desktop solutions.
     id: homebrew/cask/rustdesk
     tags: [remote, utility]
+  - name: Microsoft Remote Desktop
+    desc: Remote desktop client
+    homepage: https://docs.microsoft.com/en-us/windows-server/remote/remote-desktop-services/clients/remote-desktop-mac
+    cask: true
+    info: >-
+      Microsoft Remote Desktop is a client for connecting to remote Windows machines. It allows you to access and control a remote PC from your Mac.
+      Note: This cask is deprecated and will be disabled on 2025-09-30.
+      Formula: https://github.com/Homebrew/homebrew-cask/blob/HEAD/Casks/m/microsoft-remote-desktop.rb
+    id: homebrew/cask/microsoft-remote-desktop
+    tags: [remote, utility]
+  - name: mosh
+    desc: Remote terminal application
+    homepage: https://mosh.org
+    info: >-
+      Mosh is a remote terminal application that allows roaming, supports intermittent connectivity, and provides intelligent local echo and line editing of user keystrokes. It's a more robust alternative to SSH for mobile users.
+      License: GPL-3.0-or-later
+      Build dependencies: pkgconf, tmux
+      Required dependencies: protobuf
+      Option: --HEAD (install HEAD version)
+      Formula: https://github.com/Homebrew/homebrew-core/blob/HEAD/Formula/m/mosh.rb
+    id: homebrew/core/mosh
+    tags: [remote, terminal, ssh, network]
