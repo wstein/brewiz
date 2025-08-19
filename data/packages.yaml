@@ -559,6 +559,15 @@ UpdatePrompt: |
       developers create grammar parsers for programming languages.
     id: homebrew/core/tree-sitter-cli
     tags: [development, programming, command-line]
+  - name: repomix
+    desc: Pack repository contents into a single AI-friendly file
+    homepage: https://github.com/yamadashy/repomix
+    info: >-
+      Repomix is a tool that packs repository contents into a single AI-friendly file. It helps prepare
+      code repositories for AI analysis by combining files into a structured format that's easy for AI
+      models to process and understand.
+    id: homebrew/core/repomix
+    tags: [development, ai, command-line]
 - id: file-nav
   name: File Navigation & Search
   desc: Tools for searching, navigating, and exploring file systems and directories.
@@ -746,6 +755,26 @@ UpdatePrompt: |
       distinctive characters to reduce eye strain during long coding sessions.
     id: homebrew/cask/font-jetbrains-mono-nerd-font
     tags: [programming]
+  - name: font-noto-sans
+    desc: Google Noto Sans font family
+    homepage: https://notofonts.github.io/
+    cask: true
+    info: >-
+      Noto Sans is part of Google's Noto font family, designed to support all languages with a harmonious
+      look and feel. It provides excellent readability and comprehensive Unicode coverage, making it
+      suitable for multilingual documents and international typography.
+    id: homebrew/cask/font-noto-sans
+    tags: [typography]
+  - name: font-oxygen
+    desc: Oxygen font family
+    homepage: https://fonts.google.com/specimen/Oxygen
+    cask: true
+    info: >-
+      Oxygen is a clean, modern font family designed for the KDE desktop environment. It features
+      excellent readability and a contemporary design that works well for both screen and print use,
+      with regular, light, and bold weights available.
+    id: homebrew/cask/font-oxygen
+    tags: [typography]
 - id: git
   name: Git Tools
   desc: Git-specific utilities, extensions, and interfaces for enhanced Git workflows.
