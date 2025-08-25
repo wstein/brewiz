@@ -333,6 +333,14 @@ UpdatePrompt: |
       terminal.
     id: homebrew/cask/replit
     tags: [ide, cloud, development]
+  - name: tldr
+    desc: Simplified and community-driven man pages
+    homepage: https://tldr.sh/
+    info: >-
+      tldr provides simplified and community-driven man pages with practical examples. It gives concise
+      help for common command-line tools, making it easier to learn and remember command usage.
+    id: homebrew/core/tldr
+    tags: [command-line, documentation, programming]
 - id: container
   name: Containers & Virtualization
   desc: Container management tools, Docker utilities, and container runtime environments.
@@ -700,6 +708,22 @@ UpdatePrompt: |
       respond to file changes.
     id: homebrew/core/watchman
     tags: [development, automation]
+  - name: dua-cli
+    desc: View disk space usage and delete unwanted data, fast
+    homepage: https://lib.rs/crates/dua-cli
+    info: >-
+      dua-cli is a fast disk usage analyzer written in Rust. It provides an interactive way to view disk
+      space usage and delete unwanted data, making it easier to clean up and manage storage.
+    id: homebrew/core/dua-cli
+    tags: [monitoring, command-line, file-system, rust]
+  - name: entr
+    desc: Run arbitrary commands when files change
+    homepage: https://eradman.com/entrproject/
+    info: >-
+      entr is a utility for running arbitrary commands when files change. It's useful for development
+      workflows where you want to automatically rebuild, test, or reload when source files are modified.
+    id: homebrew/core/entr
+    tags: [development, automation, file-management]
   - name: openzfs
     desc: ZFS driver and utilities
     homepage: https://openzfsonosx.org/
@@ -1187,6 +1211,15 @@ UpdatePrompt: |
       larger application running in Kubernetes.
     id: telepresenceio/telepresence/telepresence-oss
     tags: [kubernetes, development, testing]
+  - name: kustomize
+    desc: Template-free customization of Kubernetes YAML manifests
+    homepage: https://github.com/kubernetes-sigs/kustomize
+    info: >-
+      Kustomize is a tool for customizing Kubernetes YAML manifests without templates. It allows you to
+      declaratively manage Kubernetes configuration files through overlays and patches, making it easier
+      to maintain different environments and configurations for your Kubernetes applications.
+    id: homebrew/core/kustomize
+    tags: [kubernetes, deployment]
 - id: lang
   name: Programming Languages
   desc: Programming language implementations, runtimes, and interpreters for various languages.
@@ -2030,6 +2063,14 @@ UpdatePrompt: |
       Formula: https://github.com/Homebrew/homebrew-core/blob/HEAD/Formula/n/nvtop.rb
     id: homebrew/core/nvtop
     tags: [system, monitoring, performance]
+  - name: procs
+    desc: Modern replacement for ps written in Rust
+    homepage: https://github.com/dalance/procs
+    info: >-
+      procs is a modern replacement for the ps command written in Rust. It provides colored output,
+      additional information about processes, and improved usability with modern terminal features.
+    id: homebrew/core/procs
+    tags: [system, monitoring, performance, process-manager, command-line, rust]
 - id: task
   name: Task & Time Management
   desc: Tools for managing tasks, time tracking, and implementing productivity techniques.
@@ -2290,6 +2331,14 @@ UpdatePrompt: |
       formatting in Typst documents and ensures clean, readable markup for collaborative document creation.
     id: homebrew/core/typstyle
     tags: [markup, text-processing]
+  - name: glow
+    desc: Render markdown on the CLI
+    homepage: https://github.com/charmbracelet/glow
+    info: >-
+      Glow is a terminal-based Markdown reader that renders Markdown files beautifully in the command line.
+      It supports syntax highlighting, paging, and can discover and display Markdown files in directories.
+    id: homebrew/core/glow
+    tags: [markdown, text-processing, command-line]
   - name: xmlstarlet
     desc: XML command-line utilities
     homepage: https://xmlstar.sourceforge.net/
