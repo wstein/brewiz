@@ -910,6 +910,15 @@ UpdatePrompt: |
       git-filter-branch that's faster and more feature-rich, useful for repository cleanup and migration.
     id: homebrew/core/git-filter-repo
     tags: [git, version-control, workflow]
+  - name: git-graph
+    desc: Command-line tool to show clear git graphs arranged for your branching model
+    homepage: https://github.com/mlange-42/git-graph
+    info: >-
+      git-graph is a command-line tool that displays clear and organized Git graphs tailored to your
+      branching model. It provides visual representations of your Git history that are easy to understand
+      and interpret, making it simpler to track branch evolution and commit relationships.
+    id: homebrew/core/git-graph
+    tags: [git, version-control, visualization]
   - name: git-secrets
     desc: Prevents you from committing sensitive information to a git repo
     homepage: https://github.com/awslabs/git-secrets
@@ -1291,6 +1300,15 @@ UpdatePrompt: |
       smoothly with Java code and libraries, adding modern programming language features.
     id: homebrew/core/groovy
     tags: [programming-language, runtime, scripting, development]
+  - name: go
+    desc: Open source programming language to build simple/reliable/efficient software
+    homepage: https://go.dev/
+    info: >-
+      Go is an open source programming language developed by Google that makes it easy to build simple,
+      reliable, and efficient software. It features fast compilation, garbage collection, and excellent
+      support for concurrent programming with goroutines and channels.
+    id: homebrew/core/go
+    tags: [programming-language, runtime, development]
   - name: ipython
     desc: Interactive computing in Python
     homepage: https://ipython.org/
@@ -1768,6 +1786,16 @@ UpdatePrompt: |
       real-time.
     id: homebrew/core/mtr
     tags: [network, diagnostics, monitoring]
+  - name: nmap
+    desc: Port scanning utility for large networks
+    homepage: https://nmap.org/
+    info: >-
+      Nmap (Network Mapper) is a free and open source utility for network discovery and security auditing.
+      It can discover hosts and services on a computer network by sending packets and analyzing responses.
+      Nmap is commonly used for network inventory, managing service upgrade schedules, and monitoring host
+      or service uptime.
+    id: homebrew/core/nmap
+    tags: [network, security, diagnostics, scanning]
   - name: ngrok
     desc: Reverse proxy, secure introspectable tunnels to localhost
     homepage: https://ngrok.com/
