@@ -286,6 +286,15 @@ UpdatePrompt: |
       shell scripts. It helps identify and fix common shell script issues and follows best practices.
     id: homebrew/core/shellcheck
     tags: [code-analysis, testing]
+  - name: yamllint
+    desc: Linter for YAML files
+    homepage: https://github.com/adrienverge/yamllint
+    info: >-
+      yamllint is a linter for YAML files that helps identify and fix issues in YAML syntax and
+      formatting. It checks for syntax errors, key repetition, indentation problems, and other
+      common YAML issues, making it useful for maintaining clean configuration files.
+    id: homebrew/core/yamllint
+    tags: [code-analysis, testing]
 - id: snip
   name: Command Snippets & Documentation
   desc: Tools for managing command snippets, recording terminal sessions, and learning.
@@ -576,6 +585,24 @@ UpdatePrompt: |
       models to process and understand.
     id: homebrew/core/repomix
     tags: [development, ai, command-line]
+  - name: cargo-generate
+    desc: Use pre-existing git repositories as templates
+    homepage: https://github.com/cargo-generate/cargo-generate
+    info: >-
+      cargo-generate is a tool that uses pre-existing Git repositories as templates to bootstrap new Rust
+      projects. It allows developers to quickly create new projects based on established patterns and
+      structures, supporting variable substitution and customization during project generation.
+    id: homebrew/core/cargo-generate
+    tags: [development, rust, build]
+  - name: kondo
+    desc: Save disk space by cleaning non-essential files from software projects
+    homepage: https://github.com/tbillington/kondo
+    info: >-
+      Kondo is a tool for cleaning non-essential files from software projects to save disk space. It
+      identifies and removes build artifacts, dependencies, and other generated files from various
+      project types, helping developers reclaim storage space without affecting source code.
+    id: homebrew/core/kondo
+    tags: [development, file-management, rust]
 - id: file-nav
   name: File Navigation & Search
   desc: Tools for searching, navigating, and exploring file systems and directories.
@@ -1247,6 +1274,15 @@ UpdatePrompt: |
       to maintain different environments and configurations for your Kubernetes applications.
     id: homebrew/core/kustomize
     tags: [kubernetes, deployment]
+  - name: kubeshark
+    desc: API Traffic Analyzer providing real-time visibility into Kubernetes network
+    homepage: https://www.kubeshark.co/
+    info: >-
+      Kubeshark is an API traffic analyzer that provides real-time visibility into Kubernetes network
+      traffic. It helps developers and operators understand service interactions, debug networking issues,
+      and monitor API communications within Kubernetes clusters with comprehensive traffic analysis.
+    id: homebrew/core/kubeshark
+    tags: [kubernetes, monitoring, network]
 - id: lang
   name: Programming Languages
   desc: Programming language implementations, runtimes, and interpreters for various languages.
@@ -1987,6 +2023,15 @@ UpdatePrompt: |
       secure your software supply chain.
     id: homebrew/core/trivy
     tags: [security, container]
+  - name: trufflehog
+    desc: Find and verify credentials
+    homepage: https://trufflesecurity.com/
+    info: >-
+      Trufflehog is a tool for finding and verifying credentials in Git repositories, filesystems, and
+      other sources. It scans for secrets like API keys, passwords, and tokens that may have been
+      accidentally committed, helping to prevent credential leaks and security breaches.
+    id: homebrew/core/trufflehog
+    tags: [security, git]
   - name: age
     desc: Simple, modern, secure file encryption
     homepage: https://github.com/FiloSottile/age
