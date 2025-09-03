@@ -903,6 +903,15 @@ UpdatePrompt: |
       pipelines.
     id: homebrew/core/git-cliff
     tags: [git, documentation]
+  - name: git-delta
+    desc: Syntax-highlighting pager for git and diff output
+    homepage: https://github.com/dandavison/delta
+    info: >-
+      git-delta is a syntax-highlighting pager for git and diff output. It provides an enhanced viewing
+      experience for git diffs with syntax highlighting, line numbering, and side-by-side comparisons.
+      It helps make code reviews and diff inspection more readable and efficient.
+    id: homebrew/core/git-delta
+    tags: [git, command-line]
   - name: git-gui
     desc: Tcl/Tk UI for the git revision control system
     homepage: https://git-scm.com
