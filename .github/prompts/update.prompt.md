@@ -14,6 +14,45 @@ Quick-start TL;DR
 - Emit ordered YAML node per package → lint formatting → assemble action/report/commit sections.
 - Return the three-section response (`---ACTION---`, `---REPORT---`, `---COMMIT---`).
 
+How to Apply the Update
+=======================
+
+1. Review the `---ACTION---` block:
+   - If no entries are marked `REVIEW_REQUIRED`, apply the changes directly to `data/packages.yaml` and commit using the suggested message.
+   - If any entries are marked `REVIEW_REQUIRED`, review the category/tag alternatives provided. Edit the payload as needed, then apply.
+
+2. For ambiguous entries:
+   - Confirm the correct category/tag with a maintainer, or select one of the suggested alternatives.
+   - Once resolved, update the payload and proceed with the patch.
+
+3. Apply the patch:
+   - Use your editor or a script to insert/update the YAML nodes in `data/packages.yaml` as specified.
+   - Commit the changes using the suggested commit message.
+
+4. Update any UI/docs referencing category lists if categories are changed.
+
+Helper script
+-------------
+
+We include a helper script at `bin/apply-packages-patch` that can apply an `---ACTION---` payload
+to `data/packages.yaml` deterministically. Usage:
+
+```sh
+# apply from a file
+bin/apply-packages-patch -a action.yaml
+
+# or pipe the `---ACTION---` block into the script
+cat action.yaml | bin/apply-packages-patch
+```
+
+Behavior when creating categories/tags
+-------------------------------------
+
+- If the payload requires creating new categories or tags, the script will prompt interactively
+   for confirmation and provide up to 3 suggested alternatives with scores (1-4). Use `--allow-create`
+   to skip prompts and allow creation in non-interactive runs. The agent must not create categories/tags
+   automatically without either an explicit `--allow-create` flag or interactive approval.
+
 Overview
 ========
 This prompt defines the exact algorithm and output format for the `/update` slash command used to update the Brewiz package list (`data/packages.yaml`). The agent receiving this prompt will:
@@ -43,6 +82,7 @@ YAML nodes MUST follow this ordering and shape:
 Notes:
 - Keep two-space indentation, no tabs, and inline arrays for `tags`.
 - Place `info` last to preserve readability in diffs.
+ - Provenance formatting: when `info` is sourced from an external homepage/repo, append a short provenance note at the end of the `info` block using the format `(source: <url>)`.
 
 Preconditions / Inputs
 ----------------------
@@ -77,12 +117,28 @@ Execution flow (strict, step-by-step)
         | Desktop/macOS apps (GUI, productivity, browsers)     | `applications` or `browsers`| `productivity`, `macos`            |
         | Networking/servers/cloud keywords                    | `networking` or `infrastructure` | `network`, `cloud`          |
         | Documentation generators/static site tooling         | `documentation` or `web`    | `documentation`, `static-sites`    |
-     c) If no confident match (≤80%), fall back to `uncategorized` and flag `REVIEW_REQUIRED`.
-   - Do NOT create new categories unless the package clearly belongs nowhere and user explicitly allows category creation.
+       c) If no confident match (≤80%), assign `uncategorized` and set `REVIEW_REQUIRED`. Do NOT create new categories automatically; creation requires explicit human approval or a runtime `--allow-create` flag.
+
+Resolution & application loop (explicit)
+---------------------------------------
+
+- After generating the `---ACTION---` block, do a pass for `REVIEW_REQUIRED` flags:
+   - If any entries are `REVIEW_REQUIRED`, summarise each open question (why it's ambiguous and the suggested alternatives) and pause execution. The agent MUST wait for explicit human confirmation specifying either:
+      * `approve <entry-id> <chosen-category> [<tags>]` to resolve that entry, or
+      * `reject <entry-id>` to skip it, or
+      * `edit <entry-id>` with a modified payload.
+   - Only once all `REVIEW_REQUIRED` entries are resolved by explicit responses should the agent proceed to apply changes.
+
+- If there are no `REVIEW_REQUIRED` entries (confidence high for all), the agent SHOULD apply the inserts/updates directly to `data/packages.yaml`. When applying changes the agent MUST:
+   - Write the updated `data/packages.yaml` file contents (do not perform git commits or pushes).
+   - Include the resulting unified diff (or the exact changed YAML nodes) inside the `---ACTION---` block so humans and automation can review the applied edits.
+   - Still emit the `---REPORT---` and `---COMMIT---` sections: the latter is a suggested commit message that a human or CI may use to commit the changes.
+
+- Do not perform git operations (commit/push); only write files locally and surface diffs. This preserves auditability and adheres to repository safety rules.
 
 4) Tag assignment
    - Prefer tags already used in the repository. Map common keywords to tags (e.g. "documentation" -> `documentation`, "shell" -> `command-line`/`terminal`, "fish" -> `shell`, "bash" -> `shell`, "cli" -> `command-line`, "dev" -> `development`).  
-   - Limit tags to a sensible number (3–6). Avoid inventing new tags unless necessary; if none fit, add a single `uncategorized` tag.
+      - Limit tags to a sensible number (3–6). Avoid inventing new tags unless necessary; if no existing tags fit, add a single `uncategorized` tag and flag `REVIEW_REQUIRED` so a maintainer can refine tags later.
 
 5) Duplicate detection and idempotency
    - Search `data/packages.yaml` for an existing entry by `id` if available, otherwise by `name` (case-insensitive).  

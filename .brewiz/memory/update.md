@@ -63,8 +63,21 @@ Canonical YAML schema reference
 
 Notes:
 - Maintain two-space indentation and inline arrays for `tags`.
-- `dependencies` should list canonical Homebrew names; combine build/runtime unless clarity demands separation.
 - Always place `info` last for consistent diffs and readability.
+
+Provenance formatting
+---------------------
+
+- When `info` text is sourced or summarized from an external homepage or README, append a short provenance note at the end of the `info` block in the format: `(source: <url>)`.
+
+Resolution & application loop
+-----------------------------
+
+- After producing the `---ACTION---` block, perform a `REVIEW_REQUIRED` pass:
+	- If any entries are `REVIEW_REQUIRED`, summarise the ambiguity and suggested alternatives and pause for explicit maintainer resolutions. The agent must not write `data/packages.yaml` until all entries are resolved.
+	- Resolutions should be one of: `approve <entry-id> <category> [<tags>]`, `reject <entry-id>`, or `edit <entry-id>` with a corrected payload.
+
+- If there are no `REVIEW_REQUIRED` entries the agent SHOULD apply the inserts/updates directly to `data/packages.yaml` (write the updated file content locally) and include the diff in the `---ACTION---` block. Do NOT commit or push changes automatically.
 
 Agent step-by-step checklist (use this when implementing `/update`)
 -----------------------------------------------------------------
@@ -94,9 +107,10 @@ Agent step-by-step checklist (use this when implementing `/update`)
 		 - Networking/cloud/server terms → category `networking` or `infrastructure`; tags `network`, `cloud`, `server`.
 		 - Documentation or static site generators → category `documentation` or `web`; tags `documentation`, `static-sites`.
 		 - If confidence is ≤80%, fall back to `uncategorized` and mark `REVIEW_REQUIRED` with rationale.
+		 - If confidence is ≤80%, assign `uncategorized` and mark `REVIEW_REQUIRED` with rationale. Do NOT create new categories automatically; creation requires explicit human approval or an `--allow-create` runtime flag.
 
 5. Tag assignment
-	 - Map common keywords to existing tags. Prefer existing tags; limit tags to 3–6.
+	 - Map common keywords to existing tags. Prefer existing tags; limit tags to 3–6. If no existing tags fit, add a single `uncategorized` tag and flag `REVIEW_REQUIRED` so a maintainer can refine tags later.
 
 6. Duplicate detection and mode
 	 - Find existing entry by `id` or case-insensitive `name`.
@@ -166,6 +180,22 @@ Checklist before creating a patch
 - [ ] License set to SPDX id if known
 - [ ] YAML lint passes
 - [ ] `REVIEW_REQUIRED` flagged for ambiguous choices
+
+Patch Application Steps
+-----------------------
+
+- [ ] For each entry in the `---ACTION---` block:
+	- If `REVIEW_REQUIRED` is present, resolve the ambiguity before applying.
+	- Otherwise, apply the insert/update directly to `data/packages.yaml`.
+- [ ] After all entries are resolved/applied, commit using the suggested message.
+- [ ] If categories/tags are changed, update any related UI/docs.
+
+Helper script
+-------------
+
+Use `bin/apply-packages-patch` to apply an `---ACTION---` payload to `data/packages.yaml` in a
+deterministic way. The script prompts when new categories or tags would be created and supports
+`--allow-create` for non-interactive runs.
 
 Commit message template
 -----------------------

@@ -1,0 +1,274 @@
+#!/usr/bin/env ruby
+
+require 'yaml'
+require 'optparse'
+require 'tempfile'
+
+OPTIONS = {
+  action_file: nil,
+  dry_run: false,
+  allow_create: false,
+  beautify: true
+}
+
+OptionParser.new do |opts|
+  opts.banner = "Usage: #{File.basename($PROGRAM_NAME)} [options]"
+
+  opts.on('-a', '--action FILE', 'YAML file containing ---ACTION--- block (defaults to STDIN)') do |f|
+    OPTIONS[:action_file] = f
+  end
+
+  opts.on('-n', '--dry-run', 'Do not write changes, only show the diff') do
+    OPTIONS[:dry_run] = true
+  end
+
+  opts.on('--allow-create', 'Allow creating new categories/tags without interactive prompts') do
+    OPTIONS[:allow_create] = true
+  end
+
+  opts.on('--no-beautify', 'Skip running bin/beautify-packages-yaml after applying changes') do
+    OPTIONS[:beautify] = false
+  end
+
+  opts.on('-h', '--help', 'Show help') do
+    puts opts
+    exit
+  end
+end.parse!
+
+def read_action_block
+  content = if OPTIONS[:action_file]
+    File.read(OPTIONS[:action_file])
+  else
+    STDIN.read
+  end
+
+  # Strip a leading ---ACTION--- header if present
+  content = content.sub(/^---ACTION---\s*/,'')
+
+  begin
+    parsed = YAML.safe_load(content, [Date, Time])
+  rescue Psych::SyntaxError => e
+    abort "Failed to parse ACTION payload as YAML: #{e.message}"
+  end
+
+  # Expect a list of operations
+  unless parsed.is_a?(Array) || parsed.is_a?(Hash)
+    abort "ACTION payload must be a YAML list or mapping of operations"
+  end
+
+  # Normalize to array
+  ops = parsed.is_a?(Array) ? parsed : [parsed]
+  ops
+end
+
+def load_packages_yaml(path = 'data/packages.yaml')
+  raw = File.read(path)
+  docs = YAML.load_stream(raw)
+  # Find the document that contains the categories (Array of hashes)
+  idx = docs.find_index { |d| d.is_a?(Array) }
+  unless idx
+    abort "Could not locate categories document (array) in #{path}"
+  end
+  [raw, docs, idx]
+end
+
+def all_existing_categories(categories)
+  categories.map { |c| c['id'] }
+end
+
+def all_existing_tags(categories)
+  tags = categories.flat_map { |c| (c['packages'] || []).flat_map { |p| p['tags'] || [] } }
+  tags.map(&:to_s).uniq
+end
+
+def score_category(candidate_id, categories, payload)
+  # Simple heuristic score 1..4
+  return 4 if categories.any? { |c| c['id'] == candidate_id }
+  name = payload['name'].to_s.downcase
+  desc = payload['desc'].to_s.downcase
+  # 3 if any category name contains tokens from payload name/desc
+  categories.each do |c|
+    cname = c['name'].to_s.downcase
+    return 3 if cname.include?(name) && !name.empty?
+    return 3 if desc.split.any? { |t| cname.include?(t) }
+  end
+  # 2 if any tag overlap
+  payload_tags = (payload['tags'] || []).map(&:to_s).map(&:downcase)
+  categories.each do |c|
+    existing_tags = (c['packages'] || []).flat_map { |p| p['tags'] || [] }.map(&:to_s).map(&:downcase)
+    return 2 if (payload_tags & existing_tags).any?
+  end
+  1
+end
+
+def propose_category_alternatives(new_cat_id, categories, payload)
+  candidates = categories.map do |c|
+    [c['id'], score_category(new_cat_id, [c], payload)]
+  end
+  # Merge scores per category
+  candidates = categories.map { |c| [c['id'], score_category(new_cat_id, [c], payload)] }
+  candidates.sort_by { |id, score| -score }[0,3].map { |id, score| { id: id, score: score } }
+end
+
+def propose_tag_alternatives(new_tag, existing_tags)
+  # Very small heuristic: prefer existing tag that contains new_tag or shares substring
+  possibilities = existing_tags.map do |t|
+    score = if t == new_tag then 4
+            elsif t.include?(new_tag) || new_tag.include?(t) then 3
+            elsif (t.chars & new_tag.chars).size > 3 then 2
+            else 1 end
+    [t, score]
+  end
+  possibilities.sort_by { |t, s| -s }[0,3].map { |t, s| { tag: t, score: s } }
+end
+
+def prompt_yes_no(message)
+  return true if OPTIONS[:allow_create]
+  if STDIN.tty?
+    print "#{message} [y/N]: "
+    ans = STDIN.gets.to_s.strip.downcase
+    return ans == 'y' || ans == 'yes'
+  else
+    abort "Non-interactive environment: creation requires --allow-create or interactive approval.\nProposal: #{message}"
+  end
+end
+
+def find_package_index(categories, pkg_id, pkg_name)
+  categories.each_with_index do |cat, ci|
+    (cat['packages'] || []).each_with_index do |p, pi|
+      return [ci, pi] if p['id'] == pkg_id || p['name'].to_s.downcase == pkg_name.to_s.downcase
+    end
+  end
+  nil
+end
+
+def apply_operations(ops, categories)
+  ops.each do |op|
+    next unless op.is_a?(Hash)
+    action = op['op'] || op[:op]
+    path = op['path'] || op[:path]
+    category_id = op['category'] || op[:category]
+    payload = op['payload'] || op[:payload]
+
+    unless path && path.end_with?('packages.yaml')
+      abort "Operation targets unexpected path: #{path.inspect}. Only data/packages.yaml is supported."
+    end
+
+    case action
+    when 'skip', :skip
+      puts "SKIP: #{payload && payload['name']}"
+      next
+    when 'insert', :insert
+      cat = categories.find { |c| c['id'] == category_id }
+      if cat.nil?
+        puts "Category '#{category_id}' not found. Proposing alternatives..."
+        alts = propose_category_alternatives(category_id, categories, payload)
+        alts.each_with_index do |a, i|
+          puts "  #{i+1}. #{a[:id]} (score #{a[:score]})"
+        end
+        if prompt_yes_no("Create new category '#{category_id}'?")
+          # create a minimal category
+          new_cat = { 'id' => category_id, 'name' => category_id.capitalize, 'desc' => '', 'packages' => [] }
+          categories << new_cat
+          cat = new_cat
+          puts "Created category #{category_id}"
+        else
+          abort "Insert aborted: category '#{category_id}' not created."
+        end
+      end
+
+      # Check tags
+      existing_tags = all_existing_tags(categories)
+      new_tags = (payload['tags'] || []).map(&:to_s)
+      tags_to_create = new_tags - existing_tags
+      tags_to_create.each do |t|
+        puts "Tag '#{t}' is new. Proposing alternatives..."
+        tag_alts = propose_tag_alternatives(t, existing_tags)
+        tag_alts.each_with_index { |ta, i| puts "  #{i+1}. #{ta[:tag]} (score #{ta[:score]})" }
+        if prompt_yes_no("Create new tag '#{t}'?")
+          existing_tags << t
+          puts "Created tag #{t}"
+        else
+          abort "Insert aborted: tag '#{t}' not created."
+        end
+      end
+
+      cat['packages'] ||= []
+      # Insert payload as-is (preserve keys order from payload)
+      cat['packages'] << payload
+      puts "Inserted #{payload['name']} into #{category_id}"
+
+    when 'update', :update
+      pkg_id = payload && payload['id']
+      pkg_name = payload && payload['name']
+      loc = find_package_index(categories, pkg_id, pkg_name)
+      if loc.nil?
+        abort "Update failed: package #{pkg_name || pkg_id} not found."
+      end
+      ci, pi = loc
+      existing = categories[ci]['packages'][pi]
+      # Minimal patch: update only provided fields
+      payload.each do |k, v|
+        existing[k] = v
+      end
+      puts "Updated #{existing['name']} (category #{categories[ci]['id']})"
+
+    else
+      abort "Unknown op: #{action.inspect}"
+    end
+  end
+end
+
+def write_and_diff(original_raw, docs, idx, path, dry_run)
+  # Compose new YAML stream
+  new_stream = String.new
+  docs.each do |d|
+    new_stream << "---\n"
+    new_stream << YAML.dump(d)
+  end
+
+  # Some beautifiers expect the categories to be the second document -> we preserve doc order
+  tmp_old = Tempfile.new('packages_old')
+  tmp_new = Tempfile.new('packages_new')
+  begin
+    tmp_old.write(original_raw)
+    tmp_old.close
+    tmp_new.write(new_stream)
+    tmp_new.close
+
+    puts "--- Unified diff (original -> new) ---"
+    system("diff", "-u", tmp_old.path, tmp_new.path)
+
+    unless dry_run
+      File.write(path, new_stream)
+      puts "Wrote updated #{path}"
+    else
+      puts "Dry-run mode: no file written."
+    end
+  ensure
+    tmp_old.unlink
+    tmp_new.unlink
+  end
+end
+
+def main
+  ops = read_action_block
+  original_raw, docs, idx = load_packages_yaml
+  categories = docs[idx]
+
+  apply_operations(ops, categories)
+
+  # After applying ops, show diff and write
+  write_and_diff(original_raw, docs, idx, 'data/packages.yaml', OPTIONS[:dry_run])
+
+  if OPTIONS[:beautify] && !OPTIONS[:dry_run]
+    beautify = File.join(File.dirname(__FILE__), 'beautify-packages-yaml')
+    if File.executable?(beautify)
+      puts "Running beautifier..."
+      system(beautify, '-i', 'data/packages.yaml', '-I') rescue nil
+    end
+  end
+end
+
+main if __FILE__ == $0
