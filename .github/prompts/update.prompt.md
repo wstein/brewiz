@@ -14,16 +14,25 @@ Quick-start TL;DR
 - Emit ordered YAML node per package → lint formatting → assemble action/report/commit sections.
 - Return the three-section response (`---ACTION---`, `---REPORT---`, `---COMMIT---`).
 
-How to Apply the Update
-=======================
-
-1. Review the `---ACTION---` block:
-   - If no entries are marked `REVIEW_REQUIRED`, apply the changes directly to `data/packages.yaml` and commit using the suggested message.
-   - If any entries are marked `REVIEW_REQUIRED`, review the category/tag alternatives provided. Edit the payload as needed, then apply.
-
-2. For ambiguous entries:
-   - Confirm the correct category/tag with a maintainer, or select one of the suggested alternatives.
-   - Once resolved, update the payload and proceed with the patch.
+ How to Apply the Update
+ =======================
+ 
+ 1. Review the `---ACTION---` block:
+    - If no entries are marked `REVIEW_REQUIRED`, apply the changes directly to `data/packages.yaml` and commit using the suggested message.
+    - If any entries are marked `REVIEW_REQUIRED`, review the category/tag alternatives provided. Edit the payload as needed, then apply.
+ 
+ 2. For ambiguous entries:
+    - Confirm the correct category/tag with a maintainer, or select one of the suggested alternatives.
+    - Once resolved, update the payload and proceed with the patch.
+ 
+ 3. Update the Brewiz package list as follows:
+    1. Add the following package to the most appropriate existing category, using the provided Homebrew info
+    2. Ensure the package is placed in the best-fitting existing category (e.g., "Text Processing & Publishing" or "Development Utilities").
+    3. Use the style and metadata format consistent with the rest of the file.
+    4. Prefer assigning to existing categories; avoid creating new categories unless absolutely necessary.
+    5. Assign tags by preferring already existing tags from the file; avoid creating new tags unless absolutely necessary.
+    6. Do not duplicate packages if they already exist.
+    7. Always take `info` from the package homepage or trusted Copilot knowledge. Prefer the homepage when available; if the homepage cannot be reached, use trusted local knowledge (Copilot knowledge) or formula metadata as a fallback. 
 
 3. Apply the patch:
    - Use your editor or a script to insert/update the YAML nodes in `data/packages.yaml` as specified.
@@ -147,7 +156,7 @@ Resolution & application loop (explicit)
      * Otherwise `upsert` mode: compute a minimal patch that updates only changed fields (homepage, info/desc, tags, id, license). Preserve existing `id` when present.
    - If not found → prepare an INSERT YAML node consistent with surrounding entries.
 
-6) Output formatting rules (machine-friendly AND human-reviewable)
+   6) Output formatting rules (machine-friendly AND human-reviewable)
    - For each package produce a YAML node that matches the repository style. Required keys:
      - `name`: canonical package display name (string)
      - `desc` or `info`: short description / longer info (use `desc` for a one-line short summary and `info` for the long-form block if repo uses it)
@@ -156,7 +165,9 @@ Resolution & application loop (explicit)
      - `tags`: array of tag strings
      - `cask`: true when it's a cask (omit when false)
      - `license`: SPDX identifier when available
-   - Keep ordering of keys consistent with repository examples (look at neighboring entries in the chosen category).
+    - Keep ordering of keys consistent with repository examples (look at neighboring entries in the chosen category).
+    - Always prefer the package homepage as the primary source for the `info` summary. If the homepage
+       cannot be reached, fall back to trusted local knowledge (Copilot knowledge) or the formula metadata.
 
 7) Validation
    - Ensure generated YAML is syntactically valid (no tab characters for indentation, consistent 2-space indent, proper quoting when needed).  
