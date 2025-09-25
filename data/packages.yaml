@@ -20,8 +20,21 @@ License: MIT
 LicenseFile: LICENSE
 # Replace the `$ brew info...` block with your Homebrew info
 UpdatePrompt: |
-  /update
+  You are a Homebrew package maintainer. Your task is to update the Brewiz package list with the provided Homebrew info.
+  You will be given a list of packages and their metadata, including the package name, description, homepage, and other metadata.
+  Your task is to update the Brewiz package list with the provided Homebrew info.
 
+  Update the Brewiz package list as follows:
+    1. Add the following package to the most appropriate existing category, using the provided Homebrew info
+    2. Ensure the package is placed in the best-fitting existing category (e.g., "Text Processing & Publishing" or "Development Utilities").
+    3. Use the style and metadata format consistent with the rest of the file.
+    4. Prefer assigning to existing categories; avoid creating new categories unless absolutely necessary.
+    5. Assign tags by preferring already existing tags from the file; avoid creating new tags unless absolutely necessary.
+    6. Do not duplicate packages if they already exist.
+
+  The Homebrew info for the package list is as follows:
+
+  ───────x───────x───────x───────x───────x───────x───────x───────x───────x───────
 
   $ brew info --formula doxygen
   doxygen: stable 1.13.2 (bottled), HEAD
@@ -435,18 +448,7 @@ UpdatePrompt: |
       repositories. It can copy, inspect, delete, and sign container images without needing a daemon.
     id: homebrew/core/skopeo
     tags: [container]
-    - name: container
-      desc: Create and run Linux containers using lightweight virtual machines
-      homepage: https://github.com/apple/container
-      cask: true
-      info: >-
-        container provides an easy way to create and run Linux containers using lightweight virtual
-        machines on macOS. It installs an application bundle and helper tools to manage containers.
-        This tool uses Kata Containers for lightweight VM-based container isolation.
-        See: https://github.com/kata-containers
-      id: homebrew/cask/container
-      tags: [container, macos]
-  - id: db
+- id: db
   name: Databases & Data Tools
   desc: Tools for managing databases and manipulating data formats like JSON, YAML, and CSV.
   packages:
@@ -574,15 +576,6 @@ UpdatePrompt: |
       developers create grammar parsers for programming languages.
     id: homebrew/core/tree-sitter-cli
     tags: [development, programming, command-line]
-  - name: specify
-    desc: Toolkit to help you get started with Spec-Driven Development
-    homepage: https://github.com/github/spec-kit
-    license: MIT
-    info: >-
-      Specify is a toolkit to help you adopt Spec-Driven Development, providing scaffolding and
-      utilities to create and run spec-driven workflows. Requires Python and certifi at build/runtime.
-    id: homebrew/core/specify
-    tags: [development, testing, python]
   - name: repomix
     desc: Pack repository contents into a single AI-friendly file
     homepage: https://github.com/yamadashy/repomix
@@ -1662,15 +1655,6 @@ UpdatePrompt: |
       various storage solutions.
     id: homebrew/cask/drawio
     tags: [visualization, design, graphics]
-  - name: flameshot
-    desc: Screenshot software with built-in annotation tools
-    homepage: https://flameshot.org/
-    cask: true
-    info: >-
-      Flameshot is a screenshot tool with built-in annotation features. Note: this cask is marked as
-      deprecated in Homebrew and is scheduled to be disabled on 2026-09-01.
-    id: homebrew/cask/flameshot
-    tags: [graphics, screenshot, macos]
   - name: excalidraw-converter
     desc: A command line tool for porting Excalidraw diagrams to Gliffy.
     homepage: https://github.com/sindrel/excalidraw-converter
@@ -2230,25 +2214,6 @@ UpdatePrompt: |
       more accessible than traditional shells while maintaining compatibility.
     id: homebrew/core/fish
     tags: [terminal, shell, command-line]
-  - name: bash
-    desc: Bourne-Again SHell, a UNIX command interpreter
-    homepage: https://www.gnu.org/software/bash/
-    license: GPL-3.0-or-later
-    info: >-
-      The GNU Bourne-Again SHell (bash) is a POSIX-compatible shell with many interactive features
-      and scripting extensions used for system administration and scripting. Build-time deps: ncurses,
-      readline, gettext.
-    id: homebrew/core/bash
-    tags: [terminal, shell, command-line]
-  - name: fisher
-    desc: Plugin manager for the Fish shell
-    homepage: https://github.com/jorgebucaran/fisher
-    license: MIT
-    info: >-
-      Fisher is a plugin manager for the Fish shell. It simplifies installing, updating and managing
-      packages and plugins for Fish with a simple, fast interface.
-    id: homebrew/core/fisher
-    tags: [shell, command-line]
   - name: gettext
     desc: GNU internationalization (i18n) and localization (l10n) library
     homepage: https://www.gnu.org/software/gettext/
