@@ -3,6 +3,7 @@
 require 'yaml'
 require 'optparse'
 require 'tempfile'
+require 'date'
 
 OPTIONS = {
   action_file: nil,
@@ -14,7 +15,7 @@ OPTIONS = {
 OptionParser.new do |opts|
   opts.banner = "Usage: #{File.basename($PROGRAM_NAME)} [options]"
 
-  opts.on('-a', '--action FILE', 'YAML file containing ---ACTION--- block (defaults to STDIN)') do |f|
+  opts.on('-a', '--action FILE', 'YAML file containing {{ACTION}} block (defaults to STDIN)') do |f|
     OPTIONS[:action_file] = f
   end
 
@@ -43,8 +44,8 @@ def read_action_block
     STDIN.read
   end
 
-  # Strip a leading ---ACTION--- header if present
-  content = content.sub(/^---ACTION---\s*/,'')
+  # Strip a leading {{ACTION}} header if present
+  content = content.sub(/^{{ACTION}}\s*/, '')
 
   begin
     parsed = YAML.safe_load(content, [Date, Time])
@@ -108,7 +109,7 @@ def propose_category_alternatives(new_cat_id, categories, payload)
   end
   # Merge scores per category
   candidates = categories.map { |c| [c['id'], score_category(new_cat_id, [c], payload)] }
-  candidates.sort_by { |id, score| -score }[0,3].map { |id, score| { id: id, score: score } }
+  candidates.sort_by { |id, score| -score }[0, 3].map { |id, score| { id: id, score: score } }
 end
 
 def propose_tag_alternatives(new_tag, existing_tags)
@@ -120,7 +121,7 @@ def propose_tag_alternatives(new_tag, existing_tags)
             else 1 end
     [t, score]
   end
-  possibilities.sort_by { |t, s| -s }[0,3].map { |t, s| { tag: t, score: s } }
+  possibilities.sort_by { |t, s| -s }[0, 3].map { |t, s| { tag: t, score: s } }
 end
 
 def prompt_yes_no(message)
@@ -165,7 +166,7 @@ def apply_operations(ops, categories)
         puts "Category '#{category_id}' not found. Proposing alternatives..."
         alts = propose_category_alternatives(category_id, categories, payload)
         alts.each_with_index do |a, i|
-          puts "  #{i+1}. #{a[:id]} (score #{a[:score]})"
+          puts "  #{i + 1}. #{a[:id]} (score #{a[:score]})"
         end
         if prompt_yes_no("Create new category '#{category_id}'?")
           # create a minimal category
@@ -185,7 +186,7 @@ def apply_operations(ops, categories)
       tags_to_create.each do |t|
         puts "Tag '#{t}' is new. Proposing alternatives..."
         tag_alts = propose_tag_alternatives(t, existing_tags)
-        tag_alts.each_with_index { |ta, i| puts "  #{i+1}. #{ta[:tag]} (score #{ta[:score]})" }
+        tag_alts.each_with_index { |ta, i| puts "  #{i + 1}. #{ta[:tag]} (score #{ta[:score]})" }
         if prompt_yes_no("Create new tag '#{t}'?")
           existing_tags << t
           puts "Created tag #{t}"
@@ -261,6 +262,19 @@ def main
 
   # After applying ops, show diff and write
   write_and_diff(original_raw, docs, idx, 'data/packages.yaml', OPTIONS[:dry_run])
+
+  # Validate YAML syntax after writing (skip in dry-run). Use the embedded YAML parser
+  # in-process to avoid spawning a separate Ruby interpreter.
+  if !OPTIONS[:dry_run] && File.exist?('data/packages.yaml')
+    puts "Validating data/packages.yaml syntax with embedded Ruby YAML parser..."
+    begin
+      # Load will raise Psych::SyntaxError on invalid YAML
+      YAML.load_file('data/packages.yaml')
+      puts 'YAML valid: true'
+    rescue Psych::SyntaxError => e
+      abort "YAML validation failed: #{e.message}"
+    end
+  end
 
   if OPTIONS[:beautify] && !OPTIONS[:dry_run]
     beautify = File.join(File.dirname(__FILE__), 'beautify-packages-yaml')

@@ -12,12 +12,12 @@ Quick-start TL;DR
 - For each block → parse fields → visit homepage (new packages) → enrich desc/info.
 - Choose category & tags using repo heuristics → detect duplicates respecting `mode`.
 - Emit ordered YAML node per package → lint formatting → assemble action/report/commit sections.
-- Return the three-section response (`---ACTION---`, `---REPORT---`, `---COMMIT---`).
+- Return the three-section response (`{{ACTION}}`, `{{REPORT}}`, `{{COMMIT}}`).
 
  How to Apply the Update
  =======================
  
- 1. Review the `---ACTION---` block:
+ 1. Review the `{{ACTION}}` block:
     - If no entries are marked `REVIEW_REQUIRED`, apply the changes directly to `data/packages.yaml` and commit using the suggested message.
     - If any entries are marked `REVIEW_REQUIRED`, review the category/tag alternatives provided. Edit the payload as needed, then apply.
  
@@ -43,16 +43,25 @@ Quick-start TL;DR
 Helper script
 -------------
 
-We include a helper script at `bin/apply-packages-patch` that can apply an `---ACTION---` payload
+We include a helper script at `.brewiz/bin/packages-updater` that can apply an `{{ACTION}}` payload
 to `data/packages.yaml` deterministically. Usage:
 
 ```sh
 # apply from a file
-bin/apply-packages-patch -a action.yaml
+.
+.brewiz/bin/packages-updater -a action.yaml
 
-# or pipe the `---ACTION---` block into the script
-cat action.yaml | bin/apply-packages-patch
+# or pipe the `{{ACTION}}` block into the script
+cat action.yaml | .brewiz/bin/packages-updater
 ```
+
+YAML validation notes
+---------------------
+
+The helper script now performs a YAML syntax validation step after writing `data/packages.yaml` using Ruby's
+YAML. If the validation fails the script will abort and
+preserve the previous file contents. This protects the repository from accidental invalid YAML being written by
+automated updates.
 
 Behavior when creating categories/tags
 -------------------------------------
@@ -85,13 +94,13 @@ YAML nodes MUST follow this ordering and shape:
    cask: true                             # optional; omit when false/not a cask
    license: SPDX-ID                       # optional when unknown
    info: >-                               # required; 2–4 sentence summary
-      Long-form narrative with provenance note when sourced externally.
+      Long-form narrative, never add provenance note.
 ```
 
 Notes:
 - Keep two-space indentation, no tabs, and inline arrays for `tags`.
 - Place `info` last to preserve readability in diffs.
- - Provenance formatting: when `info` is sourced from an external homepage/repo, append a short provenance note at the end of the `info` block using the format `(source: <url>)`.
+ - Provenance formatting: when `info` is sourced from an external homepage/repo, never add provenance note to the `info` block.
 
 Preconditions / Inputs
 ----------------------
@@ -131,7 +140,7 @@ Execution flow (strict, step-by-step)
 Resolution & application loop (explicit)
 ---------------------------------------
 
-- After generating the `---ACTION---` block, do a pass for `REVIEW_REQUIRED` flags:
+- After generating the `{{ACTION}}` block, do a pass for `REVIEW_REQUIRED` flags:
    - If any entries are `REVIEW_REQUIRED`, summarise each open question (why it's ambiguous and the suggested alternatives) and pause execution. The agent MUST wait for explicit human confirmation specifying either:
       * `approve <entry-id> <chosen-category> [<tags>]` to resolve that entry, or
       * `reject <entry-id>` to skip it, or
@@ -140,8 +149,8 @@ Resolution & application loop (explicit)
 
 - If there are no `REVIEW_REQUIRED` entries (confidence high for all), the agent SHOULD apply the inserts/updates directly to `data/packages.yaml`. When applying changes the agent MUST:
    - Write the updated `data/packages.yaml` file contents (do not perform git commits or pushes).
-   - Include the resulting unified diff (or the exact changed YAML nodes) inside the `---ACTION---` block so humans and automation can review the applied edits.
-   - Still emit the `---REPORT---` and `---COMMIT---` sections: the latter is a suggested commit message that a human or CI may use to commit the changes.
+   - Include the resulting unified diff (or the exact changed YAML nodes) inside the `{{ACTION}}` block so humans and automation can review the applied edits.
+   - Still emit the `{{REPORT}}` and `{{COMMIT}}` sections: the latter is a suggested commit message that a human or CI may use to commit the changes.
 
 - Do not perform git operations (commit/push); only write files locally and surface diffs. This preserves auditability and adheres to repository safety rules.
 
@@ -156,7 +165,7 @@ Resolution & application loop (explicit)
      * Otherwise `upsert` mode: compute a minimal patch that updates only changed fields (homepage, info/desc, tags, id, license). Preserve existing `id` when present.
    - If not found → prepare an INSERT YAML node consistent with surrounding entries.
 
-   6) Output formatting rules (machine-friendly AND human-reviewable)
+6) Output formatting rules (machine-friendly AND human-reviewable)
    - For each package produce a YAML node that matches the repository style. Required keys:
      - `name`: canonical package display name (string)
      - `desc` or `info`: short description / longer info (use `desc` for a one-line short summary and `info` for the long-form block if repo uses it)
@@ -165,9 +174,7 @@ Resolution & application loop (explicit)
      - `tags`: array of tag strings
      - `cask`: true when it's a cask (omit when false)
      - `license`: SPDX identifier when available
-    - Keep ordering of keys consistent with repository examples (look at neighboring entries in the chosen category).
-    - Always prefer the package homepage as the primary source for the `info` summary. If the homepage
-       cannot be reached, fall back to trusted local knowledge (Copilot knowledge) or the formula metadata.
+   - Keep ordering of keys consistent with repository examples (look at neighboring entries in the chosen category).
 
 7) Validation
    - Ensure generated YAML is syntactically valid (no tab characters for indentation, consistent 2-space indent, proper quoting when needed).  
@@ -185,12 +192,12 @@ Resolution & application loop (explicit)
      * `suggested_commit`: a short commit message
 
 9) Final output sections (exact order)
-   - A compact machine-readable YAML/JSON action block labelled: `---ACTION---` containing operations to apply (insert/update/skip) with file path `data/packages.yaml` and the exact YAML fragment(s). This block MUST be valid YAML/JSON and parsable programmatically.
+   - A compact machine-readable YAML action block labelled: `{{ACTION}}` containing operations to apply (insert/update/skip) with file path `data/packages.yaml` and the exact YAML fragment(s). This block MUST be valid YAML and parsable programmatically.
    - A human-friendly Sync Impact Report (as above).  
    - A suggested commit message and recommended PR description bullet points.
 
 10) Post-steps and safety
-   - Homepage-first rule (REQUIRED for NEW packages): For any package not already present in `data/packages.yaml`, the agent MUST attempt to visit the `homepage` URL and extract a short, authoritative description to populate `info`. If the `homepage` field is missing in the input block, the agent MUST perform a web search to find an authoritative homepage (prefer the `formulae.brew.sh` API, the Homebrew formula page, the project's official site, or the GitHub repository). Record the provenance URL used in the `info` provenance note.
+   - Homepage-first rule (REQUIRED for NEW packages): For any package not already present in `data/packages.yaml`, the agent MUST attempt to visit the `homepage` URL and extract a short, authoritative description to populate `info`. If the `homepage` field is missing in the input block, the agent MUST perform a web search to find an authoritative homepage (prefer the `formulae.brew.sh` API, the Homebrew formula page, the project's official site, or the GitHub repository).
    - If the agent cannot reach the network or fails to locate a homepage, it MUST set the operation to `REVIEW_REQUIRED`, include a clear note `TODO: homepage lookup failed for <name>`, and still produce a conservative `desc` using the `brew info` short description.
    - If `visit_homepage: true` was explicitly requested and the environment allows network access, the agent should also fetch the homepage and extract a one-line clarification (e.g., official description or homepage title). If network access is unavailable, note that.
    - Do not perform git operations. Only output the exact changes and the suggested commit message.
@@ -231,8 +238,8 @@ Example INSERT for `fisher` (Fish plugin manager):
 Agent response rules (must follow exactly)
 ----------------------------------------
 
-1. Always produce the three output sections in order: `---ACTION---` (machine), `---REPORT---` (human), `---COMMIT---` (suggested commit message).  
-2. The `---ACTION---` block must contain a list of operations with explicit `op: insert|update|skip`, `path: data/packages.yaml`, `category: <id>`, and `payload: <yaml-node>`.
+1. Always produce the three output sections in order: `{{ACTION}}` (machine), `{{REPORT}}` (human), `{{COMMIT}}` (suggested commit message).  
+2. The `{{ACTION}}` block must contain a list of operations with explicit `op: insert|update|skip`, `path: data/packages.yaml`, `category: <id>`, and `payload: <yaml-node>`.
 3. If any ambiguous choices were made, include `REVIEW_REQUIRED` next to the operation and provide alternatives.
 4. If the input is empty or unparsable, respond with a clear, actionable error and a short example of expected input.
 5. Limit the total size of the YAML fragments to what would be reasonably included in a single PR (no more than ~100 new entries at once). If more, split into multiple batches and request confirmation.
@@ -247,7 +254,7 @@ Security & Privacy
 Notes for implementers / integrators
 ----------------------------------
 
-- This prompt is designed to be idempotent and programmatic-friendly; CI or a bot can run an agent with this prompt and apply the `---ACTION---` block automatically after human review.
+- This prompt is designed to be idempotent and programmatic-friendly; CI or a bot can run an agent with this prompt and apply the `{{ACTION}}` block automatically after human review.
 - The agent should be tolerant of slightly different `brew info` formats (old/new). Use regexes to extract values robustly.
 - Keep match heuristics conservative to avoid miscategorization; prefer `REVIEW_REQUIRED` when confidence < 80%.
 
