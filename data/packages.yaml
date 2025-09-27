@@ -379,6 +379,15 @@ UpdatePrompt: |
       of your Docker/OCI image. It helps optimize container images by analyzing what's in each layer.
     id: homebrew/core/dive
     tags: [container, optimization]
+  - name: container
+    desc: Create and run Linux containers using lightweight virtual machines
+    homepage: https://github.com/apple/container
+    cask: true
+    id: homebrew/cask/container
+    info: >-
+      container is a tool to create and run Linux containers using lightweight virtual machines. It
+      provides an easy way to run container workloads using macOS-native tooling and installers.
+    tags: [container, macos, virtualization]
   - name: docker
     desc: Pack, ship and run any application as a lightweight container
     homepage: https://www.docker.com/
@@ -594,6 +603,16 @@ UpdatePrompt: |
       structures, supporting variable substitution and customization during project generation.
     id: homebrew/core/cargo-generate
     tags: [development, rust, build]
+  - name: specify
+    desc: Toolkit to help you get started with Spec-Driven Development
+    homepage: https://github.com/github/spec-kit
+    id: homebrew/core/specify
+    license: MIT
+    tags: [development, testing, python]
+    info: >-
+      Specify is a toolkit designed to help you get started with Spec-Driven Development. It provides
+      opinionated tooling and templates to scaffold and run specifications, with integrations for
+      Python-based workflows (requires python@3.13).
   - name: kondo
     desc: Save disk space by cleaning non-essential files from software projects
     homepage: https://github.com/tbillington/kondo
@@ -694,14 +713,6 @@ UpdatePrompt: |
       user-friendly way to see which directories are using disk space.
     id: homebrew/core/dust
     tags: [monitoring, command-line, file-system]
-  - name: eza
-    desc: Modern, maintained replacement for ls
-    homepage: https://github.com/eza-community/eza
-    info: >-
-      eza is a modern replacement for the ls command, with more features and better defaults. It uses
-      colors to distinguish file types and metadata and has excellent Git integration.
-    id: homebrew/core/eza
-    tags: [file-management, command-line]
   - name: lsd
     desc: Clone of ls with colorful output, file type icons, and more
     homepage: https://github.com/lsd-rs/lsd
@@ -1169,6 +1180,16 @@ UpdatePrompt: |
       Vim while adding new features, better plugin support, and improved user experience.
     id: homebrew/core/neovim
     tags: [editor, terminal]
+  - name: helix
+    desc: Post-modern modal text editor
+    homepage: https://helix-editor.com
+    id: homebrew/core/helix
+    license: MPL-2.0
+    tags: [editor, terminal]
+    info: >-
+      Helix is a post-modern modal text editor built in Rust for the terminal. It features tree-sitter
+      integration for robust syntax-aware editing, multiple selections as a core primitive, language-server
+      support, and modern builtin editing features. (source: https://helix-editor.com)
   - name: Windsurf
     desc: Agentic IDE powered by AI Flow paradigm
     homepage: https://www.codeium.com/windsurf
@@ -1586,15 +1607,6 @@ UpdatePrompt: |
       accessibility and efficiency for keyboard-centric workflows.
     id: homebrew/cask/mouseless
     tags: [macos, keyboard, productivity]
-  - name: pngpaste
-    desc: Paste PNG into files
-    homepage: https://github.com/jcsalterego/pngpaste
-    info: >-
-      pngpaste is a command-line tool that allows you to paste PNG images from the clipboard directly
-      into files. It's particularly useful for macOS users who want to save clipboard images to files
-      quickly and efficiently from the terminal.
-    id: homebrew/core/pngpaste
-    tags: [macos, command-line, utility]
   - name: Raycast
     desc: Control your tools with a few keystrokes
     homepage: https://raycast.com/
@@ -1645,16 +1657,6 @@ UpdatePrompt: |
   name: Media & Design
   desc: Tools for graphic design, illustration, diagramming, and 3D modeling.
   packages:
-  - name: draw.io Desktop
-    desc: Online diagram software
-    homepage: https://www.diagrams.net/
-    cask: true
-    info: >-
-      draw.io (diagrams.net) is a free online diagram software for making flowcharts, process diagrams,
-      org charts, UML, ER and network diagrams. The desktop version works offline and integrates with
-      various storage solutions.
-    id: homebrew/cask/drawio
-    tags: [visualization, design, graphics]
   - name: excalidraw-converter
     desc: A command line tool for porting Excalidraw diagrams to Gliffy.
     homepage: https://github.com/sindrel/excalidraw-converter
@@ -1672,15 +1674,6 @@ UpdatePrompt: |
       library.
     id: homebrew/core/ffmpeg
     tags: [conversion]
-  - name: GIMP
-    desc: Free and open-source image editor
-    homepage: https://www.gimp.org/
-    cask: true
-    info: >-
-      GIMP (GNU Image Manipulation Program) is a free and open-source raster graphics editor used for
-      image retouching and editing, free-form drawing, and converting between different image formats.
-    id: homebrew/cask/gimp
-    tags: [graphics, design]
   - name: gource
     desc: Version Control Visualization Tool
     homepage: https://gource.io/
@@ -1699,15 +1692,6 @@ UpdatePrompt: |
       relationships.
     id: homebrew/core/graphviz
     tags: [visualization, documentation]
-  - name: Inkscape
-    desc: Vector graphics editor
-    homepage: https://inkscape.org/
-    cask: true
-    info: >-
-      Inkscape is a free and open-source vector graphics editor. It can be used to create or edit vector
-      graphics such as illustrations, diagrams, line arts, charts, logos and complex paintings.
-    id: homebrew/cask/inkscape
-    tags: [graphics, design]
   - name: OpenSCAD
     desc: Programmable solid 3D CAD modeller
     homepage: https://www.openscad.org/
@@ -1718,15 +1702,6 @@ UpdatePrompt: |
       language.
     id: homebrew/cask/openscad
     tags: [design, programming]
-  - name: tesseract
-    desc: OCR (Optical Character Recognition) engine
-    homepage: https://tesseract-ocr.github.io/
-    info: >-
-      Tesseract is an open-source OCR (Optical Character Recognition) engine that can recognize text
-      in images and convert it to machine-readable text. It supports many languages and can be used
-      for document digitization and text extraction from images.
-    id: homebrew/core/tesseract
-    tags: [graphics, conversion]
   - name: Visual Paradigm
     desc: UML, SysML, BPMN modelling platform
     homepage: https://www.visual-paradigm.com/
@@ -1765,6 +1740,60 @@ UpdatePrompt: |
       Formula: https://github.com/Homebrew/homebrew-cask/blob/HEAD/Casks/c/colorpicker-materialdesign.rb
     id: homebrew/cask/colorpicker-materialdesign
     tags: [design, macos, utility]
+- id: graphics
+  name: Graphics & Image Tools
+  desc: Image editors, screenshot and annotation tools, diagram editors, OCR and image utilities.
+  packages:
+  - name: draw.io Desktop
+    desc: Online diagram software
+    homepage: https://www.diagrams.net/
+    cask: true
+    info: >-
+      draw.io (diagrams.net) is a desktop diagram and flowchart editor for flowcharts, process diagrams,
+      org charts, UML, ER and network diagrams. (source: https://www.diagrams.net/)
+    id: homebrew/cask/drawio
+    tags: [visualization, design, graphics]
+  - name: GIMP
+    desc: Free and open-source image editor
+    homepage: https://www.gimp.org/
+    cask: true
+    info: >-
+      GIMP (GNU Image Manipulation Program) is a free and open-source raster graphics editor used for
+      image retouching, free-form drawing, and converting between image formats. (source: https://www.gimp.org/)
+    id: homebrew/cask/gimp
+    tags: [graphics, design]
+  - name: Inkscape
+    desc: Vector graphics editor
+    homepage: https://inkscape.org/
+    cask: true
+    info: >-
+      Inkscape is a free and open-source vector graphics editor for creating illustrations, diagrams,
+      logos, and complex paintings. (source: https://inkscape.org/)
+    id: homebrew/cask/inkscape
+    tags: [graphics, design]
+  - name: pngpaste
+    desc: Paste PNG into files
+    homepage: https://github.com/jcsalterego/pngpaste
+    info: >-
+      pngpaste is a command-line tool that pastes PNG images from the clipboard into files. Useful for
+      quickly saving clipboard images to disk on macOS. (source: https://github.com/jcsalterego/pngpaste)
+    id: homebrew/core/pngpaste
+    tags: [command-line, graphics, utility]
+  - name: tesseract
+    desc: OCR (Optical Character Recognition) engine
+    homepage: https://tesseract-ocr.github.io/
+    info: >-
+      Tesseract is an open-source OCR engine that recognizes text in images and converts it to machine-readable text. (source: https://tesseract-ocr.github.io/)
+    id: homebrew/core/tesseract
+    tags: [graphics, conversion]
+  - name: flameshot
+    desc: Screenshot software with built-in annotation tools
+    homepage: https://flameshot.org/
+    cask: true
+    id: homebrew/cask/flameshot
+    info: >-
+      Flameshot is a screenshot tool with built-in annotation features. Note: this cask is marked deprecated in Homebrew and scheduled to be disabled on 2026-09-01. (source: https://flameshot.org/)
+    tags: [graphics, screenshot, productivity]
 - id: network
   name: Network Tools
   desc: Utilities for network diagnostics, communication, and connection management.
@@ -2214,6 +2243,25 @@ UpdatePrompt: |
       more accessible than traditional shells while maintaining compatibility.
     id: homebrew/core/fish
     tags: [terminal, shell, command-line]
+  - name: bash
+    desc: Bourne-Again SHell, a UNIX command interpreter
+    homepage: https://www.gnu.org/software/bash/
+    id: homebrew/core/bash
+    license: GPL-3.0-or-later
+    tags: [terminal, shell, command-line, system]
+    info: >-
+      The GNU Bourne-Again SHell (bash) is a POSIX-compatible shell with many interactive features
+      and scripting extensions used for system administration and scripting. Build-time deps: ncurses,
+      readline, gettext.
+  - name: fisher
+    desc: Plugin manager for the Fish shell
+    homepage: https://github.com/jorgebucaran/fisher
+    id: homebrew/core/fisher
+    license: MIT
+    tags: [shell, command-line]
+    info: >-
+      Fisher is a plugin manager for the Fish shell. It simplifies installing, updating and managing
+      packages for Fish.
   - name: gettext
     desc: GNU internationalization (i18n) and localization (l10n) library
     homepage: https://www.gnu.org/software/gettext/
